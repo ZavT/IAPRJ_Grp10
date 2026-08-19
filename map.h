@@ -1,0 +1,20 @@
+#pragma once
+class map
+{
+private:
+	int rows;
+	int cols;
+	char maps[30][30];
+
+public: 
+	map();
+	map(int r, int c);
+
+	void initmap();
+	void placeMapThings(int playerX, int playerY);
+
+	void printmap(int playerX, int playerY);
+	void setpos(int row, int col, char symbol);
+	void discovered(int discX, int discY);
+};
+
