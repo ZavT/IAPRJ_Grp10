@@ -6,6 +6,6 @@ Here is the legend
 P = Player
 T = Town (friendly NPCs where player can purchase items)
 S = Sewers (find enemies to fight)
-C = Cave (temporary for final boss location)
+F = Facility (temporary for final boss location)
 
-W, A, S, D = Player moves Up, Left, Down, Right, respectively
+Up, Down, Left, Right arrow keys = Player moves Up, Down, Left,  Right, respectively
