@@ -69,6 +69,7 @@ void map::printmap(int playerX, int playerY) {
 	for (int x = 0; x <= cols; x++) {
 		std::cout << "+ ";
 	}
+	std::cout << std::endl;
 }
 
 //note: this is supposed to turn '?' grid spaces into ' ' after the player has been on the tile before.
