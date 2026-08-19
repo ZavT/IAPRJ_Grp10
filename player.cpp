@@ -40,3 +40,18 @@ void player::testAttack(enemy& targetenemy) {
 	
 	std::cout << "distance: " << hypoDist << ", accuracy: " << accuracy << std::endl;
 }
+
+void player::checkForEnemy(enemy& targetenemy)
+{
+	//dstx and disty between enemy and player
+	int distX = getPosX() - targetenemy.getPosX();
+	int distY = getPosY() - targetenemy.getPosY();
+
+	//for diagonals, find hypotenuse of triangles with sides distX distY
+	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
+
+	if (hypoDist <= 1.5) {
+		std::cout << "triggered battle cutscene with enemy" << std::endl;
+
+	}
+}

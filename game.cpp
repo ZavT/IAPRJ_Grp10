@@ -49,6 +49,7 @@ void game::Run()
         //print map when loop starts again
         worldMap.printmap(player.getPosX(), player.getPosY());
         testEnemy.checkForPlayer(player);
+        player.checkForEnemy(testEnemy);
         
         int ch = _getch();
         
