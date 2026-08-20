@@ -45,7 +45,7 @@ void inventory::inventoryMenu()
 			std::cout << "\t9. Atk potion\n";
 			std::cout << "\t10. Money x 1000\n";
 			std::cout << "\t11. Key fragments x1\n";
-			std::cout << "\t12. Map\n";
+			std::cout << "\t12. Map\n"; 
 
 		}
 		else if (tab == 1) { // WEAPONS TAB
