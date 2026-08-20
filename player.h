@@ -67,4 +67,3 @@ public:
 	void testAttack(enemy& targetenemy);
 	void checkForEnemy(enemy& targetenemy);
 };
-

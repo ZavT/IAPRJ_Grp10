@@ -3,8 +3,8 @@ class entity
 {
 private:
 	int posX, posY;
-
 	int healthPoints;
+
 public:
 	int getPosX();
 	int getPosY();
@@ -16,4 +16,3 @@ public:
 	void setPosX(int setX);
 	void setPosY(int setY);
 };
-

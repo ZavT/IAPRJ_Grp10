@@ -160,5 +160,9 @@ void game::checkMapChange() {
             std::cout << "Entered: WORLD" << std::endl;
 
         }
+
+
+
+        //PLAYER STUFF
     }
 }
