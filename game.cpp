@@ -18,6 +18,7 @@
 //when setting the world map dimensions, the numbers go by (number of rows/y spaces, number of cols/x spaces)
 game::game() : worldMap(15, 20)
 {
+    createWorldMap();
 }
 
 map& game::activeMap() {
@@ -75,6 +76,8 @@ void game::createWorldMap() {
         
     }
 }
+
+
 
 void game::Run()
 {
@@ -239,10 +242,9 @@ void game::checkMapChange() {
             }
         }
 
-        if (currentMap == Location::Bunker) {
+        else if (currentMap == Location::Bunker) {
             if (player.getPosX() == 0 && player.getPosY() == 4) {
                 currentMap = Location::MainWorld;
-                createWorldMap();
                 player.setPosition(1, 7);
                 std::cout << std::endl;
                 std::cout << "Entered: WORLD" << std::endl;
