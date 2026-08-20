@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-player::player() // added by Noah
+player::player()
 {
 	playerName = "Survivor";
 
@@ -91,8 +91,16 @@ void player::checkForEnemy(enemy& targetenemy)
 	}
 }
 
+std::string player::getPlayerName()
+{
+	return playerName;
+}
+void player::setPlayerName(std::string name)
+{
+	playerName = name;
+}
 //player stat functions
-int player::getPlayerHealthPoints() // added by Noah
+int player::getPlayerHealthPoints()
 {
 	return playerHealthPoints;
 }
@@ -100,47 +108,71 @@ void player::setPlayerHealthPoints(int hp)
 {
 	playerHealthPoints = hp;
 }
-int player::getPlayerStrength() // added by Noah
+int player::getPlayerStrength()
 {
 	return playerStrength;
 }
-float player::getPlayerStrengthFinal() // added by Noah
+float player::getPlayerStrengthFinal()
 {
 	return playerStrengthFinal;
+}
+void player::setPlayerStrength(int s)
+{
+	playerStrength = s;
 }
 int player::getPlayerAgility()
 {
 	return playerAgility;
 }
-float player::getPlayerAgilityFinal() // added by Noah
+float player::getPlayerAgilityFinal()
 {
 	return playerAgilityFinal;
+}
+void player::setPlayerAgility(int a)
+{
+	playerAgility = a;
 }
 int player::getPlayerLuck()
 {
 	return playerLuck;
 }
-float player::getPlayerLuckFinal() // added by Noah
+float player::getPlayerLuckFinal()
 {
 	return playerLuckFinal;
+}
+void player::setPlayerLuck(int l)
+{
+	playerLuck = l;
 }
 int player::getPlayerEndurance()
 {
 	return playerEndurance;
 }
-float player::getPlayerEnduranceFinal() // added by Noah
+float player::getPlayerEnduranceFinal()
 {
 	return playerEnduranceFinal;
+}
+void player::setPlayerEndurance(int e)
+{
+	playerEndurance = e;
 }
 int player::getPlayerIntelligence()
 {
 	return playerIntelligence;
 }
-float player::getPlayerIntelligenceFinal() // added by Noah
+float player::getPlayerIntelligenceFinal()
 {
 	return playerIntelligenceFinal;
+}
+void player::setPlayerIntelligence(int i)
+{
+	playerIntelligence = i;
 }
 int player::getPlayerActionPoints()
 {
 	return playerActionPoints;
+}
+void player::setPlayerActionPoints(int ap)
+{
+	playerActionPoints = ap;
 }
