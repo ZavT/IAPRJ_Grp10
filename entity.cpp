@@ -23,3 +23,13 @@ int entity::getPosX() {
 int entity::getPosY() {
 	return posY;
 }
+
+int entity::getHealthPoints()
+{
+	return healthPoints;
+}
+
+void entity::setHealthPoints(int hp)
+{
+	healthPoints = hp;
+}
