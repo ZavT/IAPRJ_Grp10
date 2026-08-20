@@ -11,7 +11,6 @@ private:
     //bool sewerActive[3];
 public:
     sewer();
-
     void printSewerMap(int sewernum);
     void testActiveEnemy(int sewernum);
     map sewerMap;
