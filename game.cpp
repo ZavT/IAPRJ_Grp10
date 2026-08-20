@@ -34,7 +34,7 @@ map& game::activeMap() {
     return worldMap;
 }
 
-void game::discoverpoi()
+void game::discoverpoi() //when within one tile range of the POI, reveal on worldMap
 {
     if (player.getPosX() == 3 && player.getPosY() == 5 ||
         player.getPosX() == 2 && player.getPosY() == 5 ||
@@ -89,11 +89,6 @@ void game::Run()
         current.printmap(player.getPosX(), player.getPosY());
         current.discovered(player.getPosX(), player.getPosY());
 
-        if (currentMap == Location::Sewer1) {
-            testEnemy.checkForPlayer(player);
-            player.checkForEnemy(testEnemy);
-        }
-
         int ch = _getch();
 
         if (ch == 0 || ch == 224) {
@@ -125,16 +120,11 @@ void game::Run()
                 player.borderCol(1, 0, current.getDimensionCOL(), current.getDimensionROW());
             }
             //checks which POI player has entered/exited
+            //check if player has discovered a poi after moving
             discoverpoi();
             checkMapChange();
         }
-        //test attack button
-        else if (ch == 'a' || ch == 'A') {
-            system("CLS");
-            std::cout << "shot at enemy (test)" << std::endl;
-            player.testAttack(testEnemy);
-            continue;
-        }
+
         else if (ch == 'q' || ch == 'Q') {
             system("CLS");
             gameRunning = false;
@@ -173,7 +163,6 @@ void game::checkMapChange() {
 
             //set entity positions
             player.setPosition(1, 2);
-            testEnemy.setPosition(16, 1);
 
             std::cout << std::endl;
             std::cout << "Entered: SEWER ONE" << std::endl;
@@ -186,7 +175,6 @@ void game::checkMapChange() {
 
             //set entity positions
             player.setPosition(1, 2);
-            testEnemy.setPosition(16, 1);
 
             std::cout << std::endl;
             std::cout << "Entered: SEWER TWO" << std::endl;
@@ -199,7 +187,6 @@ void game::checkMapChange() {
 
             //set entity positions
             player.setPosition(1, 2);
-            testEnemy.setPosition(16, 1);
 
             std::cout << std::endl;
             std::cout << "Entered: SEWER THREE" << std::endl;

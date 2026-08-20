@@ -8,6 +8,7 @@ void sewer::printSewerMap(int sewernum) {
 	sewerMap.initPOImap();
 	sewerMap.setpos(0, 2, 'X'); //entrance and exit
 
+	//delete below code when enemies are properly added
 	if (sewernum == 1) {
 		sewerMap.setpos(10, 1, 'R'); // TESTING PLEASE DELETE AFTER
 		sewerMap.setpos(20, 3, 'R');	// TESTING PLEASE DELETE AFTER

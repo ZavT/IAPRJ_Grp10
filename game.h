@@ -25,7 +25,6 @@ private:
     sewer Sewer3;
 
     player player; // player object
-    enemy testEnemy;
 
     Location currentMap = Location::MainWorld; //default is main world
 
