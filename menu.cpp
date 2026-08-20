@@ -3,12 +3,12 @@
 #include <conio.h> //char input
 #include <iomanip>
 
-menu::menu()
-{
-
-}
-
-void menu::menuOpen()
-{
-
-}
+//menu::menu()
+//{
+//
+//}
+//
+//void menu::menuOpen()
+//{
+//
+//}
