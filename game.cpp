@@ -110,7 +110,6 @@ void game::Run()
             gameRunning = false;
             break;
         }
-
         switch (ch) {
         case KEY_I:
             system("CLS");
@@ -166,3 +165,4 @@ void game::checkMapChange() {
         //PLAYER STUFF
     }
 }
+//PLAYER STUFF

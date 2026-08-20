@@ -143,3 +143,4 @@ float player::getPlayerIntelligenceFinal() // added by Noah
 int player::getPlayerActionPoints()
 {
 	return playerActionPoints;
+}
