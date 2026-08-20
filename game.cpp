@@ -100,11 +100,6 @@ void game::Run()
             gameRunning = false;
             break;
         }
-        //inventory
-
-
-
-        //PLAYER STUFF
-
     }
 }
+//PLAYER STUFF

@@ -1,10 +1,9 @@
 #pragma once
 #include "player.h"
-class inventory :
-    public player
+class inventory : public player
 {
 private:
-
+	char input;
 	int tab;
 	int weapons;
 	int potions;
@@ -13,6 +12,6 @@ private:
 
 public:
 	inventory();
-
+	void inventoryMenu();
 };
 
