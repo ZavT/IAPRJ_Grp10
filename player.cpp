@@ -96,7 +96,7 @@ int player::getPlayerHealthPoints() // added by Noah
 {
 	return playerHealthPoints;
 }
-void setPlayerHealthPoints(int hp)
+void player::setPlayerHealthPoints(int hp)
 {
 	playerHealthPoints = hp;
 }

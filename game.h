@@ -27,7 +27,7 @@ private:
 
     Location currentMap = Location::MainWorld; //default is main world
 
-   // map& activeMap();
+    map& activeMap();
 public:
     game();
 
