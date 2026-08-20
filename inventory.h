@@ -8,6 +8,7 @@ private:
 	int potions;
 	int others;
 	int items;
+	bool bagOpen;
 
 public:
 	inventory();
