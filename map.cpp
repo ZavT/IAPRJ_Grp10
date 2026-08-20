@@ -68,6 +68,9 @@ void map::printmap(int playerX, int playerY) {
 			else if (maps[i][x] == 'T') {
 				std::cout << BOLD << CYAN << maps[i][x] << RESET << " ";
 			}
+			else if (maps[i][x] == 'X') {
+				std::cout << BOLD << RED << maps[i][x] << RESET << " ";
+			}
 			//if its not any of the above symbols then print it out normally and add spacing
 			else {
 				std::cout << maps[i][x] << " "; //adds space between dots
