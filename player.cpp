@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-player::player() // added by Noah
+player::player()
 {
 	playerName = "Survivor";
 
@@ -91,8 +91,16 @@ void player::checkForEnemy(enemy& targetenemy)
 	}
 }
 
+std::string player::getPlayerName()
+{
+	return playerName;
+}
+void player::setPlayerName(std::string name)
+{
+	playerName = name;
+}
 //player stat functions
-int player::getPlayerHealthPoints() // added by Noah
+int player::getPlayerHealthPoints()
 {
 	return playerHealthPoints;
 }
@@ -100,11 +108,11 @@ void player::setPlayerHealthPoints(int hp)
 {
 	playerHealthPoints = hp;
 }
-int player::getPlayerStrength() // added by Noah
+int player::getPlayerStrength()
 {
 	return playerStrength;
 }
-float player::getPlayerStrengthFinal() // added by Noah
+float player::getPlayerStrengthFinal()
 {
 	return playerStrengthFinal;
 }
@@ -112,7 +120,7 @@ int player::getPlayerAgility()
 {
 	return playerAgility;
 }
-float player::getPlayerAgilityFinal() // added by Noah
+float player::getPlayerAgilityFinal()
 {
 	return playerAgilityFinal;
 }
@@ -120,7 +128,7 @@ int player::getPlayerLuck()
 {
 	return playerLuck;
 }
-float player::getPlayerLuckFinal() // added by Noah
+float player::getPlayerLuckFinal()
 {
 	return playerLuckFinal;
 }
@@ -128,7 +136,7 @@ int player::getPlayerEndurance()
 {
 	return playerEndurance;
 }
-float player::getPlayerEnduranceFinal() // added by Noah
+float player::getPlayerEnduranceFinal()
 {
 	return playerEnduranceFinal;
 }
@@ -136,7 +144,7 @@ int player::getPlayerIntelligence()
 {
 	return playerIntelligence;
 }
-float player::getPlayerIntelligenceFinal() // added by Noah
+float player::getPlayerIntelligenceFinal()
 {
 	return playerIntelligenceFinal;
 }
