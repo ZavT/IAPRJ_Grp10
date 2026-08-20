@@ -27,6 +27,7 @@ private:
 
     player player; // player object
     inventory bag; //inventory/bag object z
+    //enemy enemy; // testing
 
     Location currentMap = Location::MainWorld; //default is main world
 

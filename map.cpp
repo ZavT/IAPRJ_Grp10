@@ -44,7 +44,7 @@ void map::setpos(int setX, int setY, char symbol){
 	maps[setY][setX] = symbol;
 }
 
-void map::printmap(int playerX, int playerY) {
+void map::printmap(int playerX, int playerY, int enemyX, int enemyY) {
 	std::cout << "           ";
 	for (int x = 0; x < cols; x++) {
 		std::cout << "+ ";
@@ -57,6 +57,12 @@ void map::printmap(int playerX, int playerY) {
 				std::cout << BOLD << GREEN << 'P' << RESET << " ";
 				continue;
 			}
+
+
+				if (x == enemyX && i == enemyY) {
+					std::cout << BOLD << RED << 'E' << RESET << " ";
+					continue;
+				}
 			
 			//give color to given symbols
 			if (maps[i][x] == 'B') {
