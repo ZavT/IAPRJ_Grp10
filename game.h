@@ -3,6 +3,7 @@
 #include "sewer.h"
 #include "player.h"
 #include "enemy.h"
+#include "inventory.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -25,6 +26,7 @@ private:
     sewer Sewer3;
 
     player player; // player object
+    inventory bag; //inventory/bag object z
 
     Location currentMap = Location::MainWorld; //default is main world
 

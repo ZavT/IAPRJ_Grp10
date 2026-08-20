@@ -3,7 +3,6 @@
 class inventory : public player
 {
 private:
-	char input;
 	int tab;
 	int weapons;
 	int potions;

@@ -12,6 +12,7 @@
 #define KEY_J 106
 #define KEY_K 107
 #define KEY_L 108
+#define KEY_B 98
 
 //MAP STUFF
 //when setting the world map dimensions, the numbers go by (number of rows/y spaces, number of cols/x spaces)
@@ -146,6 +147,11 @@ void game::Run()
         case KEY_L:
             system("CLS");
             std::cout << "enemy moved right" << std::endl;
+            break;
+        case KEY_B:
+            system("CLS");       //hides the world map
+            bag.inventoryMenu(); //opens inventory until ESC is pressed.
+            system("CLS");       //clears inventory text, let map redraw
             break;
         }
 
