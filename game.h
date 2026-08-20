@@ -7,9 +7,9 @@
 //names for locations to track the current map that is active
 enum class Location {
     Sewer1,
-    /*Sewer2,
+    Sewer2,
     Sewer3,
-    Town,
+    /*Town,
     Lab,
     Bunker,*/
     MainWorld
@@ -21,6 +21,8 @@ private:
     //map objects
     map worldMap;
     sewer Sewer1;
+    sewer Sewer2;
+    sewer Sewer3;
 
     player player; // player object
     enemy testEnemy;
@@ -34,5 +36,6 @@ public:
     void createWorldMap();
     void Run();
     void checkMapChange();
+    void discoverpoi();
 };
 
