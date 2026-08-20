@@ -116,6 +116,10 @@ float player::getPlayerStrengthFinal()
 {
 	return playerStrengthFinal;
 }
+void player::setPlayerStrength(int s)
+{
+	playerStrength = s;
+}
 int player::getPlayerAgility()
 {
 	return playerAgility;
@@ -123,6 +127,10 @@ int player::getPlayerAgility()
 float player::getPlayerAgilityFinal()
 {
 	return playerAgilityFinal;
+}
+void player::setPlayerAgility(int a)
+{
+	playerAgility = a;
 }
 int player::getPlayerLuck()
 {
@@ -132,6 +140,10 @@ float player::getPlayerLuckFinal()
 {
 	return playerLuckFinal;
 }
+void player::setPlayerLuck(int l)
+{
+	playerLuck = l;
+}
 int player::getPlayerEndurance()
 {
 	return playerEndurance;
@@ -139,6 +151,10 @@ int player::getPlayerEndurance()
 float player::getPlayerEnduranceFinal()
 {
 	return playerEnduranceFinal;
+}
+void player::setPlayerEndurance(int e)
+{
+	playerEndurance = e;
 }
 int player::getPlayerIntelligence()
 {
@@ -148,7 +164,15 @@ float player::getPlayerIntelligenceFinal()
 {
 	return playerIntelligenceFinal;
 }
+void player::setPlayerIntelligence(int i)
+{
+	playerIntelligence = i;
+}
 int player::getPlayerActionPoints()
 {
 	return playerActionPoints;
+}
+void player::setPlayerActionPoints(int ap)
+{
+	playerActionPoints = ap;
 }

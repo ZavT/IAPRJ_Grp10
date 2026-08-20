@@ -2,6 +2,7 @@
 #include <iostream>
 #include <conio.h>
 #include "enemy.h"
+#include "sewer.h"
 
 #define KEY_ARROW_UP 72
 #define KEY_ARROW_DOWN 80
@@ -18,9 +19,13 @@
 //when setting the world map dimensions, the numbers go by (number of rows/y spaces, number of cols/x spaces)
 game::game() : worldMap(15, 20)
 {
+    createWorldMap();
 }
 
 map& game::activeMap() {
+    if (currentMap == Location::Bunker) {
+        return Bunker.bunkerMap;
+    }
     if (currentMap == Location::Sewer1) {
         return Sewer1.sewerMap;
     }
@@ -60,6 +65,9 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
     }
 }
 
+int enemyX[2];
+int enemyY[2];
+
 void game::createWorldMap() {
     //initiates every single map, fill with '?'
     worldMap.initmap();
@@ -69,15 +77,20 @@ void game::createWorldMap() {
     if (currentMap == Location::MainWorld) {
         worldMap.setpos(0, 7, 'B');//BUNKER
         worldMap.setpos(12, 8, 'T');//TOWN
-        
     }
 }
+
+
 
 void game::Run()
 {
     bool gameRunning = true;
-    createWorldMap();
-    player.setPosition(1, 7);
+    //createWorldMap();
+    //player.setPosition(1, 7);
+
+    Bunker.printbunkerMap();
+    player.setPosition(1, 1);
+    currentMap = Location::Bunker;
 
     while (gameRunning) {
 
@@ -87,7 +100,10 @@ void game::Run()
         std::cout << "press arrow keys to move character" << std::endl;
 
         //print map when loop starts again
-        current.printmap(player.getPosX(), player.getPosY());
+        Sewer1.testEnemy[0].enemyBehaviour(player);
+        Sewer1.testEnemy[0].checkForPlayer(player);
+        current.printmap(player.getPosX(), player.getPosY(), Sewer1.testEnemy[0].getPosX(), Sewer1.testEnemy[0].getPosY());
+        
         current.discovered(player.getPosX(), player.getPosY());
 
         int ch = _getch();
@@ -126,11 +142,13 @@ void game::Run()
             checkMapChange();
         }
 
+        //check if quit game
         else if (ch == 'q' || ch == 'Q') {
             system("CLS");
             gameRunning = false;
             break;
         }
+
         switch (ch) {
         case KEY_I:
             system("CLS");
@@ -166,10 +184,8 @@ void game::checkMapChange() {
             //when player enters sewer1 from the worldmap, make current active map Sewer1.
             currentMap = Location::Sewer1;
             Sewer1.printSewerMap(1);
-
             //set entity positions
             player.setPosition(1, 2);
-
             std::cout << std::endl;
             std::cout << "Entered: SEWER ONE" << std::endl;
         }
@@ -178,10 +194,8 @@ void game::checkMapChange() {
             //when player enters sewer2 from the worldmap, make current active map Sewer2.
             currentMap = Location::Sewer2;
             Sewer2.printSewerMap(2);
-
             //set entity positions
             player.setPosition(1, 2);
-
             std::cout << std::endl;
             std::cout << "Entered: SEWER TWO" << std::endl;
         }
@@ -190,46 +204,58 @@ void game::checkMapChange() {
             //when player enters sewer3 from the worldmap, make current active map Sewer3.
             currentMap = Location::Sewer3;
             Sewer3.printSewerMap(3);
-
             //set entity positions
             player.setPosition(1, 2);
-
             std::cout << std::endl;
             std::cout << "Entered: SEWER THREE" << std::endl;
         }
+
+        else if (player.getPosX() == 0 && player.getPosY() == 7) {
+            //when player enters bunker from the worldmap, make current active map bunker.
+            currentMap = Location::Bunker;
+            Bunker.printbunkerMap();
+            //set entity positions
+            player.setPosition(1, 4 );
+            std::cout << std::endl;
+            std::cout << "Entered: BUNKER" << std::endl;
+        }
+        
     }
+
     //POI exit checking
         else if (currentMap == Location::Sewer1) {
             if (player.getPosX() == 0 && player.getPosY() == 2) {
                 currentMap = Location::MainWorld;
                 player.setPosition(2, 5);
-
                 std::cout << std::endl;
                 std::cout << "Entered: WORLD" << std::endl;
 
             }
         }
-
-
         else if (currentMap == Location::Sewer2) {
             if (player.getPosX() == 0 && player.getPosY() == 2) {
                 currentMap = Location::MainWorld;
                 player.setPosition(6, 10);
-
                 std::cout << std::endl;
                 std::cout << "Entered: WORLD" << std::endl;
 
             }
         }
-
         else if (currentMap == Location::Sewer3) {
             if (player.getPosX() == 0 && player.getPosY() == 2) {
                 currentMap = Location::MainWorld;
                 player.setPosition(14, 12);
-
                 std::cout << std::endl;
                 std::cout << "Entered: WORLD" << std::endl;
+            }
+        }
 
+        else if (currentMap == Location::Bunker) {
+            if (player.getPosX() == 0 && player.getPosY() == 4) {
+                currentMap = Location::MainWorld;
+                player.setPosition(1, 7);
+                std::cout << std::endl;
+                std::cout << "Entered: WORLD" << std::endl;
             }
         }
 }
