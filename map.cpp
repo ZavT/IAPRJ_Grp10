@@ -17,10 +17,25 @@ map::map(int r, int c){
 	cols = c; //x value
 }
 
+int map::getDimensionROW() {
+	return rows;
+}
+int map::getDimensionCOL() {
+	return cols;
+}
+
 void map::initmap(){
-	for (int i = 0; i <= rows; i++) {
-		for (int x = 0; x <= cols; x++) {
+	for (int i = 0; i < rows; i++) {
+		for (int x = 0; x < cols; x++) {
 			maps[i][x] = '?';
+		}
+	}
+}
+
+void map::initPOImap() {
+	for (int i = 0; i < rows; i++) {
+		for (int x = 0; x < cols; x++) {
+			maps[i][x] = ' ';
 		}
 	}
 }
@@ -31,21 +46,18 @@ void map::setpos(int setX, int setY, char symbol){
 
 void map::printmap(int playerX, int playerY) {
 	std::cout << "           ";
-	for (int x = 0; x <= cols; x++) {
+	for (int x = 0; x < cols; x++) {
 		std::cout << "+ ";
 	}
 	std::cout << std::endl;
-	for (int i = 0; i <= rows; i++) {
+	for (int i = 0; i < rows; i++) {
 		std::cout << "         + "; // spaces before the row & side border
-		for (int x = 0; x <= cols; x++) {
+		for (int x = 0; x < cols; x++) {
 			if (x == playerX && i == playerY) {
 				std::cout << BOLD << GREEN << 'P' << RESET << " ";
 				continue;
 			}
-			if (x == 16 && i == 10) {
-				std::cout << BOLD << RED << 'E' << RESET << " ";
-				continue;
-			}
+			
 			//give color to given symbols
 			if (maps[i][x] == 'B') {
 				std::cout << BOLD << BRIGHT_BLUE << maps[i][x] << RESET << " ";
@@ -66,7 +78,7 @@ void map::printmap(int playerX, int playerY) {
 		std::cout << "+" << std::endl;
 	}
 	std::cout << "           ";
-	for (int x = 0; x <= cols; x++) {
+	for (int x = 0; x < cols; x++) {
 		std::cout << "+ ";
 	}
 	std::cout << std::endl;

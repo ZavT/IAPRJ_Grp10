@@ -11,7 +11,10 @@ public:
 	map(int r, int c);
 
 	void initmap();
+	void initPOImap();
 	void placeMapThings(int playerX, int playerY);
+	int getDimensionROW();
+	int getDimensionCOL();
 
 	void printmap(int playerX, int playerY);
 	void setpos(int row, int col, char symbol);

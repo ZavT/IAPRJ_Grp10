@@ -62,8 +62,9 @@ public:
 
 	float playerLuckBoost();
 
-    void move(int moveX, int moveY);
-    void borderCol(int moveX, int moveY);
-    void testAttack(enemy& targetenemy);
+	void move(int moveX, int moveY);
+	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
+	void testAttack(enemy& targetenemy);
+	void checkForEnemy(enemy& targetenemy);
 };
 
