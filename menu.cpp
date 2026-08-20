@@ -3,12 +3,19 @@
 #include <conio.h> //char input
 #include <iomanip>
 
-//menu::menu()
-//{
-//
-//}
-//
-//void menu::menuOpen()
-//{
-//
-//}
+menu::menu()
+{
+	isOpen = false;
+}
+
+void menu::menuOpen()
+{
+	isOpen = true;
+
+	while (isOpen == true) {
+		system("CLS");
+
+
+	}
+
+}
