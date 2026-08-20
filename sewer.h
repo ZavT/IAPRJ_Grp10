@@ -8,7 +8,7 @@ private:
 public:
     sewer();
 
-    void printSewerMap();
+    void printSewerMap(int sewernum);
     map sewerMap;
 };
 
