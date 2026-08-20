@@ -8,7 +8,9 @@ class enemy :
     public entity
 {
 public:
-    enemy();
+    enemy(int posX, int posY, int id, int health, int attack, int weapon);
+    virtual ~enemy();
+
     void checkForPlayer(player& player);
 };
 

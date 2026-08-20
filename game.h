@@ -23,6 +23,10 @@ private:
     player player; // player object
     enemy testEnemy;
 
+    player* playerPtr;   // pointer to player
+    enemy* mutRats[3];  // pointer to mutant rats
+    enemy* mutHumans[3];  // pointer to mutant humans
+
     Location currentMap = Location::MainWorld; //default is main world
 
    // map& activeMap();

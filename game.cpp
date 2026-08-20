@@ -38,6 +38,7 @@ void game::createWorldMap(){
 void game::Run()
 {
     bool gameRunning = true;
+	bool inspecting = false;
    
     createWorldMap();
 
@@ -46,59 +47,94 @@ void game::Run()
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
 
-        //print map when loop starts again
-        worldMap.printmap(player.getPosX(), player.getPosY());
-        testEnemy.checkForPlayer(player);
-        player.checkForEnemy(testEnemy);
-        
-        int ch = _getch();
-        
-        if (ch == 0 || ch == 224) {
-            ch = _getch(); 
+        if (!inspecting) {
+            //print map when loop starts again
+            worldMap.printmap(player.getPosX(), player.getPosY());
+            testEnemy.checkForPlayer(player);
+            player.checkForEnemy(testEnemy);
 
-            worldMap.discovered(player.getPosX(), player.getPosY());
+            int ch = _getch();
 
-            switch (ch) {
-            case KEY_ARROW_UP:
-                system("CLS");
-                std::cout << "Up Arrow Pressed" << std::endl;
-                player.move(0, -1);
-                player.borderCol(0, -1);
-                break;
-            case KEY_ARROW_DOWN:
-                system("CLS");
-                std::cout << "Down Arrow Pressed" << std::endl;
-                player.move(0, 1);
-                player.borderCol(0, 1);
-                break;
-            case KEY_ARROW_LEFT:
-                system("CLS");
-                std::cout << "Left Arrow Pressed" << std::endl;
-                player.move(-1, 0);
-                player.borderCol(-1, 0);
-                break;
-            case KEY_ARROW_RIGHT:
-                system("CLS");
-                std::cout << "Right Arrow Pressed" << std::endl;
-                player.move(1, 0);
-                player.borderCol(1, 0);
-                break;
+            if (ch == 0 || ch == 224) {
+                ch = _getch();
 
-            default: 
+                worldMap.discovered(player.getPosX(), player.getPosY());
+
+                switch (ch) {
+                case KEY_ARROW_UP:
+                    system("CLS");
+                    std::cout << "Up Arrow Pressed" << std::endl;
+                    player.move(0, -1);
+                    player.borderCol(0, -1);
+                    break;
+                case KEY_ARROW_DOWN:
+                    system("CLS");
+                    std::cout << "Down Arrow Pressed" << std::endl;
+                    player.move(0, 1);
+                    player.borderCol(0, 1);
+                    break;
+                case KEY_ARROW_LEFT:
+                    system("CLS");
+                    std::cout << "Left Arrow Pressed" << std::endl;
+                    player.move(-1, 0);
+                    player.borderCol(-1, 0);
+                    break;
+                case KEY_ARROW_RIGHT:
+                    system("CLS");
+                    std::cout << "Right Arrow Pressed" << std::endl;
+                    player.move(1, 0);
+                    player.borderCol(1, 0);
+                    break;
+
+                default:
+                    system("CLS");
+                    std::cout << "invalid input!" << std::endl;
+                    break;
+                }
+            }
+            else if (ch == 'e' || ch == 'E') {
                 system("CLS");
-                std::cout << "invalid input!" << std::endl;
+                std::cout << "Inspecting entities in [insert POI]\n" << std::endl;
+                std::cout << "Mutant rats. Giant, vicious creatures that can tear you apart.\n" << std::endl;
+                if (playerPtr != NULL)
+                    playerPtr->displayStats();
+
+                for (int i = 0; i < 3; ++i)
+                {
+                    if (mutRats[i] != NULL) {
+                        mutRats[i]->displayStats();
+                        std::cout << " ";
+                    }
+                }
+                std::cout << std::endl;
+                std::cout << "Mutant humans.\n" << std::endl;
+                for (int i = 0; i < 3; ++i)
+                {
+                    if (mutHumans[i] != NULL) {
+                        mutHumans[i]->displayStats();
+                        std::cout << " ";
+                    }
+                }
+                inspecting = true;
+            }
+            else if (ch == 'a' || ch == 'A') {
+                system("CLS");
+                std::cout << "shot at enemy (test)" << std::endl;
+                player.testAttack(testEnemy);
+            }
+            else if (ch == 'q' || ch == 'Q') {
+                system("CLS");
+                gameRunning = false;
                 break;
             }
         }
-        else if (ch == 'a' || ch == 'A') {
-            system("CLS");
-            std::cout << "shot at enemy (test)" << std::endl;
-            player.testAttack(testEnemy);
-        }
-        else if (ch == 'q' || ch == 'Q') {
-            system("CLS");
-            gameRunning = false;
-            break;
+        else {
+            int ch = _getch();
+            if (ch == 'e' || ch == 'E') {
+                system("CLS");
+                std::cout << "Stopped inspecting." << std::endl;
+                inspecting = false;
+            }
         }
     }
 }
