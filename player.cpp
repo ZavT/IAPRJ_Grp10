@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "player.h"
 #include <cmath>
 #include <iostream>
