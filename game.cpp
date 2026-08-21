@@ -100,6 +100,45 @@ void game::createWorldMap() {
 void game::Run()
 {
     bool gameRunning = true;
+
+    // Start of intro
+    {
+        std::cout << "____________________________________________________________________" << std::endl;
+        std::cout << " ___   @@@@@@@@                   @@" << std::endl;
+        std::cout << "/ #|  __ @@@@@                   @@@@       @@@@" << std::endl;
+        std::cout << "   |  ||_/|           @@@@@@              @@@@@@@            @@@@@" << std::endl;
+        std::cout << "#  |__|__ |             @@@@                                @@@@@" << std::endl;
+        std::cout << "   ||  #| |" << std::endl;
+        std::cout << "  #||   | |" << std::endl;
+        std::cout << "   | #  | |______" << std::endl;
+        std::cout << " # ||   | |  #  |                            _______  _______" << std::endl;
+        std::cout << "   |/  #| |#   /   O      O      O      O    / __ |   / __ |" << std::endl;
+        std::cout << "___||___|_|____|___|______|______|______|____|_||_|___|_||_|________" << std::endl;
+        std::cout << std::endl;
+        std::cout << "Apocalypse" << std::endl;
+        std::cout << std::endl;
+        std::cout << "Press Enter to continue...";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        system("CLS");
+    }
+
+    {
+        std::cout << "Enter your name: ";
+        std::string name;
+        std::cin >> name;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        player.setPlayerName(name);
+        std::cout << "Your name is " << player.getPlayerName() << std::endl;
+        std::cout << std::endl;
+        std::cout << "Press Enter to continue...";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        system("CLS");
+    }
+    // End of intro
+    
     //createWorldMap();
     //player.setPosition(1, 7);
 
