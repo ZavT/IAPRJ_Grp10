@@ -2,6 +2,16 @@
 #include <string>
 #include "inventory.h"
 class item{
-    std::string itemname;
+
+private:
+    std::string name;
+    int price;
+    int apcost;
+
+public: 
+    item(std::string name, int price, int apCost);
+    std::string getItemName();
+    int getItemPrice();
+    int getItemAPcost();
 };
 
