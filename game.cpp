@@ -263,8 +263,6 @@ void game::Run()
             settings.menuOpen(); 
             system("CLS");      
         }
-
-
     }
 }
 
@@ -306,7 +304,7 @@ void game::checkMapChange() {
             currentMap = Location::Bunker;
             Bunker.printbunkerMap();
             //set entity positions
-            player.setPosition(1, 4);
+            player.setPosition(7, 4);
             std::cout << std::endl;
             std::cout << "Entered: BUNKER" << std::endl;
         }
@@ -359,22 +357,14 @@ void game::checkMapChange() {
         }
     }
 
-        else if (currentMap == Location::Bunker) {
-            if (player.getPosX() == 8 && player.getPosY() == 4) {
-                currentMap = Location::MainWorld;
-                player.setPosition(1, 7);
-                std::cout << std::endl;
-                std::cout << "Entered: WORLD" << std::endl;
-            }
     else if (currentMap == Location::Bunker) {
-        if (player.getPosX() == 0 && player.getPosY() == 4) {
+        if (player.getPosX() == 8 && player.getPosY() == 4) {
             currentMap = Location::MainWorld;
             player.setPosition(1, 7);
             std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
         }
     }
-
     else if (currentMap == Location::Town) {
         if (player.getPosX() == 0 && player.getPosY() == 7) {
             currentMap = Location::MainWorld;
@@ -391,6 +381,7 @@ void game::checkMapChange() {
             std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
         }
-     }
-}
+        }
+    }
+
 
