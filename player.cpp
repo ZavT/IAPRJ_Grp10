@@ -7,7 +7,6 @@ player::player()
 	playerName = "Survivor";
 
 	setHealthPoints(100);
-	playerHealthPoints = getHealthPoints() + playerEndurance;
 
 	playerStrength = 2;
 	playerAgility = 2;
@@ -15,20 +14,16 @@ player::player()
 	playerEndurance = 2;
 	playerIntelligence = 2;
 
-	playerStrengthFinal = playerStrength + playerLuckBoost();
-	playerAgilityFinal = playerAgility + playerLuckBoost();
-	playerLuckFinal = playerLuck;
-	playerEnduranceFinal = playerEndurance + playerLuckBoost();
-	playerIntelligenceFinal = playerIntelligence + playerLuckBoost();
-
 	playerActionPoints = playerAgility;
+
+	playerHealthPoints = getPlayerMaxHealthPoints();
 
 	playerCombatMode = false;
 }
 
 float player::playerLuckBoost()
 {
-	return (playerLuckFinal / 8);
+	return (getPlayerLuckFinal() / 8.0f);
 }
 
 //player actions
@@ -67,7 +62,7 @@ void player::testAttack(enemy& targetenemy) {
 	int a = static_cast<int>(hypoDist);
 
 	if (hypoDist > 2) {
-		accuracy = accuracy - (a * (8 / playerStrengthFinal));
+		accuracy = accuracy - (a * (8 / getPlayerStrengthFinal()));
 	}
 	else {
 		accuracy = accuracy - a;
@@ -105,7 +100,20 @@ int player::getPlayerHealthPoints()
 }
 void player::setPlayerHealthPoints(int hp)
 {
+	int maxHP = getPlayerMaxHealthPoints();
+
+	if (hp > maxHP) {
+		hp = maxHP;
+	}
+	else if (hp < 0) {
+		hp = 0;
+	}
+
 	playerHealthPoints = hp;
+}
+int player::getPlayerMaxHealthPoints()
+{
+	return getHealthPoints() + static_cast<int>(getPlayerEnduranceFinal());
 }
 int player::getPlayerStrength()
 {
@@ -113,7 +121,7 @@ int player::getPlayerStrength()
 }
 float player::getPlayerStrengthFinal()
 {
-	return playerStrengthFinal;
+	return playerStrength + playerLuckBoost();
 }
 void player::setPlayerStrength(int s)
 {
@@ -125,7 +133,7 @@ int player::getPlayerAgility()
 }
 float player::getPlayerAgilityFinal()
 {
-	return playerAgilityFinal;
+	return playerAgility + playerLuckBoost();
 }
 void player::setPlayerAgility(int a)
 {
@@ -137,7 +145,7 @@ int player::getPlayerLuck()
 }
 float player::getPlayerLuckFinal()
 {
-	return playerLuckFinal;
+	return playerLuck;
 }
 void player::setPlayerLuck(int l)
 {
@@ -149,7 +157,7 @@ int player::getPlayerEndurance()
 }
 float player::getPlayerEnduranceFinal()
 {
-	return playerEnduranceFinal;
+	return playerEndurance + playerLuckBoost();
 }
 void player::setPlayerEndurance(int e)
 {
@@ -161,7 +169,7 @@ int player::getPlayerIntelligence()
 }
 float player::getPlayerIntelligenceFinal()
 {
-	return playerIntelligenceFinal;
+	return playerIntelligence + playerLuckBoost();
 }
 void player::setPlayerIntelligence(int i)
 {
