@@ -113,9 +113,17 @@ void map::printmap(int playerX, int playerY, int* enemyX, int* enemyY, char* ene
 
 //note: this is supposed to turn '?' grid spaces into ' ' after the player has been on the tile before.
 //needs some kinda fixing because using ts function will leave a trail of the player behind which is not good
-void map::discovered(int discX, int discY) {
-	if (maps[discY][discX] == '?') {
-		maps[discY][discX] = ' ';
+void map::discovered(int discX, int discY)
+{
+	for (int y = discY - 1; y <= discY + 1; y++)
+	{
+		for (int x = discX - 1; x <= discX + 1; x++)
+		{
+			if (maps[y][x] == '?')
+			{
+				maps[y][x] = ' ';
+			}
+		}
 	}
 }
 	
