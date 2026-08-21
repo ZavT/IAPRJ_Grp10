@@ -3,5 +3,6 @@
 class item :
     public inventory
 {
+
 };
 
