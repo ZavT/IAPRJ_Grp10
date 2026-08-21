@@ -275,8 +275,9 @@ void game::checkMapChange() {
             Sewer1.printSewerMap(1);
             //set player position
             player.setPosition(1, 2);
-            std::cout << std::endl;
             std::cout << "Entered: SEWER ONE" << std::endl;
+            std::cout << std::endl;
+
         }
 
         else if (player.getPosX() == 7 && player.getPosY() == 10) {
@@ -285,8 +286,9 @@ void game::checkMapChange() {
             Sewer2.printSewerMap(2);
             //set player position
             player.setPosition(1, 2);
-            std::cout << std::endl;
             std::cout << "Entered: SEWER TWO" << std::endl;
+            std::cout << std::endl;
+
         }
 
         else if (player.getPosX() == 15 && player.getPosY() == 12) {
@@ -295,8 +297,9 @@ void game::checkMapChange() {
             Sewer3.printSewerMap(3);
             //set player position
             player.setPosition(1, 2);
-            std::cout << std::endl;
             std::cout << "Entered: SEWER THREE" << std::endl;
+            std::cout << std::endl;
+
         }
 
         else if (player.getPosX() == 0 && player.getPosY() == 7) {
@@ -305,8 +308,9 @@ void game::checkMapChange() {
             Bunker.printbunkerMap();
             //set entity positions
             player.setPosition(7, 4);
-            std::cout << std::endl;
             std::cout << "Entered: BUNKER" << std::endl;
+            std::cout << std::endl;
+
         }
 
         else if (player.getPosX() == 12 && player.getPosY() == 8) {
@@ -315,8 +319,9 @@ void game::checkMapChange() {
             Town.printtownMap();
             //set entity positions
             player.setPosition(1, 7);
-            std::cout << std::endl;
             std::cout << "Entered: TOWN" << std::endl;
+            std::cout << std::endl;
+
         }
 
         else if (player.getPosX() == 19 && player.getPosY() == 7) {
@@ -324,8 +329,8 @@ void game::checkMapChange() {
             Lab.printlabMap();
             //set entity positions
             player.setPosition(1, 4);
-            std::cout << std::endl;
             std::cout << "Entered: LAB" << std::endl;
+            std::cout << std::endl;
         }
     }
 
@@ -334,26 +339,24 @@ void game::checkMapChange() {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(2, 5);
-            std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
-
+            std::cout << std::endl;
         }
     }
     else if (currentMap == Location::Sewer2) {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(6, 10);
-            std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
-
+            std::cout << std::endl;
         }
     }
     else if (currentMap == Location::Sewer3) {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(14, 12);
-            std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
+            std::cout << std::endl;
         }
     }
 
@@ -361,16 +364,16 @@ void game::checkMapChange() {
         if (player.getPosX() == 8 && player.getPosY() == 4) {
             currentMap = Location::MainWorld;
             player.setPosition(1, 7);
-            std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
+            std::cout << std::endl;
         }
     }
     else if (currentMap == Location::Town) {
         if (player.getPosX() == 0 && player.getPosY() == 7) {
             currentMap = Location::MainWorld;
             player.setPosition(11, 8);
-            std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
+            std::cout << std::endl;
         }
     }
 
@@ -378,10 +381,8 @@ void game::checkMapChange() {
         if (player.getPosX() == 0 && player.getPosY() == 4) {
             currentMap = Location::MainWorld;
             player.setPosition(18, 7);
-            std::cout << std::endl;
             std::cout << "Entered: WORLD" << std::endl;
-        }
+            std::cout << std::endl;
         }
     }
-
-
+}
