@@ -1,18 +1,16 @@
 #pragma once
+#include <string>
+
 class menu
 {
-	//Objective
-	//Show time
-	//Show stats
-	//Show distance
-	//Show / edit name
-	//Restart game
-	//Restart stage
-	bool isOpen;
+private:
+    bool isOpen;
+    int selectedOption;
+    std::string currentTime;
+    std::string playerName;
+    int currentObjective; 
 
 public:
-	menu();
-	void menuOpen();
-
+    menu();
+    void menuOpen();
 };
-
