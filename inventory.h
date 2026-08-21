@@ -1,6 +1,6 @@
 #pragma once
-#include "player.h"
-class inventory : public player
+
+class inventory 
 {
 private:
 	int tab;

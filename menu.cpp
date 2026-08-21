@@ -40,6 +40,12 @@ void menu::menuOpen()
         std::cout << "\t" << std::left << std::setw(30) << opt4 << "\n\n";
 
        
+        //instructions
+        std::cout << "\n";
+        std::cout << "\tPress left or right arrow key to switch between tabs\n";
+        std::cout << "\tPress the number to see item in current tab\n";
+        std::cout << "\tPress ESCAPE to return to map\n";
+
         int ch = _getch();
 
         if (ch == 0 || ch == 224) {
