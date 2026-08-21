@@ -26,7 +26,6 @@ void menu::menuOpen()
 
         std::cout << "\t===============Menu===============\n\n";
 
-        // Determine which row gets the < > brackets based on selectedOption
         std::string opt0 = (selectedOption == 0) ? "< Time : " + currentTime + " >" : "  Time : " + currentTime + "  ";
         std::string opt1 = (selectedOption == 1) ? "< Objective : >" : "  Objective :  ";
         std::string opt2 = (selectedOption == 2) ? "< Edit name: " + playerName + " >" : "  Edit name: " + playerName + "  ";
@@ -40,10 +39,10 @@ void menu::menuOpen()
         std::cout << "\t" << std::left << std::setw(30) << opt3 << "\n";
         std::cout << "\t" << std::left << std::setw(30) << opt4 << "\n\n";
 
-        // Wait for input
+       
         int ch = _getch();
 
-        if (ch == 0 || ch == 224) { // Arrow keys
+        if (ch == 0 || ch == 224) {
             ch = _getch();
             if (ch == KEY_UP) {
                 selectedOption--;
@@ -54,13 +53,13 @@ void menu::menuOpen()
                 if (selectedOption > 4) selectedOption = 0; // Wrap to top
             }
         }
-        else if (ch == ENTER_KEY) { // Enter key
+
+        else if (ch == ENTER_KEY) { 
             if (selectedOption == 0) {
                 std::cout << "\n\tEnter new time: ";
                 std::cin >> currentTime;
             }
-            else if (selectedOption == 1) {
-                // For testing, pressing Enter on Objective cycles the progress
+            else if (selectedOption == 1) {  //change to at differnet parts of the game have diff objective
                 currentObjective++;
                 if (currentObjective > 3) currentObjective = 1;
             }
@@ -69,15 +68,15 @@ void menu::menuOpen()
                 std::cin >> playerName;
             }
             else if (selectedOption == 3) {
-                std::cout << "\n\t[Trigger Restart Stage Logic Here] Press any key...";
-                _getch();
+                std::cout << "\n\t Press ENTER...";
+                (void)_getch();
             }
             else if (selectedOption == 4) {
-                std::cout << "\n\t[Trigger Restart Game Logic Here] Press any key...";
-                _getch();
+                std::cout << "\n\t Press ENTER...";
+                (void)_getch();
             }
         }
-        else if (ch == ESCAPE_KEY) { // Exit menu
+        else if (ch == ESCAPE_KEY) { 
             isOpen = false;
         }
     }

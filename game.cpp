@@ -14,6 +14,7 @@
 #define KEY_K 107
 #define KEY_L 108
 #define KEY_B 98
+#define KEY_M 109
 
 //MAP STUFF
 //when setting the world map dimensions, the numbers go by (number of rows/y spaces, number of cols/x spaces)
@@ -213,6 +214,10 @@ void game::Run()
             bag.inventoryMenu(); //opens inventory until ESC is pressed.
             system("CLS");       //clears inventory text, let map redraw
             break;
+        case KEY_M:
+            system("CLS");       
+            settings.menuOpen(); 
+            system("CLS");      
         }
 
 

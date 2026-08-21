@@ -5,7 +5,7 @@ class menu
 {
 private:
     bool isOpen;
-    int selectedOption; // 0 = Time, 1 = Objective, 2 = Name, 3 = Stage reset, 4 = Game reset
+    int selectedOption;
     std::string currentTime;
     std::string playerName;
     int currentObjective; 

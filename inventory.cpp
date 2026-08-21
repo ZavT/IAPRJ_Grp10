@@ -24,7 +24,7 @@ inventory::inventory()
 void inventory::inventoryMenu() 
 {
 	bagOpen = true;
-	tab = 0; //makes sure to open ALL tab
+	tab = 0; //makes sure to open ALL tab when open menu
 
 	while (bagOpen) {
 		system("CLS");
@@ -32,10 +32,11 @@ void inventory::inventoryMenu()
 		std::cout << "\t\t======Inventory======\n\n";
 
 		//show active tab (maybe use clour?)
-		std::cout << (tab == 0 ? "[ALL]" : "ALL") << std::setw(20)
-			<< (tab == 1 ? "[WEAPONS]" : "WEAPONS") << std::setw(20)
-			<< (tab == 2 ? "[POTIONS]" : "POTIONS") << std::setw(20)
-			<< (tab == 3 ? "[OTHERS]" : "OTHERS") << "\n\n";
+		std::cout 
+			<< std::setw(20) << (tab == 0 ? "[ALL]" : "ALL") 
+			<< std::setw(20) << (tab == 1 ? "[WEAPONS]" : "WEAPONS") 
+			<< std::setw(20) << (tab == 2 ? "[POTIONS]" : "POTIONS")
+			<< std::setw(20) << (tab == 3 ? "[OTHERS]" : "OTHERS") << "\n\n";
 
 		if (tab == 0) { // ALL TAB
 			
@@ -88,16 +89,16 @@ void inventory::inventoryMenu()
 			ch = _getch(); 
 
 			if (ch == KEY_ARROW_LEFT) {
-				tab--; // Move one tab left
-				if (tab < 0) tab = 3; // Wrap around to the end if they go too far
+				tab--; 
+				if (tab < 0) tab = 3; 
 			}
 			else if (ch == KEY_ARROW_RIGHT) {
-				tab++; // Move one tab right
-				if (tab > 3) tab = 0; // Wrap around to the start
+				tab++; 
+				if (tab > 3) tab = 0;
 			}
 		}
 
-		else if (ch == 27) { // 27 is the Escape key
+		else if (ch == 27) { // escape key
 			bagOpen = false;
 		}
 	}
