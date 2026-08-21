@@ -34,6 +34,9 @@ map& game::activeMap() {
     if (currentMap == Location::Sewer3) {
         return Sewer3.sewerMap;
     }
+    if (currentMap == Location::Town) {
+        return Town.townMap;
+    }
 
     //if currentMap isnt any of the others, return worldMap as a default
     return worldMap;
@@ -211,6 +214,16 @@ void game::checkMapChange() {
             std::cout << std::endl;
             std::cout << "Entered: BUNKER" << std::endl;
         }
+
+        else if (player.getPosX() == 12 && player.getPosY() == 8) {
+            //when player enters town from the worldmap, make current active map town.
+            currentMap = Location::Town;
+            Town.printtownMap();
+            //set entity positions
+            player.setPosition(1, 7);
+            std::cout << std::endl;
+            std::cout << "Entered: TOWN" << std::endl;
+        }
         
     }
 
@@ -250,5 +263,14 @@ void game::checkMapChange() {
                 std::cout << "Entered: WORLD" << std::endl;
             }
         }
+
+        else if (currentMap == Location::Town) {
+        if (player.getPosX() == 0 && player.getPosY() == 7) {
+            currentMap = Location::MainWorld;
+            player.setPosition(11, 8);
+            std::cout << std::endl;
+            std::cout << "Entered: WORLD" << std::endl;
+        }
+    }
 }
 

@@ -5,6 +5,8 @@
 #define GREEN    ESC "[92m"
 #define CYAN    ESC "[96m"
 #define RED    ESC "[91m"
+#define BRIGHT_MAGENTA ESC "[95m"
+#define BRIGHT_YELLOW  ESC "[93m"
 #define BOLD      ESC "[1m"
 #include <iostream>
 
@@ -71,6 +73,13 @@ void map::printmap(int playerX, int playerY) {
 			else if (maps[i][x] == 'X') {
 				std::cout << BOLD << RED << maps[i][x] << RESET << " ";
 			}
+			else if (maps[i][x] == 'A') {
+				std::cout << BOLD << BRIGHT_MAGENTA << maps[i][x] << RESET << " ";
+			}
+			else if (maps[i][x] == 'W') {
+				std::cout << BOLD << BRIGHT_YELLOW << maps[i][x] << RESET << " ";
+			}
+
 			//if its not any of the above symbols then print it out normally and add spacing
 			else {
 				std::cout << maps[i][x] << " "; //adds space between dots
