@@ -40,7 +40,6 @@ public:
 	void setPlayerAgility(int a);
 
 	int getPlayerLuck();
-	float getPlayerLuckFinal();
 	void setPlayerLuck(int l);
 
 	int getPlayerEndurance();

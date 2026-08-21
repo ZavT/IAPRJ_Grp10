@@ -23,7 +23,7 @@ player::player()
 
 float player::playerLuckBoost()
 {
-	return (getPlayerLuckFinal() / 8.0f);
+	return (getPlayerLuck() / 8.0f);
 }
 
 //player actions
@@ -140,10 +140,6 @@ void player::setPlayerAgility(int a)
 	playerAgility = a;
 }
 int player::getPlayerLuck()
-{
-	return playerLuck;
-}
-float player::getPlayerLuckFinal()
 {
 	return playerLuck;
 }
