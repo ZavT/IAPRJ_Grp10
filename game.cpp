@@ -38,6 +38,9 @@ map& game::activeMap() {
     if (currentMap == Location::Town) {
         return Town.townMap;
     }
+    if (currentMap == Location::Lab) {
+        return Lab.labMap;
+    }
 
     //if currentMap isnt any of the others, return worldMap as a default
     return worldMap;
@@ -66,6 +69,14 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
         player.getPosX() == 15 && player.getPosY() == 13) {
         worldMap.setpos(15, 12, 'S');// SEWER 3
     }
+    if (player.getPosX() == 18 && player.getPosY() == 7 ||
+        player.getPosX() == 20 && player.getPosY() == 7 ||
+        player.getPosX() == 18 && player.getPosY() == 6 ||
+        player.getPosX() == 18 && player.getPosY() == 7 ||
+        player.getPosX() == 19 && player.getPosY() == 6 ||
+        player.getPosX() == 19 && player.getPosY() == 8) {
+        worldMap.setpos(19, 7, 'L');// LAB
+    }
 }
 
 int enemyX[2];
@@ -80,6 +91,7 @@ void game::createWorldMap() {
     if (currentMap == Location::MainWorld) {
         worldMap.setpos(0, 7, 'B');//BUNKER
         worldMap.setpos(12, 8, 'T');//TOWN
+        //worldMap.setpos(19, 7, 'L'); // LAB
     }
 }
 
@@ -218,7 +230,7 @@ void game::checkMapChange() {
             currentMap = Location::Bunker;
             Bunker.printbunkerMap();
             //set entity positions
-            player.setPosition(1, 4 );
+            player.setPosition(1, 4);
             std::cout << std::endl;
             std::cout << "Entered: BUNKER" << std::endl;
         }
@@ -232,47 +244,55 @@ void game::checkMapChange() {
             std::cout << std::endl;
             std::cout << "Entered: TOWN" << std::endl;
         }
-        
+
+        else if (player.getPosX() == 19 && player.getPosY() == 7) {
+            currentMap = Location::Lab;
+            Lab.printlabMap();
+            //set entity positions
+            player.setPosition(1, 4);
+            std::cout << std::endl;
+            std::cout << "Entered: LAB" << std::endl;
+        }
     }
 
     //POI exit checking
-        else if (currentMap == Location::Sewer1) {
-            if (player.getPosX() == 0 && player.getPosY() == 2) {
-                currentMap = Location::MainWorld;
-                player.setPosition(2, 5);
-                std::cout << std::endl;
-                std::cout << "Entered: WORLD" << std::endl;
+    else if (currentMap == Location::Sewer1) {
+        if (player.getPosX() == 0 && player.getPosY() == 2) {
+            currentMap = Location::MainWorld;
+            player.setPosition(2, 5);
+            std::cout << std::endl;
+            std::cout << "Entered: WORLD" << std::endl;
 
-            }
         }
-        else if (currentMap == Location::Sewer2) {
-            if (player.getPosX() == 0 && player.getPosY() == 2) {
-                currentMap = Location::MainWorld;
-                player.setPosition(6, 10);
-                std::cout << std::endl;
-                std::cout << "Entered: WORLD" << std::endl;
+    }
+    else if (currentMap == Location::Sewer2) {
+        if (player.getPosX() == 0 && player.getPosY() == 2) {
+            currentMap = Location::MainWorld;
+            player.setPosition(6, 10);
+            std::cout << std::endl;
+            std::cout << "Entered: WORLD" << std::endl;
 
-            }
         }
-        else if (currentMap == Location::Sewer3) {
-            if (player.getPosX() == 0 && player.getPosY() == 2) {
-                currentMap = Location::MainWorld;
-                player.setPosition(14, 12);
-                std::cout << std::endl;
-                std::cout << "Entered: WORLD" << std::endl;
-            }
+    }
+    else if (currentMap == Location::Sewer3) {
+        if (player.getPosX() == 0 && player.getPosY() == 2) {
+            currentMap = Location::MainWorld;
+            player.setPosition(14, 12);
+            std::cout << std::endl;
+            std::cout << "Entered: WORLD" << std::endl;
         }
+    }
 
-        else if (currentMap == Location::Bunker) {
-            if (player.getPosX() == 0 && player.getPosY() == 4) {
-                currentMap = Location::MainWorld;
-                player.setPosition(1, 7);
-                std::cout << std::endl;
-                std::cout << "Entered: WORLD" << std::endl;
-            }
+    else if (currentMap == Location::Bunker) {
+        if (player.getPosX() == 0 && player.getPosY() == 4) {
+            currentMap = Location::MainWorld;
+            player.setPosition(1, 7);
+            std::cout << std::endl;
+            std::cout << "Entered: WORLD" << std::endl;
         }
+    }
 
-        else if (currentMap == Location::Town) {
+    else if (currentMap == Location::Town) {
         if (player.getPosX() == 0 && player.getPosY() == 7) {
             currentMap = Location::MainWorld;
             player.setPosition(11, 8);
@@ -280,5 +300,14 @@ void game::checkMapChange() {
             std::cout << "Entered: WORLD" << std::endl;
         }
     }
+
+    else if (currentMap == Location::Lab) {
+        if (player.getPosX() == 0 && player.getPosY() == 4) {
+            currentMap = Location::MainWorld;
+            player.setPosition(18, 7);
+            std::cout << std::endl;
+            std::cout << "Entered: WORLD" << std::endl;
+        }
+     }
 }
 

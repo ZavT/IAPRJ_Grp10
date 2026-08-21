@@ -6,6 +6,7 @@
 #include "inventory.h"
 #include "bunker.h"
 #include "town.h"
+#include "lab.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -28,6 +29,7 @@ private:
     sewer Sewer3;
     bunker Bunker;
     town Town;
+    lab Lab;
 
     player player; // player object
     inventory bag; //inventory/bag object z
