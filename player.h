@@ -12,7 +12,7 @@ private:
 
 	int playerHealthPoints;
 
-	int playerStrength; // added by Noah
+	int playerStrength;
 	float playerStrengthFinal;
 
 	int playerAgility;
@@ -32,12 +32,15 @@ private:
 	bool playerCombatMode;
 
 public:
-	player(); // added by Noah
+	player();
+
+	std::string getPlayerName();
+	void setPlayerName(std::string name);
 
 	int getPlayerHealthPoints();
 	void setPlayerHealthPoints(int hp);
 
-	int getPlayerStrength(); // added by Noah
+	int getPlayerStrength();
 	float getPlayerStrengthFinal();
 	void setPlayerStrength(int s);
 
@@ -62,8 +65,8 @@ public:
 
 	float playerLuckBoost();
 
-    void move(int moveX, int moveY);
-    void borderCol(int moveX, int moveY);
-    void testAttack(enemy& targetenemy);
+	void move(int moveX, int moveY);
+	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
+	void testAttack(enemy& targetenemy);
+	void checkForEnemy(enemy& targetenemy);
 };
-

@@ -3,6 +3,11 @@
 #include "sewer.h"
 #include "player.h"
 #include "enemy.h"
+#include "inventory.h"
+#include "menu.h"
+#include "bunker.h"
+#include "town.h"
+#include "lab.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -10,7 +15,7 @@ enum class Location {
     Sewer2,
     Sewer3,
     Town,
-    Lab,
+    Lab, 
     Bunker,
     MainWorld
 };
@@ -18,10 +23,19 @@ enum class Location {
 class game
 {
 private:
+    //map objects
     map worldMap;
     sewer Sewer1;
+    sewer Sewer2;
+    sewer Sewer3;
+    bunker Bunker;
+    town Town;
+    lab Lab;
+
     player player; // player object
-    enemy testEnemy;
+    inventory bag; //inventory/bag object z
+    menu settings;
+    //enemy enemy; // testing
 
     player* playerPtr;   // pointer to player
     enemy* mutRats[3];  // pointer to mutant rats
@@ -29,11 +43,13 @@ private:
 
     Location currentMap = Location::MainWorld; //default is main world
 
-   // map& activeMap();
+    map& activeMap();
 public:
     game();
 
     void createWorldMap();
     void Run();
+    void checkMapChange();
+    void discoverpoi();
 };
 

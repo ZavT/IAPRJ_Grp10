@@ -5,6 +5,5 @@ class worldMap :
 {
 public:
     worldMap();
-    void createworldmap();
 };
 

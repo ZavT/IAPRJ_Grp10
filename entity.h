@@ -3,7 +3,6 @@ class entity
 {
 private:
 	int posX, posY;
-
 	int healthPoints;
 	int attack;
 	int gold;

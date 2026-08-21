@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-player::player() // added by Noah
+player::player()
 {
 	playerName = "Survivor";
 
@@ -31,8 +31,8 @@ float player::playerLuckBoost()
 	return (playerLuckFinal / 8);
 }
 
+//player actions
 void player::move(int moveX, int moveY) {
-	//setPosition( getPosX() + moveX, getPosY() + moveY);
 	setPosX(getPosX() + moveX);
 	setPosY(getPosY() + moveY);
 
@@ -42,17 +42,18 @@ void player::move(int moveX, int moveY) {
 	}
 }
 
-void player::borderCol(int moveX, int moveY) {
-	if (getPosX() < 0 || getPosX() > 20) {
+void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
+	if (getPosX() < 0 || getPosX() > (maxBorderX - 1)) {
 		setPosX(getPosX() - moveX);
 	}
 
-	if (getPosY() < 0 || getPosY() > 15) {
+	if (getPosY() < 0 || getPosY() > (maxBorderY - 1)) {
 		setPosY(getPosY() - moveY);
 	}
 }
 
 //test functions
+//player attack functions testing
 void player::testAttack(enemy& targetenemy) {
 	//dstx and disty between enemy and player
 	int distX = getPosX() - targetenemy.getPosX();
@@ -75,55 +76,103 @@ void player::testAttack(enemy& targetenemy) {
 	std::cout << "distance: " << hypoDist << ", accuracy: " << accuracy << std::endl;
 }
 
-int player::getPlayerHealthPoints() // added by Noah
+void player::checkForEnemy(enemy& targetenemy)
+{
+	//dstx and disty between enemy and player
+	int distX = getPosX() - targetenemy.getPosX();
+	int distY = getPosY() - targetenemy.getPosY();
+
+	//for diagonals, find hypotenuse of triangles with sides distX distY
+	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
+
+	if (hypoDist <= 1.5) {
+		std::cout << "triggered battle cutscene with enemy" << std::endl;
+
+	}
+}
+
+std::string player::getPlayerName()
+{
+	return playerName;
+}
+void player::setPlayerName(std::string name)
+{
+	playerName = name;
+}
+//player stat functions
+int player::getPlayerHealthPoints()
 {
 	return playerHealthPoints;
 }
-void setPlayerHealthPoints(int hp)
+void player::setPlayerHealthPoints(int hp)
 {
 	playerHealthPoints = hp;
 }
-int player::getPlayerStrength() // added by Noah
+int player::getPlayerStrength()
 {
 	return playerStrength;
 }
-float player::getPlayerStrengthFinal() // added by Noah
+float player::getPlayerStrengthFinal()
 {
 	return playerStrengthFinal;
+}
+void player::setPlayerStrength(int s)
+{
+	playerStrength = s;
 }
 int player::getPlayerAgility()
 {
 	return playerAgility;
 }
-float player::getPlayerAgilityFinal() // added by Noah
+float player::getPlayerAgilityFinal()
 {
 	return playerAgilityFinal;
+}
+void player::setPlayerAgility(int a)
+{
+	playerAgility = a;
 }
 int player::getPlayerLuck()
 {
 	return playerLuck;
 }
-float player::getPlayerLuckFinal() // added by Noah
+float player::getPlayerLuckFinal()
 {
 	return playerLuckFinal;
+}
+void player::setPlayerLuck(int l)
+{
+	playerLuck = l;
 }
 int player::getPlayerEndurance()
 {
 	return playerEndurance;
 }
-float player::getPlayerEnduranceFinal() // added by Noah
+float player::getPlayerEnduranceFinal()
 {
 	return playerEnduranceFinal;
+}
+void player::setPlayerEndurance(int e)
+{
+	playerEndurance = e;
 }
 int player::getPlayerIntelligence()
 {
 	return playerIntelligence;
 }
-float player::getPlayerIntelligenceFinal() // added by Noah
+float player::getPlayerIntelligenceFinal()
 {
 	return playerIntelligenceFinal;
+}
+void player::setPlayerIntelligence(int i)
+{
+	playerIntelligence = i;
 }
 int player::getPlayerActionPoints()
 {
 	return playerActionPoints;
+}
+void player::setPlayerActionPoints(int ap)
+{
+	playerActionPoints = ap;
 }
