@@ -123,6 +123,20 @@ void game::Intro()
 
 
 
+    std::cout << "CONTEXT" << std::endl;
+    std::cout << std::endl;
+    std::cout << "You are a survivor of a war. During the initial outbreak of the war, you quickly took\n"
+              << "shelter in a nearby bunker for safety. No one else made it. Overtime, supplies started\n"
+              << "to run low. With supplies running low, you had no choice but to leave the bunker to\n"
+              << "avoid dying of starvation. This is where your story begins." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Press Enter to start creating your character";
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    system("CLS");
+
+
+
     std::cout << "Enter your name: ";
     std::cin >> tempName;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -147,6 +161,7 @@ void game::Intro()
         std::cout << "Endurance: " << player.getPlayerEndurance() << std::endl;
         std::cout << "Intelligence: " << player.getPlayerIntelligence() << std::endl;
         std::cout << "Inputs: S+, S-, A+, A-, L+, L-, E+, E-, I+, I-\nEnter 'Ready' when ready." << std::endl;
+        std::cout << "Can't have stats lower than 2 and you have to use all 5 stat points." << std::endl;
         std::cin >> ccInput;
         if (ccInput == "S+" && statAllocation > 0) {
             player.setPlayerStrength(player.getPlayerStrength() + 1);
