@@ -4,6 +4,10 @@
 class consumable :
     public item {
 
+private:
+    int effectvalue;
+    int effecttype;
+
 public:
     consumable(std::string potionname, int potionprice, int potionAP, int potioneffectvalue, int potioneffecttype);
     int getpotType();

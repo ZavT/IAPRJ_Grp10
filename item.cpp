@@ -6,17 +6,14 @@ item::item(std::string itemname, int itemprice, int itemAP){
 	apcost = itemAP;
 }
 
-std::string item::getItemName()
-{
+std::string item::getItemName(){
 	return name;
 }
 
-int item::getItemPrice()
-{
+int item::getItemPrice(){
 	return price;
 }
 
-int item::getItemAPcost()
-{
+int item::getItemAPcost(){
 	return apcost;
 }
