@@ -1,8 +1,7 @@
 #pragma once
+#include <string>
 #include "inventory.h"
-class item :
-    public inventory
-{
-
+class item{
+    std::string itemname;
 };
 

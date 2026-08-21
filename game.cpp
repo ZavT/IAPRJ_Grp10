@@ -359,15 +359,8 @@ void game::checkMapChange() {
         }
     }
 
-        else if (currentMap == Location::Bunker) {
-            if (player.getPosX() == 8 && player.getPosY() == 4) {
-                currentMap = Location::MainWorld;
-                player.setPosition(1, 7);
-                std::cout << std::endl;
-                std::cout << "Entered: WORLD" << std::endl;
-            }
     else if (currentMap == Location::Bunker) {
-        if (player.getPosX() == 0 && player.getPosY() == 4) {
+        if (player.getPosX() == 8 && player.getPosY() == 4) {
             currentMap = Location::MainWorld;
             player.setPosition(1, 7);
             std::cout << std::endl;
@@ -375,22 +368,21 @@ void game::checkMapChange() {
         }
     }
 
-    else if (currentMap == Location::Town) {
-        if (player.getPosX() == 0 && player.getPosY() == 7) {
-            currentMap = Location::MainWorld;
-            player.setPosition(11, 8);
-            std::cout << std::endl;
-            std::cout << "Entered: WORLD" << std::endl;
+        else if (currentMap == Location::Town) {
+            if (player.getPosX() == 0 && player.getPosY() == 7) {
+                currentMap = Location::MainWorld;
+                player.setPosition(11, 8);
+                std::cout << std::endl;
+                std::cout << "Entered: WORLD" << std::endl;
+            }
+        }
+
+        else if (currentMap == Location::Lab) {
+            if (player.getPosX() == 0 && player.getPosY() == 4) {
+                currentMap = Location::MainWorld;
+                player.setPosition(18, 7);
+                std::cout << std::endl;
+                std::cout << "Entered: WORLD" << std::endl;
+            }
         }
     }
-
-    else if (currentMap == Location::Lab) {
-        if (player.getPosX() == 0 && player.getPosY() == 4) {
-            currentMap = Location::MainWorld;
-            player.setPosition(18, 7);
-            std::cout << std::endl;
-            std::cout << "Entered: WORLD" << std::endl;
-        }
-     }
-}
-
