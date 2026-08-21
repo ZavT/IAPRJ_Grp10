@@ -42,31 +42,30 @@ map& game::activeMap() {
 
 void game::discoverpoi() //when within one tile range of the POI, reveal on worldMap
 {
-    if (player.getPosX() == 3 && player.getPosY() == 5 ||
-        player.getPosX() == 2 && player.getPosY() == 5 ||
-        player.getPosX() == 4 && player.getPosY() == 5 ||
-        player.getPosX() == 3 && player.getPosY() == 4 ||
-        player.getPosX() == 3 && player.getPosY() == 6) {
-        worldMap.setpos(3, 5, 'S');//SEWER 1
-    }
-    if (player.getPosX() == 7 && player.getPosY() == 10 ||
-        player.getPosX() == 6 && player.getPosY() == 10 ||
-        player.getPosX() == 8 && player.getPosY() == 10 ||
-        player.getPosX() == 7 && player.getPosY() == 9 ||
-        player.getPosX() == 7 && player.getPosY() == 11) {
-        worldMap.setpos(7, 10, 'S');//SEWER 2
-    }
-    if (player.getPosX() == 15 && player.getPosY() == 12 ||
-        player.getPosX() == 16 && player.getPosY() == 12 ||
-        player.getPosX() == 14 && player.getPosY() == 12 ||
-        player.getPosX() == 15 && player.getPosY() == 11 ||
-        player.getPosX() == 15 && player.getPosY() == 13) {
-        worldMap.setpos(15, 12, 'S');// SEWER 3
+    if (currentMap == Location::MainWorld) {
+        if (player.getPosX() == 3 && player.getPosY() == 5 ||
+            player.getPosX() == 2 && player.getPosY() == 5 ||
+            player.getPosX() == 4 && player.getPosY() == 5 ||
+            player.getPosX() == 3 && player.getPosY() == 4 ||
+            player.getPosX() == 3 && player.getPosY() == 6) {
+            worldMap.setpos(3, 5, 'S');//SEWER 1
+        }
+        if (player.getPosX() == 7 && player.getPosY() == 10 ||
+            player.getPosX() == 6 && player.getPosY() == 10 ||
+            player.getPosX() == 8 && player.getPosY() == 10 ||
+            player.getPosX() == 7 && player.getPosY() == 9 ||
+            player.getPosX() == 7 && player.getPosY() == 11) {
+            worldMap.setpos(7, 10, 'S');//SEWER 2
+        }
+        if (player.getPosX() == 15 && player.getPosY() == 12 ||
+            player.getPosX() == 16 && player.getPosY() == 12 ||
+            player.getPosX() == 14 && player.getPosY() == 12 ||
+            player.getPosX() == 15 && player.getPosY() == 11 ||
+            player.getPosX() == 15 && player.getPosY() == 13) {
+            worldMap.setpos(15, 12, 'S');// SEWER 3
+        }
     }
 }
-
-int enemyX[2];
-int enemyY[2];
 
 void game::createWorldMap() {
     //initiates every single map, fill with '?'
@@ -79,8 +78,6 @@ void game::createWorldMap() {
         worldMap.setpos(12, 8, 'T');//TOWN
     }
 }
-
-
 
 void game::Run()
 {
@@ -96,14 +93,53 @@ void game::Run()
 
         map& current = activeMap();
 
+        //define the number of enemies in total
+        int enemyX[6];
+        int enemyY[6];
+        char enemySymbol[6];
+        int enemyCount = 0;
+                
+        if (currentMap == Location::Sewer1) {
+            for (int e = 0; e < 2; e++) {
+                enemyX[e] = Sewer1.testEnemy[e]->getPosX();
+                enemyY[e] = Sewer1.testEnemy[e]->getPosY();
+                enemySymbol[e] = Sewer1.testEnemy[e]->getSymbol();
+
+                Sewer1.testEnemy[e]->enemyBehaviour(player);
+                Sewer1.testEnemy[e]->checkForPlayer(player);
+
+                enemyCount++;
+            }
+        } else if (currentMap == Location::Sewer2) {
+            for (int e = 0; e < 2; e++) {
+                enemyX[e] = Sewer2.testEnemy[e]->getPosX();
+                enemyY[e] = Sewer2.testEnemy[e]->getPosY();
+                enemySymbol[e] = Sewer2.testEnemy[e]->getSymbol();
+
+                Sewer2.testEnemy[e]->enemyBehaviour(player);
+                Sewer2.testEnemy[e]->checkForPlayer(player);
+
+                enemyCount++;
+            }
+        } else if (currentMap == Location::Sewer3) {
+            for (int e = 0; e < 2; e++) {
+                enemyX[e] = Sewer3.testEnemy[e]->getPosX();
+                enemyY[e] = Sewer3.testEnemy[e]->getPosY();
+                enemySymbol[e] = Sewer3.testEnemy[e]->getSymbol();
+
+                Sewer3.testEnemy[e]->enemyBehaviour(player);
+                Sewer3.testEnemy[e]->checkForPlayer(player);
+
+                enemyCount++;
+            }
+        }
+
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
 
         //print map when loop starts again
-        Sewer1.testEnemy[0].enemyBehaviour(player);
-        Sewer1.testEnemy[0].checkForPlayer(player);
-        current.printmap(player.getPosX(), player.getPosY(), Sewer1.testEnemy[0].getPosX(), Sewer1.testEnemy[0].getPosY());
-        
+
+        current.printmap(player.getPosX(), player.getPosY(), enemyX, enemyY, enemySymbol ,enemyCount);
         current.discovered(player.getPosX(), player.getPosY());
 
         int ch = _getch();
@@ -114,25 +150,21 @@ void game::Run()
             switch (ch) {
             case KEY_ARROW_UP:
                 system("CLS");
-                std::cout << "Up Arrow Pressed" << std::endl;
                 player.move(0, -1);
                 player.borderCol(0, -1, current.getDimensionCOL(), current.getDimensionROW());
                 break;
             case KEY_ARROW_DOWN:
                 system("CLS");
-                std::cout << "Down Arrow Pressed" << std::endl;
                 player.move(0, 1);
                 player.borderCol(0, 1, current.getDimensionCOL(), current.getDimensionROW());
                 break;
             case KEY_ARROW_LEFT:
                 system("CLS");
-                std::cout << "Left Arrow Pressed" << std::endl;
                 player.move(-1, 0);
                 player.borderCol(-1, 0, current.getDimensionCOL(), current.getDimensionROW());
                 break;
             case KEY_ARROW_RIGHT:
                 system("CLS");
-                std::cout << "Right Arrow Pressed" << std::endl;
                 player.move(1, 0);
                 player.borderCol(1, 0, current.getDimensionCOL(), current.getDimensionROW());
             }
@@ -184,7 +216,7 @@ void game::checkMapChange() {
             //when player enters sewer1 from the worldmap, make current active map Sewer1.
             currentMap = Location::Sewer1;
             Sewer1.printSewerMap(1);
-            //set entity positions
+            //set player position
             player.setPosition(1, 2);
             std::cout << std::endl;
             std::cout << "Entered: SEWER ONE" << std::endl;
@@ -194,7 +226,7 @@ void game::checkMapChange() {
             //when player enters sewer2 from the worldmap, make current active map Sewer2.
             currentMap = Location::Sewer2;
             Sewer2.printSewerMap(2);
-            //set entity positions
+            //set player position
             player.setPosition(1, 2);
             std::cout << std::endl;
             std::cout << "Entered: SEWER TWO" << std::endl;
@@ -204,7 +236,7 @@ void game::checkMapChange() {
             //when player enters sewer3 from the worldmap, make current active map Sewer3.
             currentMap = Location::Sewer3;
             Sewer3.printSewerMap(3);
-            //set entity positions
+            //set player position
             player.setPosition(1, 2);
             std::cout << std::endl;
             std::cout << "Entered: SEWER THREE" << std::endl;
@@ -251,7 +283,7 @@ void game::checkMapChange() {
         }
 
         else if (currentMap == Location::Bunker) {
-            if (player.getPosX() == 0 && player.getPosY() == 4) {
+            if (player.getPosX() == 8 && player.getPosY() == 4) {
                 currentMap = Location::MainWorld;
                 player.setPosition(1, 7);
                 std::cout << std::endl;

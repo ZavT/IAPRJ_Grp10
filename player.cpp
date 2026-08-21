@@ -87,7 +87,6 @@ void player::checkForEnemy(enemy& targetenemy)
 
 	if (hypoDist <= 1.5) {
 		std::cout << "triggered battle cutscene with enemy" << std::endl;
-
 	}
 }
 

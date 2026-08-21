@@ -16,5 +16,7 @@ public:
     void enemyBehaviour(player& player);
 
     void enemyMove(int moveX, int moveY);
+
+    virtual char getSymbol() { return 'E';}
 };
 

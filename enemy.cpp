@@ -24,10 +24,8 @@ void enemy::checkForPlayer(player& player) {
 }
 
 void enemy::enemyMove(int moveX, int moveY) {
-	if (getPosX() > 0 && getPosX() < 30 && getPosY() > 0 && getPosY() < 5) {
-		setPosX(getPosX() + moveX);
-		setPosY(getPosY() + moveY);
-	}
+	setPosX(getPosX() + moveX);
+	setPosY(getPosY() + moveY);
 }
 
 void enemy::enemyBehaviour(player& player) {
@@ -38,7 +36,7 @@ void enemy::enemyBehaviour(player& player) {
 		enemyMove(randX, 0);
 	}
 
-	else {
+	/*else {
 		int playerX = player.getPosX();
 		int playerY = player.getPosY();
 
@@ -46,5 +44,5 @@ void enemy::enemyBehaviour(player& player) {
 		int dirEPY = getPosY() - playerY;
 
 		enemyMove(7, 0);
-	}
+	}*/
 }

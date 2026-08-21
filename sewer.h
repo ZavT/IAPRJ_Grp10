@@ -8,12 +8,18 @@ class sewer :
     public map
 {
 private:
-    //bool sewerActive[3];
+
 public:
     sewer();
+    ~sewer();
+    sewer(const sewer&) = delete;
+    sewer& operator=(const sewer&) = delete;
+
     void printSewerMap(int sewernum);
     void testActiveEnemy(int sewernum);
+
     map sewerMap;
-    enemy testEnemy[2];
+    enemy** testEnemy;
+    int enemyCount;
 };
 

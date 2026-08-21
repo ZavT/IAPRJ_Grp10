@@ -3,5 +3,7 @@
 class mutRat :
     public enemy
 {
+public:
+    char getSymbol() override { return 'R'; }
 };
 

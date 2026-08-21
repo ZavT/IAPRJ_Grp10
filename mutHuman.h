@@ -3,5 +3,7 @@
 class mutHuman :
     public enemy
 {
+public:
+    char getSymbol() override { return 'H'; }
 };
 
