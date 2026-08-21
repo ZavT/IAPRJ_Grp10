@@ -241,35 +241,35 @@ void game::Run()
         int enemyCount = 0;
                 
         if (currentMap == Location::Sewer1) {
-            for (int e = 0; e < 2; e++) {
-                enemyX[e] = Sewer1.testEnemy[e]->getPosX();
-                enemyY[e] = Sewer1.testEnemy[e]->getPosY();
-                enemySymbol[e] = Sewer1.testEnemy[e]->getSymbol();
+            for (int e = 0; e < Sewer1.enemyCount; e++) {
+                enemyX[e] = Sewer1.sewerEnemy[e]->getPosX();
+                enemyY[e] = Sewer1.sewerEnemy[e]->getPosY();
+                enemySymbol[e] = Sewer1.sewerEnemy[e]->getSymbol();
 
-                Sewer1.testEnemy[e]->enemyBehaviour(player);
-                Sewer1.testEnemy[e]->checkForPlayer(player);
+                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap);
+                Sewer1.sewerEnemy[e]->checkForPlayer(player);
 
                 enemyCount++;
             }
         } else if (currentMap == Location::Sewer2) {
-            for (int e = 0; e < 2; e++) {
-                enemyX[e] = Sewer2.testEnemy[e]->getPosX();
-                enemyY[e] = Sewer2.testEnemy[e]->getPosY();
-                enemySymbol[e] = Sewer2.testEnemy[e]->getSymbol();
+            for (int e = 0; e < Sewer2.enemyCount; e++) {
+                enemyX[e] = Sewer2.sewerEnemy[e]->getPosX();
+                enemyY[e] = Sewer2.sewerEnemy[e]->getPosY();
+                enemySymbol[e] = Sewer2.sewerEnemy[e]->getSymbol();
 
-                Sewer2.testEnemy[e]->enemyBehaviour(player);
-                Sewer2.testEnemy[e]->checkForPlayer(player);
+                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap);
+                Sewer2.sewerEnemy[e]->checkForPlayer(player);
 
                 enemyCount++;
             }
         } else if (currentMap == Location::Sewer3) {
-            for (int e = 0; e < 2; e++) {
-                enemyX[e] = Sewer3.testEnemy[e]->getPosX();
-                enemyY[e] = Sewer3.testEnemy[e]->getPosY();
-                enemySymbol[e] = Sewer3.testEnemy[e]->getSymbol();
+            for (int e = 0; e < Sewer3.enemyCount; e++) {
+                enemyX[e] = Sewer3.sewerEnemy[e]->getPosX();
+                enemyY[e] = Sewer3.sewerEnemy[e]->getPosY();
+                enemySymbol[e] = Sewer3.sewerEnemy[e]->getSymbol();
 
-                Sewer3.testEnemy[e]->enemyBehaviour(player);
-                Sewer3.testEnemy[e]->checkForPlayer(player);
+                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap);
+                Sewer3.sewerEnemy[e]->checkForPlayer(player);
 
                 enemyCount++;
             }
@@ -308,6 +308,7 @@ void game::Run()
                 system("CLS");
                 player.move(1, 0);
                 player.borderCol(1, 0, current.getDimensionCOL(), current.getDimensionROW());
+                break;
             }
             //checks which POI player has entered/exited
             //check if player has discovered a poi after moving

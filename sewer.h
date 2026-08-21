@@ -19,7 +19,7 @@ public:
     void testActiveEnemy(int sewernum);
 
     map sewerMap;
-    enemy** testEnemy;
+    enemy** sewerEnemy;
     int enemyCount;
 };
 
