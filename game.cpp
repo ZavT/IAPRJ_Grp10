@@ -99,7 +99,9 @@ void game::Run()
 {
     bool gameRunning = true;
 
-    // Start of intro
+    // ----------------------------------------------------------------------------------------------------
+    // ----------------------------------------START OF INTRO----------------------------------------------
+    // ----------------------------------------------------------------------------------------------------
     {
         std::cout << "____________________________________________________________________" << std::endl;
         std::cout << " ___   @@@@@@@@                   @@" << std::endl;
@@ -135,7 +137,91 @@ void game::Run()
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         system("CLS");
     }
-    // End of intro
+
+    {
+        int statAllocation = 5;
+        bool characterCreation = true;
+        std::string ccInput;
+        while (characterCreation)
+        {
+            std::cout << "Name: " << player.getPlayerName() << std::endl;
+            std::cout << "Strength: " << player.getPlayerStrength() << std::endl;
+            std::cout << "Agility: " << player.getPlayerAgility() << std::endl;
+            std::cout << "Luck: " << player.getPlayerLuck() << std::endl;
+            std::cout << "Endurance: " << player.getPlayerEndurance() << std::endl;
+            std::cout << "Intelligence: " << player.getPlayerIntelligence() << std::endl;
+            std::cout << "Stat points to allocate: " << statAllocation << std::endl;
+            std::cout << "Inputs: S+ to add Strength, S- to remove Strength, etc. Enter 'Done' to finish." << std::endl;
+            std::cin >> ccInput;
+            if (ccInput == "S+" && statAllocation > 0) {
+                player.setPlayerStrength(player.getPlayerStrength() + 1);
+                statAllocation--;
+                system("CLS");
+            }
+            else if (ccInput == "S-" && player.getPlayerStrength() > 2) {
+                player.setPlayerStrength(player.getPlayerStrength() - 1);
+                statAllocation++;
+                system("CLS");
+            }
+            else if (ccInput == "A+" && statAllocation > 0) {
+                player.setPlayerAgility(player.getPlayerAgility() + 1);
+                statAllocation--;
+                system("CLS");
+            }
+            else if (ccInput == "A-" && player.getPlayerAgility() > 2) {
+                player.setPlayerAgility(player.getPlayerAgility() - 1);
+                statAllocation++;
+                system("CLS");
+            }
+            else if (ccInput == "L+" && statAllocation > 0) {
+                player.setPlayerLuck(player.getPlayerLuck() + 1);
+                statAllocation--;
+                system("CLS");
+            }
+            else if (ccInput == "L-" && player.getPlayerLuck() > 2) {
+                player.setPlayerLuck(player.getPlayerLuck() - 1);
+                statAllocation++;
+                system("CLS");
+            }
+            else if (ccInput == "E+" && statAllocation > 0) {
+                player.setPlayerEndurance(player.getPlayerEndurance() + 1);
+                statAllocation--;
+                system("CLS");
+            }
+            else if (ccInput == "E-" && player.getPlayerEndurance() > 2) {
+                player.setPlayerEndurance(player.getPlayerEndurance() - 1);
+                statAllocation++;
+                system("CLS");
+            }
+            else if (ccInput == "I+" && statAllocation > 0) {
+                player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
+                statAllocation--;
+                system("CLS");
+            }
+            else if (ccInput == "I-" && player.getPlayerIntelligence() > 2) {
+                player.setPlayerIntelligence(player.getPlayerIntelligence() - 1);
+                statAllocation++;
+                system("CLS");
+            }
+            else if (ccInput == "Done" && statAllocation != 0) {
+                system("CLS");
+                std::cout << "Use up remaining stat points" << std::endl;
+                std::cout << std::endl;
+            }
+            else if (ccInput == "Done" && statAllocation == 0) {
+                characterCreation = false;
+                system("CLS");
+            }
+            else {
+                system("CLS");
+                std::cout << "Invalid Input" << std::endl;
+                std::cout << std::endl;
+            }
+        }
+    }
+    // ----------------------------------------------------------------------------------------------------
+    // ----------------------------------------END OF INTRO------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------
     
     //createWorldMap();
     //player.setPosition(1, 7);
