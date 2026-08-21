@@ -2,6 +2,7 @@
 #include <iostream>
 #include <conio.h>
 #include "enemy.h"
+#include "sewer.h"
 
 #define KEY_ARROW_UP 72
 #define KEY_ARROW_DOWN 80
@@ -67,6 +68,9 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
     }
 }
 
+int enemyX[2];
+int enemyY[2];
+
 void game::createWorldMap() {
     //initiates every single map, fill with '?'
     worldMap.initmap();
@@ -76,7 +80,6 @@ void game::createWorldMap() {
     if (currentMap == Location::MainWorld) {
         worldMap.setpos(0, 7, 'B');//BUNKER
         worldMap.setpos(12, 8, 'T');//TOWN
-        
     }
 }
 
@@ -100,7 +103,10 @@ void game::Run()
         std::cout << "press arrow keys to move character" << std::endl;
 
         //print map when loop starts again
-        current.printmap(player.getPosX(), player.getPosY());
+        Sewer1.testEnemy[0].enemyBehaviour(player);
+        Sewer1.testEnemy[0].checkForPlayer(player);
+        current.printmap(player.getPosX(), player.getPosY(), Sewer1.testEnemy[0].getPosX(), Sewer1.testEnemy[0].getPosY());
+        
         current.discovered(player.getPosX(), player.getPosY());
 
         int ch = _getch();
@@ -139,11 +145,13 @@ void game::Run()
             checkMapChange();
         }
 
+        //check if quit game
         else if (ch == 'q' || ch == 'Q') {
             system("CLS");
             gameRunning = false;
             break;
         }
+
         switch (ch) {
         case KEY_I:
             system("CLS");

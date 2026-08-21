@@ -16,7 +16,12 @@ inventory::inventory()
 	bagOpen = false;
 }
 
-void inventory::inventoryMenu()
+//left with
+	//equip/unequip weapon 
+	//consumption of potions
+//show stats
+
+void inventory::inventoryMenu() 
 {
 	bagOpen = true;
 	tab = 0; //makes sure to open ALL tab
@@ -68,7 +73,7 @@ void inventory::inventoryMenu()
 			
 			std::cout << "\t1. Money x 1000\n";
 			std::cout << "\t2. Key fragments x1\n";
-			std::cout << "\t3. Map\n";
+			std::cout << "\t3. Stat points x1\n";
 		}
 
 		//instructions
