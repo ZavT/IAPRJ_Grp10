@@ -5,7 +5,7 @@ class itemDB {
 public: //static dont need to create a itemdb obj pls just use "itemDB::GetCombatKnife();" for eg.
 	//weapons
 	static weapon getCombatKnife();
-	static weapon getAssualtRifle();
+	static weapon getAssaultRifle();
 	static weapon getAxe();
 	static weapon getSniperRifle();
 	static weapon getSledgeHammer();
