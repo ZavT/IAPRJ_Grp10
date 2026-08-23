@@ -342,8 +342,8 @@ void game::Run()
             break;
         case KEY_B:
             system("CLS");       //hides the world map
-            bag.inventoryMenu(); //opens inventory until ESC is pressed.
-            system("CLS");       //clears inventory text, let map redraw
+            bag.inventoryMenu(player); //opens inventory until ESC is pressed.
+            system("CLS");       //clear text to see map again
             break;
         case KEY_M:
             system("CLS");       

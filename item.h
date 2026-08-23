@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "inventory.h"
+
 class item{
 
 private:
