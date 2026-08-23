@@ -18,6 +18,7 @@ inventory::inventory()
 	ownedWeapons.push_back(itemDB::getCombatKnife());
 	ownedPotions.push_back(itemDB::getHealthPotion());
 	others = 0;
+	statPoints = 5;
 	
 }
 
@@ -32,10 +33,8 @@ void inventory::addPotion(consumable newPotion)
 }
 
 //left with
-	//equip/unequip weapon 
-	//consumption of potions
-//show stats
-
+	//others items
+ 
 void inventory::inventoryMenu(player& p)
 {
 	bagOpen = true;
@@ -44,7 +43,7 @@ void inventory::inventoryMenu(player& p)
 	while (bagOpen) {
 		system("CLS");
 
-		std::cout << "\t====== INVENTORY ======\t\t====== PLAYER STATS ======\n\n";
+		std::cout << "\t====== INVENTORY ======\t\t====== CHARACTER ======\n\n";
 
 		// 1. Build the Left Column (Items)
 		std::vector<std::string> leftCol;
@@ -54,9 +53,9 @@ void inventory::inventoryMenu(player& p)
 			std::string(tab == 2 ? "[POTIONS]   " : " POTIONS    ") +
 			std::string(tab == 3 ? "[OTHERS]" : " OTHERS ");
 		leftCol.push_back(tabs);
-		leftCol.push_back(""); // Empty space 
+		leftCol.push_back(""); // Spacer
 
-		if (tab == 0) { // ALL TAB
+		if (tab == 0) { // ALL TAB 
 			int index = 1;
 			for (size_t i = 0; i < ownedWeapons.size(); i++) {
 				std::string equipTag = (i == equippedWeaponIndex) ? " [E]" : "";
@@ -65,6 +64,8 @@ void inventory::inventoryMenu(player& p)
 			for (size_t i = 0; i < ownedPotions.size(); i++) {
 				leftCol.push_back(std::to_string(index++) + ". " + ownedPotions[i].getItemName());
 			}
+			
+			leftCol.push_back(std::to_string(index++) + ". Stat points x " + std::to_string(statPoints));
 		}
 		else if (tab == 1) { // WEAPONS TAB
 			if (ownedWeapons.empty()) leftCol.push_back("Bag is empty.");
@@ -79,44 +80,53 @@ void inventory::inventoryMenu(player& p)
 				leftCol.push_back(std::to_string(i + 1) + ". " + ownedPotions[i].getItemName());
 			}
 		}
+		else if (tab == 3) { // OTHERS TAB
+			leftCol.push_back("3. Stat points x " + std::to_string(statPoints));
+		}
 
-		//take stats from player
+		// 2. Build the Right Column (Stats)
 		std::vector<std::string> rightCol;
-		rightCol.push_back("HP:  " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
-		rightCol.push_back("STR: " + std::to_string(p.getPlayerStrengthFinal()));
-		rightCol.push_back("AGI: " + std::to_string(p.getPlayerAgilityFinal()));
-		rightCol.push_back("LUC: " + std::to_string(p.getPlayerLuck()));
-		rightCol.push_back("END: " + std::to_string(p.getPlayerEnduranceFinal()));
-		rightCol.push_back("INT: " + std::to_string(p.getPlayerIntelligenceFinal()));
+		rightCol.push_back("Name: " + p.getPlayerName());
+		rightCol.push_back("");
+		rightCol.push_back("HP:   " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
+		rightCol.push_back("STR:  " + std::to_string(static_cast<int>(p.getPlayerStrengthFinal())));
+		rightCol.push_back("AGI:  " + std::to_string(static_cast<int>(p.getPlayerAgilityFinal())));
+		rightCol.push_back("LUC:  " + std::to_string(static_cast<int>(p.getPlayerLuck())));
+		rightCol.push_back("END:  " + std::to_string(static_cast<int>(p.getPlayerEnduranceFinal())));
+		rightCol.push_back("INT:  " + std::to_string(static_cast<int>(p.getPlayerIntelligenceFinal())));
 
-		//side by side
+		// 3. Print both columns side-by-side perfectly
 		size_t maxRows = std::max(leftCol.size(), rightCol.size());
 		for (size_t i = 0; i < maxRows; i++) {
 			std::string left = (i < leftCol.size()) ? leftCol[i] : "";
 			std::string right = (i < rightCol.size()) ? rightCol[i] : "";
-
-			// make left and right align
 			std::cout << "\t" << std::left << std::setw(45) << left << right << "\n";
 		}
 
 		// Instructions
-		std::cout << "\n\tLeft/Right Arrows: Switch Tabs | Numbers: Inspect Item | ESC: Close\n";
+		std::cout << "\n\t[Left/Right] Switch Tabs | [1-9] Inspect | [N] Edit Name | [ESC] Close\n";
 
 		// 4. Input & Sub-menus
 		int ch = _getch();
 
-		if (ch >= '1' && ch <= '9') {
+		if (ch == 'n' || ch == 'N') {
+			std::string newName;
+			std::cout << "\n\tEnter new name: ";
+			std::cin >> newName;
+			p.setPlayerName(newName);
+		}
+		else if (ch >= '1' && ch <= '9') {
 			int itemIndex = ch - '1';
 
 			bool inDetails = true;
-			while (inDetails) { // NESTED LOOP: Pauses the main inventory to show details
+			while (inDetails) { // NESTED LOOP: Pauses main menu to show details
 				system("CLS");
-				std::cout << "\t\t====== Item Details ======\n\n";
+				std::cout << "\t\t====== Details ======\n\n";
 
 				if (tab == 1 && static_cast<size_t>(itemIndex) < ownedWeapons.size()) {
 					std::cout << "\t" << ownedWeapons[itemIndex].getItemName() << "\n";
 					std::cout << "\tDamage:   " << ownedWeapons[itemIndex].getweapondmg() << "\n";
-					std::cout << "\tAccuracy: " << ownedWeapons[itemIndex].getweaponacc() << "\n\n";
+					std::cout << "\tAccuracy: " << ownedWeapons[itemIndex].getweaponacc() << "%\n\n";
 					std::cout << "\t[E] Equip  |  [U] Unequip  |  [ESC] Back\n";
 
 					int act = _getch();
@@ -131,18 +141,32 @@ void inventory::inventoryMenu(player& p)
 
 					int act = _getch();
 					if (act == 'c' || act == 'C') {
-						// Heal the player[cite: 33]
-						p.setPlayerHealthPoints(p.getPlayerHealthPoints() + 20); // Example flat heal
-
-						// Erase the potion from the vector
-						ownedPotions.erase(ownedPotions.begin() + itemIndex);
+						p.setPlayerHealthPoints(p.getPlayerHealthPoints() + 20); // Heal player
+						ownedPotions.erase(ownedPotions.begin() + itemIndex); // Delete potion
 						inDetails = false;
 					}
 					else if (act == 27) { inDetails = false; }
 				}
+				else if (tab == 3 && itemIndex == 2) { // Index 2 is the 3rd item (Stat Points)
+					if (statPoints <= 0) {
+						std::cout << "\tYou have no stat points left!\n\n\t[ESC] Back\n";
+						if (_getch() == 27) inDetails = false;
+					}
+					else {
+						std::cout << "\tUnspent Points: " << statPoints << "\n\n";
+						std::cout << "\t[1] +1 STR\n\t[2] +1 AGI\n\t[3] +1 LUC\n\t[4] +1 END\n\t[5] +1 INT\n\n\t[ESC] Back\n";
+
+						int act = _getch();
+						if (act == '1') { p.setPlayerStrength(p.getPlayerStrength() + 1); statPoints--; }
+						else if (act == '2') { p.setPlayerAgility(p.getPlayerAgility() + 1); statPoints--; }
+						else if (act == '3') { p.setPlayerLuck(p.getPlayerLuck() + 1); statPoints--; }
+						else if (act == '4') { p.setPlayerEndurance(p.getPlayerEndurance() + 1); statPoints--; }
+						else if (act == '5') { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); statPoints--; }
+						else if (act == 27) { inDetails = false; }
+					}
+				}
 				else {
-					// Invalid selection or wrong tab for now
-					inDetails = false;
+					inDetails = false; // Invalid selection
 				}
 			}
 		}

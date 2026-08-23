@@ -3,6 +3,7 @@
 #include "player.h"
 #include "weapon.h"
 #include "consumable.h"
+#include "player.h"
 
 class inventory 
 {
@@ -13,6 +14,7 @@ private:
 	std::vector<weapon> ownedWeapons;
 	std::vector<consumable> ownedPotions;
 	int others;
+	int statPoints;
 
 public:
 	inventory();
