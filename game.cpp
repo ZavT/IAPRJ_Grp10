@@ -114,7 +114,7 @@ void game::Intro()
     std::cout << "   |/  #| |#   /   O      O      O      O    / __ |   / __ |" << std::endl;
     std::cout << "___||___|_|____|___|______|______|______|____|_||_|___|_||_|________" << std::endl;
     std::cout << std::endl;
-    std::cout << "Apocalypse" << std::endl;
+    std::cout << "<APOCALYPSE>" << std::endl;
     std::cout << std::endl;
     std::cout << "Press Enter to continue...";
     std::cin.clear();
@@ -149,12 +149,12 @@ void game::Intro()
     system("CLS");
 
 
-
     while (characterCreation)
     {
         std::cout << "STAT POINTS: " << statAllocation << std::endl;
         std::cout << std::endl;
         std::cout << "Name: " << player.getPlayerName() << std::endl;
+        std::cout << std::endl;
         std::cout << "Strength: " << player.getPlayerStrength() << std::endl;
         std::cout << "Agility: " << player.getPlayerAgility() << std::endl;
         std::cout << "Luck: " << player.getPlayerLuck() << std::endl;
