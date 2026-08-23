@@ -50,35 +50,22 @@ map& game::activeMap() {
 void game::discoverpoi() //when within one tile range of the POI, reveal on worldMap
 {
     if (currentMap == Location::MainWorld) {
-        if (player.getPosX() == 3 && player.getPosY() == 5 ||
-            player.getPosX() == 2 && player.getPosY() == 5 ||
-            player.getPosX() == 4 && player.getPosY() == 5 ||
-            player.getPosX() == 3 && player.getPosY() == 4 ||
-            player.getPosX() == 3 && player.getPosY() == 6) {
+        if (player.getPosX() >= 2 && player.getPosX() <= 4 && //between x 2-4
+            player.getPosY() >= 4 && player.getPosY() <= 6) {//between y 4-6
             worldMap.setpos(3, 5, 'S');//SEWER 1
         }
-        if (player.getPosX() == 7 && player.getPosY() == 10 ||
-            player.getPosX() == 6 && player.getPosY() == 10 ||
-            player.getPosX() == 8 && player.getPosY() == 10 ||
-            player.getPosX() == 7 && player.getPosY() == 9 ||
-            player.getPosX() == 7 && player.getPosY() == 11) {
+        if (player.getPosX() >= 6 && player.getPosX() <= 8 && //between x 6-8
+            player.getPosY() >= 9 && player.getPosY() <= 11) {//between y 9-11
             worldMap.setpos(7, 10, 'S');//SEWER 2
         }
-        if (player.getPosX() == 15 && player.getPosY() == 12 ||
-            player.getPosX() == 16 && player.getPosY() == 12 ||
-            player.getPosX() == 14 && player.getPosY() == 12 ||
-            player.getPosX() == 15 && player.getPosY() == 11 ||
-            player.getPosX() == 15 && player.getPosY() == 13) {
+        if (player.getPosX() >= 14 && player.getPosX() <= 16 && //between x 14-16
+            player.getPosY() >= 11 && player.getPosY() <= 13) {//between y 11-13
             worldMap.setpos(15, 12, 'S');// SEWER 3
         }
-    }
-    if (player.getPosX() == 18 && player.getPosY() == 7 ||
-        player.getPosX() == 20 && player.getPosY() == 7 ||
-        player.getPosX() == 18 && player.getPosY() == 6 ||
-        player.getPosX() == 18 && player.getPosY() == 7 ||
-        player.getPosX() == 19 && player.getPosY() == 6 ||
-        player.getPosX() == 19 && player.getPosY() == 8) {
-        worldMap.setpos(19, 7, 'L');// LAB
+        if (player.getPosX() >= 18 && player.getPosX() <= 20 && //between x 18-20
+            player.getPosY() >= 6 && player.getPosY() <= 8) {//between y 6-8
+            worldMap.setpos(19, 7, 'L');// LAB
+        }
     }
 }
 
