@@ -18,6 +18,8 @@ player::player()
 
 	playerHealthPoints = getPlayerMaxHealthPoints();
 
+	statPoints = 0;
+
 	playerCombatMode = false;
 }
 
@@ -55,6 +57,9 @@ void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
 
 int player::checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount) {
 	for (int i = 0; i < enemyCount; i++) {
+		if (allEnemies[i] == nullptr) {
+			continue;
+		}
 		if (checkX == allEnemies[i]->getPosX() && checkY == allEnemies[i]->getPosY()) {
 			return i; // return whichever enemy it collided with
 		}
@@ -86,19 +91,19 @@ void player::testAttack(enemy& targetenemy) {
 	std::cout << "distance: " << hypoDist << ", accuracy: " << accuracy << std::endl;
 }
 
-void player::checkForEnemy(enemy& targetenemy)
-{
-	//dstx and disty between enemy and player
-	int distX = getPosX() - targetenemy.getPosX();
-	int distY = getPosY() - targetenemy.getPosY();
-
-	//for diagonals, find hypotenuse of triangles with sides distX distY
-	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
-
-	if (hypoDist <= 1.5) {
-		std::cout << "triggered battle cutscene with enemy" << std::endl;
-	}
-}
+//void player::checkForEnemy(enemy& targetenemy)
+//{
+//	//dstx and disty between enemy and player
+//	int distX = getPosX() - targetenemy.getPosX();
+//	int distY = getPosY() - targetenemy.getPosY();
+//
+//	//for diagonals, find hypotenuse of triangles with sides distX distY
+//	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
+//
+//	if (hypoDist <= 1.5) {
+//		std::cout << "triggered battle cutscene with enemy" << std::endl;
+//	}
+//}
 
 bool player::checkforbattle(enemy& targetenemy)
 {
@@ -109,7 +114,7 @@ bool player::checkforbattle(enemy& targetenemy)
 	//for diagonals, find hypotenuse of triangles with sides distX distY
 	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
 
-	if (hypoDist <= 1.5) {
+	if (hypoDist == 1) {
 		return true;
 	}
 	return false;
@@ -126,6 +131,14 @@ void player::setPlayerName(std::string name)
 	playerName = name;
 }
 //player stat functions
+int player::getStatPoints()
+{
+	return statPoints;
+}
+void player::setStatPoints(int sp)
+{
+	statPoints = sp;
+}
 int player::getPlayerHealthPoints()
 {
 	return playerHealthPoints;

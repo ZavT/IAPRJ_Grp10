@@ -4,7 +4,6 @@ class level
 private:
 	int Plevel;
 	int exp;
-	int statpoints;
 
 public: 
 	level();
@@ -12,6 +11,6 @@ public:
 	int getlevel();
 	int getexp();
 	int getstatpoints();
-	bool levelup();
+	bool checklevelup();
 };
 

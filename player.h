@@ -19,6 +19,8 @@ private:
 
 	int playerActionPoints;
 
+	int statPoints;
+
 	bool playerCombatMode;
 
 public:
@@ -51,6 +53,9 @@ public:
 	float getPlayerIntelligenceFinal();
 	void setPlayerIntelligence(int i);
 
+	int getStatPoints();
+	void setStatPoints(int sp);
+
 	int getPlayerActionPoints();
 	void setPlayerActionPoints(int ap);
 
@@ -60,7 +65,7 @@ public:
 	void move(int moveX, int moveY);
 	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
 	void testAttack(enemy& targetenemy);
-	void checkForEnemy(enemy& targetenemy);
+	//void checkForEnemy(enemy& targetenemy);
 	bool checkforbattle(enemy& targetenemy);
 
 	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);

@@ -16,7 +16,7 @@ inventory::inventory()
 	tab = 0;
 	equippedWeaponIndex = 0;
 	ownedWeapons.push_back(itemDB::getCombatKnife());
-	ownedPotions.push_back(itemDB::getHealthPotion());
+	ownedPotions.push_back(itemDB::getHealthPotion()); //change later
 	others = 0;
 	statPoints = 5;
 	
@@ -117,9 +117,7 @@ void inventory::inventoryMenu(player& p)
 			std::cout << "\t" << std::left << std::setw(30) << left << right << "\n";
 		}
 
-		// -------------------------------------------------------------
 		// INPUT LOGIC & NESTED MENUS
-		// -------------------------------------------------------------
 		int ch = _getch();
 
 		if (ch == 'n' || ch == 'N') {
@@ -132,7 +130,7 @@ void inventory::inventoryMenu(player& p)
 			int itemIndex = ch - '1';
 
 			bool inDetails = true;
-			while (inDetails) { // NESTED LOOP: Freezes main inventory to update the bottom left menu
+			while (inDetails) { // Freezes main inventory to update the bottom left menu
 				system("CLS");
 
 				std::cout << "\t====== INVENTORY ======\n\t(Inspecting Item...)\n\n";
@@ -142,8 +140,9 @@ void inventory::inventoryMenu(player& p)
 
 				if (tab == 1 && static_cast<size_t>(itemIndex) < ownedWeapons.size()) {
 					leftCol.push_back("Item: " + ownedWeapons[itemIndex].getItemName());
-					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p)));
+					leftCol.push_back("AP Cost: " + std::to_string(ownedWeapons[itemIndex].getItemAPcost()));
 					leftCol.push_back("Acc:  " + std::to_string(ownedWeapons[itemIndex].getweaponacc()) + "%");
+					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p)));
 					leftCol.push_back("");
 					leftCol.push_back("[E] Equip | [U] Unequip | [ESC] Back");
 				}
@@ -165,7 +164,7 @@ void inventory::inventoryMenu(player& p)
 					continue;
 				}
 
-				// Re-build right side stats so they update live if changed
+				// stat side
 				rightCol.clear();
 				rightCol.push_back("Name: " + p.getPlayerName());
 				rightCol.push_back("HP:   " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
