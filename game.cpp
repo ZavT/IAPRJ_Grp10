@@ -5,6 +5,7 @@
 #include "player.h"
 #include "inventory.h"
 #include "sewer.h"
+#include "inspect.h"
 
 #define KEY_ARROW_UP 72
 #define KEY_ARROW_DOWN 80

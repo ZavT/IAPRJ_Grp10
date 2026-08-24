@@ -1,4 +1,5 @@
 #include "inspect.h"
+#include "enemy.h"
 #include <iostream>
 #include <conio.h>
 
@@ -9,7 +10,7 @@ inspect::inspect()
     isOpen = false;
 }
 
-void inspect::inspectOpen()
+void inspect::inspectOpen(enemy** enemies, int enemyCount)
 {
     isOpen = true;
 
@@ -20,24 +21,19 @@ void inspect::inspectOpen()
         std::cout << "\t=============Inspect=============\n\n";
 
         std::cout << "Inspecting entities in current location\n" << std::endl;
-        std::cout << "Mutant rats. Giant, vicious creatures that can tear you apart.\n" << std::endl;
 
-        for (int i = 0; i < 3; ++i)
-        {
-            if (mutRats[i] != NULL) {
-                mutRats[i]->displayStats();
-                std::cout << " ";
+        if (enemies == nullptr || enemyCount == 0) {
+            std::cout << "There are no enemies here." << std::endl;
+        }
+        else {
+            for (int i = 0; i < enemyCount; ++i) {
+                if (enemies[i] != nullptr) {
+                    enemies[i]->displayStats();
+                    std::cout << std::endl;
+                }
             }
         }
-        std::cout << std::endl;
-        std::cout << "Mutant humans.\n" << std::endl;
-        for (int i = 0; i < 3; ++i)
-        {
-            if (mutHumans[i] != NULL) {
-                mutHumans[i]->displayStats();
-                std::cout << " ";
-            }
-        }
+
         if (ch == ESCAPE_KEY) {
             isOpen = false;
         }

@@ -1,5 +1,7 @@
 #pragma once
 
+class enemy;
+
 class inspect
 {
 private:
@@ -7,5 +9,5 @@ private:
 
 public:
     inspect();
-    void inspectOpen();
+    void inspectOpen(enemy** enemies, int enemyCount);
 };
