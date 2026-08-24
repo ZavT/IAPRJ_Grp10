@@ -4,6 +4,7 @@ weapon::weapon(std::string weaponname, int weaponprice, int weaponAP, int weapon
 	: item(weaponname, weaponprice,  weaponAP){
 	damage = weapondmg;
 	accuracy = weaponacc;
+	isMelee = false;
 }
 
 int weapon::getweapondmg(player& p){
