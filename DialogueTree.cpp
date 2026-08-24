@@ -19,7 +19,7 @@ DialogueTree::DialogueTree() {
 	DialogueNode* node4 = new DialogueNode("When I first escaped, I thought I could make one. I gathered whatever equipment I could scavenge and tried to synthesize a cure. But... something's missing. And I'd bet whatever I need is in that lab...");
 	DialogueNode* node5 = new DialogueNode("His eyes are on you, and there's a small glimmer of hope in them that wasn't there before.\n'My research is still over there on the workbench. If you can find the right materials, maybe you can finish the cure. Free everyone from this torture.'");
 	DialogueNode* node6 = new DialogueNode("'It's a tall order, I know. But really... what kind of life would we all be living otherwise? I know you're capable. You've come this far, haven't you?'");
-	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating; he's practically a god as long as they're alive.'");
+	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating.'");
 	DialogueNode* node8 = new DialogueNode("'If you want to end him, you need to hunt down every last mutant guarding that facility. Only when they're dead will he be vulnerable. Do that, and you might actually stand a chance.'");
 
 	node0->dialogueOptions.push_back(DialogueOption("<1: You lower your weapon.>", 0, node1));
