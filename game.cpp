@@ -246,7 +246,7 @@ void game::Run()
                 enemyY[e] = Sewer1.sewerEnemy[e]->getPosY();
                 enemySymbol[e] = Sewer1.sewerEnemy[e]->getSymbol();
 
-                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap);
+                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
                 Sewer1.sewerEnemy[e]->checkForPlayer(player);
 
                 enemyCount++;
@@ -257,7 +257,7 @@ void game::Run()
                 enemyY[e] = Sewer2.sewerEnemy[e]->getPosY();
                 enemySymbol[e] = Sewer2.sewerEnemy[e]->getSymbol();
 
-                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap);
+                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
                 Sewer2.sewerEnemy[e]->checkForPlayer(player);
 
                 enemyCount++;
@@ -268,7 +268,7 @@ void game::Run()
                 enemyY[e] = Sewer3.sewerEnemy[e]->getPosY();
                 enemySymbol[e] = Sewer3.sewerEnemy[e]->getSymbol();
 
-                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap);
+                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
                 Sewer3.sewerEnemy[e]->checkForPlayer(player);
 
                 enemyCount++;
@@ -291,23 +291,19 @@ void game::Run()
             switch (ch) {
             case KEY_ARROW_UP:
                 system("CLS");
-                player.move(0, -1);
-                player.borderCol(0, -1, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(0, -1);
                 break;
             case KEY_ARROW_DOWN:
                 system("CLS");
-                player.move(0, 1);
-                player.borderCol(0, 1, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(0, 1);
                 break;
             case KEY_ARROW_LEFT:
                 system("CLS");
-                player.move(-1, 0);
-                player.borderCol(-1, 0, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(-1, 0);
                 break;
             case KEY_ARROW_RIGHT:
                 system("CLS");
-                player.move(1, 0);
-                player.borderCol(1, 0, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(1, 0);
                 break;
             }
             //checks which POI player has entered/exited
@@ -471,5 +467,42 @@ void game::checkMapChange() {
             std::cout << "Entered: WORLD" << std::endl;
             std::cout << std::endl;
         }
+    }
+}
+
+enemy** game::activeEnemy(int& totalCount) {
+    if (currentMap == Location::Sewer1) {
+        totalCount = Sewer1.enemyCount;
+        return Sewer1.sewerEnemy;
+    }
+    if (currentMap == Location::Sewer2) {
+        totalCount = Sewer2.enemyCount;
+        return Sewer2.sewerEnemy;
+    }
+    if (currentMap == Location::Sewer3) {
+        totalCount = Sewer3.enemyCount;
+        return Sewer3.sewerEnemy;
+    }
+
+    totalCount = 0;
+    return nullptr;
+}
+
+void game::handleMovement(int dx, int dy) {
+    int enemyCount = 0;
+    enemy** enemies = activeEnemy(enemyCount);
+    map& current = activeMap();
+
+    int destX = player.getPosX() + dx;
+    int destY = player.getPosY() + dy;
+
+    int hitIndex = (enemies != nullptr) ? player.checkEnemyCol(destX, destY, enemies, enemyCount) : -1;
+
+    if (hitIndex != -1) {
+        std::cout << "start battle!" << std::endl;
+    }
+    else {
+        player.move(dx, dy);
+        player.borderCol(dx, dy, current.getDimensionCOL(), current.getDimensionROW());
     }
 }

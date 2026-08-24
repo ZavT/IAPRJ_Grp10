@@ -3,7 +3,6 @@
 #include "player.h"
 #include "weapon.h"
 #include "consumable.h"
-
 class inventory 
 {
 private:

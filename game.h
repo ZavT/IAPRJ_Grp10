@@ -40,6 +40,8 @@ private:
     Location currentMap = Location::MainWorld; //default is main world
 
     map& activeMap();
+    enemy** activeEnemy(int& totalCount);
+    void handleMovement(int dx, int dy);
 public:
     game();
 
