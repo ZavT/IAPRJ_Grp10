@@ -138,7 +138,7 @@ void inventory::inventoryMenu(player& p)
 
 				if (tab == 1 && static_cast<size_t>(itemIndex) < ownedWeapons.size()) {
 					leftCol.push_back("Item: " + ownedWeapons[itemIndex].getItemName());
-					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg()));
+					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p)));
 					leftCol.push_back("Acc:  " + std::to_string(ownedWeapons[itemIndex].getweaponacc()) + "%");
 					leftCol.push_back("");
 					leftCol.push_back("[E] Equip | [U] Unequip | [ESC] Back");
