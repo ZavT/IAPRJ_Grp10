@@ -63,4 +63,5 @@ public:
 	void checkForEnemy(enemy& targetenemy);
 
 	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);
+	void takeDamage(int dmg);
 };
