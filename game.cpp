@@ -1,7 +1,9 @@
-#include "game.h"
 #include <iostream>
 #include <conio.h>
+#include "game.h"
 #include "enemy.h"
+#include "player.h"
+#include "inventory.h"
 #include "sewer.h"
 
 #define KEY_ARROW_UP 72
@@ -82,6 +84,10 @@ void game::battlesequence(enemy*& currentEnemy)
         //player turn
         player.setPlayerActionPoints(player.getPlayerAgility());
         bool playerturn = true;
+
+        //active weapon
+        weapon activeWep = bag.getEquippedWeapon();
+        int requiredAP = activeWep.getItemAPcost();
         
         while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
@@ -89,23 +95,28 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << "\t=== BATTLE ===\n\n";
             std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints()
                 << "  |  AP: " << player.getPlayerActionPoints() << "\n";
+            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() <<"\n";
             std::cout << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << "\n\n";
 
-            std::cout << "\t[1] Attack (1 AP)\n";
+            std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
             std::cout << "\t[3] Skip Turn\n";
             std::cout << "\t[4] Run Away\n";
             int act = _getch(); //input
 
             if (act == '1') {
-                int dmg = player.getPlayerStrengthFinal();
-                currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
-                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); // - 1 ap
-                std::cout << "\n\tYou dealt " << dmg << " damage! Press any key...";
-                (void)_getch();
+                if (player.getPlayerActionPoints() >= requiredAP) {
+                    int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player); 
+                    currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
+                    player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP); 
+                    std::cout << "\n\tYou dealt " << dmg << " damage with your " 
+                        << activeWep.getItemName() << "! Press any key...";
+                    (void)_getch();
+                }
+
             }
             else if (act == '2') {
-                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); // - 1 ap
+                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); 
                 bag.inventoryMenu(player);
             }
             else if (act == '3') {
@@ -121,7 +132,8 @@ void game::battlesequence(enemy*& currentEnemy)
         }
 
         //if player ran away or enemy died during the ap loop exit battle
-        if (!inbattle || currentEnemy->getHealthPoints() <= 0) break;
+        if (!inbattle || currentEnemy->getHealthPoints() <= 0) 
+        break;
 
         // enemy turn
         system("CLS");
@@ -160,7 +172,7 @@ void game::createWorldMap() {
 
 void game::Intro()
 {
-    int statAllocation = 5;
+    player.setStatPoints(5);
     bool characterCreation = true;
     std::string ccInput;
     std::string tempName;
@@ -214,7 +226,7 @@ void game::Intro()
 
     while (characterCreation)
     {
-        std::cout << "STAT POINTS: " << statAllocation << std::endl;
+        std::cout << "STAT POINTS: " << player.getStatPoints() << std::endl;
         std::cout << std::endl;
         std::cout << "Name: " << player.getPlayerName() << std::endl;
         std::cout << std::endl;
@@ -226,65 +238,66 @@ void game::Intro()
         std::cout << "Inputs: S+, S-, A+, A-, L+, L-, E+, E-, I+, I-\nEnter 'Ready' when ready." << std::endl;
         std::cout << "Can't have stats lower than 2 and you have to use all 5 stat points." << std::endl;
         std::cin >> ccInput;
-        if (ccInput == "S+" && statAllocation > 0) {
+        if (ccInput == "S+" && player.getStatPoints() > 0) {
             player.setPlayerStrength(player.getPlayerStrength() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "S-" && player.getPlayerStrength() > 2) {
             player.setPlayerStrength(player.getPlayerStrength() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "A+" && statAllocation > 0) {
+        else if (ccInput == "A+" && player.getStatPoints() > 0) {
             player.setPlayerAgility(player.getPlayerAgility() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "A-" && player.getPlayerAgility() > 2) {
             player.setPlayerAgility(player.getPlayerAgility() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "L+" && statAllocation > 0) {
+        else if (ccInput == "L+" && player.getStatPoints() > 0) {
             player.setPlayerLuck(player.getPlayerLuck() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "L-" && player.getPlayerLuck() > 2) {
             player.setPlayerLuck(player.getPlayerLuck() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "E+" && statAllocation > 0) {
+        else if (ccInput == "E+" && player.getStatPoints() > 0) {
             player.setPlayerEndurance(player.getPlayerEndurance() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "E-" && player.getPlayerEndurance() > 2) {
             player.setPlayerEndurance(player.getPlayerEndurance() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "I+" && statAllocation > 0) {
+        else if (ccInput == "I+" && player.getStatPoints() > 0) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "I-" && player.getPlayerIntelligence() > 2) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "Ready" && statAllocation != 0) {
+        else if (ccInput == "Ready" && player.getStatPoints() != 0) {
             system("CLS");
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
         }
-        else if (ccInput == "Ready" || ccInput == "ready" && statAllocation == 0) {
+        else if (ccInput == "Ready" || ccInput == "ready" && player.getStatPoints() == 0) {
             characterCreation = false;
             system("CLS");
         }
+
         else {
             system("CLS");
             std::cout << "Invalid Input" << std::endl;
@@ -297,7 +310,7 @@ void game::Run()
 {
     bool gameRunning = true;
 
-    Intro();
+    //Intro(); //comment out to skip intro
     
     //createWorldMap();
     //player.setPosition(1, 7);
@@ -609,3 +622,4 @@ void game::handleMovement(int dx, int dy) {
         player.borderCol(dx, dy, current.getDimensionCOL(), current.getDimensionROW());
     }
 }
+
