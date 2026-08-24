@@ -39,7 +39,7 @@ void player::move(int moveX, int moveY) {
 
 void player::takeDamage(int dmg)
 {
-	playerHealthPoints - dmg;
+	playerHealthPoints = playerHealthPoints - dmg;
 }
 
 void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
