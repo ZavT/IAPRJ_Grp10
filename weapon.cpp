@@ -1,10 +1,9 @@
 #include "weapon.h"
 
-weapon::weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc, bool isM)
+weapon::weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc)
 	: item(weaponname, weaponprice,  weaponAP){
 	damage = weapondmg;
 	accuracy = weaponacc;
-	isMelee = isM;
 }
 
 int weapon::getweapondmg(player& p){
@@ -20,4 +19,9 @@ int weapon::getweapondmg(player& p){
 
 int weapon::getweaponacc(){
 	return accuracy;
+}
+
+void weapon::setMeleeWeapon(bool m)
+{
+	isMelee = m;
 }
