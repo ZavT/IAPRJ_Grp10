@@ -93,8 +93,6 @@ void game::battlesequence(enemy*& currentEnemy)
             system("CLS");
             std::cout << ratASCII << std::endl;
             std::cout << "\t=== BATTLE ===\n\n";
-            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints()
-                << "  |  AP: " << player.getPlayerActionPoints() << "\n";
             std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() <<"\n";
             std::cout << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << "\n\n";
 
