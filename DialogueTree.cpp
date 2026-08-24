@@ -103,50 +103,62 @@ DialogueTree::DialogueTree() {
 }
 
 DialogueTree::~DialogueTree() {
-	for (int i = 0; i < dialogueNodes.size(); i++) {
+	for (size_t i = 0; i < dialogueNodes.size(); i++) {
 		delete dialogueNodes[i];
 	}
 	dialogueNodes.clear();
 }
 
+
 int DialogueTree::performDialogue() {
-	if (dialogueNodes.empty()) {
+	return performDialogue(0);
+}
+
+int DialogueTree::performDialogue(int startIndex) {
+	if (startIndex < 0 || startIndex >= (int)dialogueNodes.size()) {
+		cerr << "Invalid start index for dialogue: " << startIndex << "\n";
 		return -1;
 	}
 
-	int startConvo = 1;
+	DialogueNode* current = dialogueNodes[startIndex];
 
-	DialogueNode* currentNode = dialogueNodes[0];
-	if (startConvo == 2 && fjakeStartIndex >= 0 && fjakeStartIndex < dialogueNodes.size()) {
-		currentNode = dialogueNodes[fjakeStartIndex];
-	}
-	else if (startConvo == 3 && ryanStartIndex >= 0 && ryanStartIndex < dialogueNodes.size()) {
-		currentNode = dialogueNodes[ryanStartIndex];
-	}
-	else if (startConvo == 4 && alcStartIndex >= 0 && alcStartIndex < dialogueNodes.size()) {
-		currentNode = dialogueNodes[alcStartIndex];
-	}
-	while (true) {
-		cout << currentNode->text << "\n\n";
+	while (current) {
+		cout << current->text << "\n\n";
 
-		for (int i = 0; i < currentNode->dialogueOptions.size(); i++) {
-			cout << currentNode->dialogueOptions[i].text << endl;
+		// If there are no options, ends conversation
+		if (current->dialogueOptions.empty()) {
+			return 0;
 		}
-		cout << endl;
-		int input;
-		cin >> input;
-		input--;
 
-		if (input < 0 || input > currentNode->dialogueOptions.size()) {
-			cout << "Invalid input!\n";
+		// Print the choices
+		for (size_t i = 0; i < current->dialogueOptions.size(); ++i) {
+			cout << i + 1 << ": " << current->dialogueOptions[i].text << "\n";
 		}
-		else {
-			if (currentNode->dialogueOptions[input].nextNode == nullptr) {
-				return currentNode->dialogueOptions[input].returnCode;
+
+		int choice = 0;
+		while (true) {
+			cout << "> ";
+			cin >> choice;
+
+			// prevents crash if presses letter instad of a num
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(10000, '\n');
 			}
-			currentNode = currentNode->dialogueOptions[input].nextNode;
+
+			// valid
+			if (choice >= 1 && choice <= (int)current->dialogueOptions.size()) {
+				break;
+			}
+			cout << "Invalid choice. Try again.\n";
 		}
-		cout << endl;
+
+		// Move to the next node based on the player's choice
+		DialogueOption& opt = current->dialogueOptions[choice - 1];
+		if (opt.nextNode == nullptr) {
+			return opt.returnCode;
+		}
+		current = opt.nextNode;
 	}
 
 	return 0;

@@ -105,3 +105,6 @@ void enemy::enemyBehaviour(player& player, map& currentMap, enemy** allEnemies, 
 		}
 	}
 }
+
+enemy::~enemy() {
+}
