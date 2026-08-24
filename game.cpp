@@ -1,7 +1,9 @@
-#include "game.h"
 #include <iostream>
 #include <conio.h>
+#include "game.h"
 #include "enemy.h"
+#include "player.h"
+#include "inventory.h"
 #include "sewer.h"
 
 #define KEY_ARROW_UP 72
@@ -82,30 +84,40 @@ void game::battlesequence(enemy& currentEnemy)
         //player turn
         player.setPlayerActionPoints(player.getPlayerAgility());
         bool playerturn = true;
+
+        //active weapon
+        weapon activeWep = bag.getEquippedWeapon();
+        int requiredAP = activeWep.getItemAPcost();
         
         while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy.getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
             std::cout << ratASCII << std::endl;
             std::cout << "\t=== BATTLE ===\n\n";
             std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints()
-                << "  |  AP: " << player.getPlayerActionPoints() << "\n";
+                << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() << "\n";
             std::cout << "\tEnemy HP:  " << currentEnemy.getHealthPoints() << "\n\n";
 
-            std::cout << "\t[1] Attack (1 AP)\n";
+            std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
             std::cout << "\t[3] Skip Turn\n";
             std::cout << "\t[4] Run Away\n";
             int act = _getch(); //input
 
+
             if (act == '1') {
-                int dmg = player.getPlayerStrengthFinal();
-                currentEnemy.setHealthPoints(currentEnemy.getHealthPoints() - dmg);
-                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); // - 1 ap
-                std::cout << "\n\tYou dealt " << dmg << " damage! Press any key...";
-                (void)_getch();
+
+                if (player.getPlayerActionPoints() >= requiredAP) {
+                    int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player); 
+                    currentEnemy.setHealthPoints(currentEnemy.getHealthPoints() - dmg);
+                    player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP); 
+                    std::cout << "\n\tYou dealt " << dmg << " damage with your " 
+                        << activeWep.getItemName() << "! Press any key...";
+                    (void)_getch();
+                }
+
             }
             else if (act == '2') {
-                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); // - 1 ap
+                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); 
                 bag.inventoryMenu(player);
             }
             else if (act == '3') {
@@ -119,7 +131,9 @@ void game::battlesequence(enemy& currentEnemy)
             }
         }
         //if player ran away or enemy died during the ap loop exit battle
-        if (!inbattle || currentEnemy.getHealthPoints() <= 0) break;
+        if (!inbattle || currentEnemy.getHealthPoints() <= 0) 
+        system("CLS");
+        break;
 
         // enemy turn
         system("CLS");
@@ -136,6 +150,7 @@ void game::battlesequence(enemy& currentEnemy)
     if (currentEnemy.getHealthPoints() <= 0) { // enemy dies
         std::cout << "\n\tEnemy defeated! Press any key...";
         (void)_getch();
+        system("CLS");
     }
 }
 
@@ -291,7 +306,7 @@ void game::Run()
 {
     bool gameRunning = true;
 
-    Intro();
+    //Intro(); //comment out to skip intro
     
     //createWorldMap();
     //player.setPosition(1, 7);
