@@ -8,11 +8,11 @@ sewer::sewer() : sewerMap(5, 30) {
 	sewerEnemy = new enemy * [enemyCount];
 
 	//sewer 1
-	sewerEnemy[0] = new mutRat();
-	sewerEnemy[1] = new mutRat();
-	sewerEnemy[2] = new mutRat();
-	sewerEnemy[3] = new mutHuman();
-	sewerEnemy[4] = new mutHuman();
+	sewerEnemy[0] = new mutRat(0, 0, 0);
+	sewerEnemy[1] = new mutRat(0, 0, 1);
+	sewerEnemy[2] = new mutRat(0, 0, 2);
+	sewerEnemy[3] = new mutHuman(0, 0, 3);
+	sewerEnemy[4] = new mutHuman(0, 0, 4);
 }
 
 sewer::~sewer() {
