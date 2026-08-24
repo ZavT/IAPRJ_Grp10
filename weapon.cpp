@@ -13,3 +13,4 @@ int weapon::getweapondmg(){
 int weapon::getweaponacc(){
 	return accuracy;
 }
+

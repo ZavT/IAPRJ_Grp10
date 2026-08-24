@@ -90,6 +90,21 @@ void player::checkForEnemy(enemy& targetenemy)
 	}
 }
 
+bool player::checkforbattle(enemy& targetenemy)
+{
+	//dstx and disty between enemy and player	
+	int distX = getPosX() - targetenemy.getPosX();
+	int distY = getPosY() - targetenemy.getPosY();
+
+	//for diagonals, find hypotenuse of triangles with sides distX distY
+	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
+
+	if (hypoDist <= 1.5) {
+		return true;
+	}
+	return false;
+}
+
 std::string player::getPlayerName()
 {
 	return playerName;

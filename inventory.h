@@ -20,5 +20,6 @@ public:
 	void inventoryMenu(player& p);
 	void addWeapon(weapon newWeapon);
 	void addPotion(consumable newPotion);
+	weapon getEquippedWeapon();
 };
 

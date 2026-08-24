@@ -6,6 +6,7 @@
 
 enemy::enemy() {
 	isTargeting = false;
+	setHealthPoints(20); // hp testing
 }
 
 void enemy::checkForPlayer(player& player) {
