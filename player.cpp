@@ -35,11 +35,12 @@ void player::move(int moveX, int moveY) {
 	{
 		playerActionPoints--;
 	}
+
 }
 
 void player::takeDamage(int dmg)
 {
-	playerHealthPoints - dmg;
+	playerHealthPoints = playerHealthPoints - dmg;
 }
 
 void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
@@ -50,6 +51,15 @@ void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
 	if (getPosY() < 0 || getPosY() > (maxBorderY - 1)) {
 		setPosY(getPosY() - moveY);
 	}
+}
+
+int player::checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount) {
+	for (int i = 0; i < enemyCount; i++) {
+		if (checkX == allEnemies[i]->getPosX() && checkY == allEnemies[i]->getPosY()) {
+			return i; // return whichever enemy it collided with
+		}
+	}
+	return -1; //not colliding w any enemy
 }
 
 //test functions
@@ -105,6 +115,8 @@ bool player::checkforbattle(enemy& targetenemy)
 	return false;
 }
 
+
+//player stat functions
 std::string player::getPlayerName()
 {
 	return playerName;

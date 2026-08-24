@@ -27,6 +27,7 @@ public:
 	std::string getPlayerName();
 	void setPlayerName(std::string name);
 
+	//player stat functions
 	int getPlayerHealthPoints();
 	void setPlayerHealthPoints(int hp);
 	int getPlayerMaxHealthPoints();
@@ -55,10 +56,13 @@ public:
 
 	float playerLuckBoost();
 
+	//player action functions
 	void move(int moveX, int moveY);
 	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
 	void testAttack(enemy& targetenemy);
 	void checkForEnemy(enemy& targetenemy);
 	bool checkforbattle(enemy& targetenemy);
+
+	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);
 	void takeDamage(int dmg);
 };
