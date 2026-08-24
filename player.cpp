@@ -18,6 +18,8 @@ player::player()
 
 	playerHealthPoints = getPlayerMaxHealthPoints();
 
+	statPoints = 0;
+
 	playerCombatMode = false;
 }
 
@@ -126,6 +128,14 @@ void player::setPlayerName(std::string name)
 	playerName = name;
 }
 //player stat functions
+int player::getStatPoints()
+{
+	return statPoints;
+}
+void player::setStatPoints(int sp)
+{
+	statPoints = sp;
+}
 int player::getPlayerHealthPoints()
 {
 	return playerHealthPoints;

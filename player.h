@@ -19,6 +19,8 @@ private:
 
 	int playerActionPoints;
 
+	int statPoints;
+
 	bool playerCombatMode;
 
 public:
@@ -50,6 +52,9 @@ public:
 	int getPlayerIntelligence();
 	float getPlayerIntelligenceFinal();
 	void setPlayerIntelligence(int i);
+
+	int getStatPoints();
+	void setStatPoints(int sp);
 
 	int getPlayerActionPoints();
 	void setPlayerActionPoints(int ap);

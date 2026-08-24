@@ -154,7 +154,7 @@ void game::createWorldMap() {
 
 void game::Intro()
 {
-    int statAllocation = 5;
+    player.setStatPoints(5);
     bool characterCreation = true;
     std::string ccInput;
     std::string tempName;
@@ -208,7 +208,7 @@ void game::Intro()
 
     while (characterCreation)
     {
-        std::cout << "STAT POINTS: " << statAllocation << std::endl;
+        std::cout << "STAT POINTS: " << player.getStatPoints() << std::endl;
         std::cout << std::endl;
         std::cout << "Name: " << player.getPlayerName() << std::endl;
         std::cout << std::endl;
@@ -220,62 +220,62 @@ void game::Intro()
         std::cout << "Inputs: S+, S-, A+, A-, L+, L-, E+, E-, I+, I-\nEnter 'Ready' when ready." << std::endl;
         std::cout << "Can't have stats lower than 2 and you have to use all 5 stat points." << std::endl;
         std::cin >> ccInput;
-        if (ccInput == "S+" && statAllocation > 0) {
+        if (ccInput == "S+" && player.getStatPoints() > 0) {
             player.setPlayerStrength(player.getPlayerStrength() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "S-" && player.getPlayerStrength() > 2) {
             player.setPlayerStrength(player.getPlayerStrength() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "A+" && statAllocation > 0) {
+        else if (ccInput == "A+" && player.getStatPoints() > 0) {
             player.setPlayerAgility(player.getPlayerAgility() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "A-" && player.getPlayerAgility() > 2) {
             player.setPlayerAgility(player.getPlayerAgility() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "L+" && statAllocation > 0) {
+        else if (ccInput == "L+" && player.getStatPoints() > 0) {
             player.setPlayerLuck(player.getPlayerLuck() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "L-" && player.getPlayerLuck() > 2) {
             player.setPlayerLuck(player.getPlayerLuck() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "E+" && statAllocation > 0) {
+        else if (ccInput == "E+" && player.getStatPoints() > 0) {
             player.setPlayerEndurance(player.getPlayerEndurance() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "E-" && player.getPlayerEndurance() > 2) {
             player.setPlayerEndurance(player.getPlayerEndurance() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "I+" && statAllocation > 0) {
+        else if (ccInput == "I+" && player.getStatPoints() > 0) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "I-" && player.getPlayerIntelligence() > 2) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "Ready" && statAllocation != 0) {
+        else if (ccInput == "Ready" && player.getStatPoints() != 0) {
             system("CLS");
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
         }
-        else if (ccInput == "Ready" && statAllocation == 0) {
+        else if (ccInput == "Ready" && player.getStatPoints() == 0) {
             characterCreation = false;
             system("CLS");
         }
