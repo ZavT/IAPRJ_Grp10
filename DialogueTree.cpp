@@ -109,10 +109,6 @@ DialogueTree::~DialogueTree() {
 	dialogueNodes.clear();
 }
 
-int DialogueTree::performDialogue() {
-	return performDialogue(0);
-}
-
 int DialogueTree::performDialogue(int startIndex) {
 	if (startIndex < 0 || startIndex >= (int)dialogueNodes.size()) {
 		cerr << "Invalid start index for dialogue: " << startIndex << "\n";
@@ -193,9 +189,4 @@ int DialogueTree::performDialogue() {
 		}
 		cout << endl;
 	}
-}
-
-DialogueNode::DialogueNode(string Text)
-{
-	this->text = Text;
 }
