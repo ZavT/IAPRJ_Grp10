@@ -54,6 +54,6 @@ public:
     void Run();
     void checkMapChange();
     void discoverpoi();
-    void battlesequence(enemy& currentEnemy);
+    void battlesequence(enemy*& currentEnemy);
 };
 

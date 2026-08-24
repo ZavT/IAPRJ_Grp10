@@ -44,6 +44,9 @@ bool enemy::enemyCheckCol(int checkX, int checkY, player& player, enemy** allEne
 	//check collision between other enemies
 	//if e is the current enemy, 
 	for (int i = 0; i < enemyCount; i++) {
+		if (allEnemies[i] == nullptr) {
+			continue;
+		}
 		if (i == currentIdx) {
 			continue;
 		}

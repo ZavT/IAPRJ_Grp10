@@ -65,7 +65,7 @@ public:
 	void move(int moveX, int moveY);
 	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
 	void testAttack(enemy& targetenemy);
-	void checkForEnemy(enemy& targetenemy);
+	//void checkForEnemy(enemy& targetenemy);
 	bool checkforbattle(enemy& targetenemy);
 
 	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);
