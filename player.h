@@ -8,6 +8,7 @@ class enemy;
 class player : public entity
 {
 private:
+	player(int playerGold, int playerKeyFragment);
 	std::string playerName;
 
 	int playerHealthPoints;
@@ -18,6 +19,8 @@ private:
 	int playerIntelligence;
 
 	int playerActionPoints;
+	int playerGold;
+	int playerKeyFragment;
 
 	bool playerCombatMode;
 
@@ -53,10 +56,19 @@ public:
 	int getPlayerActionPoints();
 	void setPlayerActionPoints(int ap);
 
+	int getPlayerGold();
+	void setPlayerGold(int value);
+
+	int getPlayerKeyFragment();
+	void setPlayerKeyFragment(int value);
+
 	float playerLuckBoost();
 
 	void move(int moveX, int moveY);
 	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
 	void testAttack(enemy& targetenemy);
 	void checkForEnemy(enemy& targetenemy);
+
+	void heal(int value);           // restores some health
+	void loot(int value1, int value2);           // give looted items to player
 };

@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-player::player()
+player::player(int playerGold, int playerKeyFragment)
 {
 	playerName = "Survivor";
 
@@ -178,4 +178,33 @@ int player::getPlayerActionPoints()
 void player::setPlayerActionPoints(int ap)
 {
 	playerActionPoints = ap;
+}
+
+
+int player::getPlayerGold()
+{
+	return playerGold;
+}
+void player::setPlayerGold(int value)
+{
+	playerGold = value;
+}
+int player::getPlayerKeyFragment()
+{
+	return playerKeyFragment;
+}
+void player::setPlayerKeyFragment(int value)
+{
+	playerKeyFragment = value;
+}
+
+// heal player
+void player::heal(int value) {
+	setPlayerHealthPoints(getPlayerHealthPoints() + value);
+}
+
+// player gains looted items
+void player::loot(int value1, int value2) {
+	setPlayerGold(getPlayerGold() + value1);
+	setPlayerKeyFragment(getPlayerKeyFragment() + value2);
 }
