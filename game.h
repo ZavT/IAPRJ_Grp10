@@ -37,7 +37,8 @@ private:
     menu settings;
     //enemy enemy; // testing
 
-    player* playerPtr;   // pointer to player
+    
+    class player* playerPtr;   // pointer to player
     enemy* mutRats[3];  // pointer to mutant rats
     enemy* mutHumans[3];  // pointer to mutant humans
 

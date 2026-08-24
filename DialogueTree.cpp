@@ -103,51 +103,6 @@ DialogueTree::DialogueTree() {
 }
 
 DialogueTree::~DialogueTree() {
-	for (DialogueNode* n : dialogueNodes) {
-		delete n;
-	}
-	dialogueNodes.clear();
-}
-
-int DialogueTree::performDialogue() {
-	return performDialogue(0);
-}
-
-int DialogueTree::performDialogue(int startIndex) {
-	if (startIndex < 0 || startIndex >= (int)dialogueNodes.size()) {
-		cerr << "Invalid start index for dialogue: " << startIndex << "\n";
-		return -1;
-	}
-
-	DialogueNode* current = dialogueNodes[startIndex];
-	while (current) {
-		cout << current->text << "\n";
-
-		if (current->dialogueOptions.empty()) {
-			return 0;
-		}
-
-		for (size_t i = 0; i < current->dialogueOptions.size(); ++i) {
-			cout << i + 1 << ": " << current->dialogueOptions[i].text << "\n";
-		}
-
-		int choice = 0;
-		while (true) {
-			cout << "> ";
-			if (choice >= 1 && choice <= (int)current->dialogueOptions.size()) break;
-			cout << "Invalid choice. Try again.\n";
-		}
-
-		DialogueOption& opt = current->dialogueOptions[choice - 1];
-		if (opt.nextNode == nullptr) {
-			return opt.returnCode;
-		}
-		current = opt.nextNode;
-	}
-
-	return 0;
-}
-DialogueTree::~DialogueTree() {
 	for (int i = 0; i < dialogueNodes.size(); i++) {
 		delete dialogueNodes[i];
 	}
@@ -193,9 +148,8 @@ int DialogueTree::performDialogue() {
 		}
 		cout << endl;
 	}
+
+	return 0;
 }
 
-DialogueNode::DialogueNode(string Text)
-{
-	this->text = Text;
-}
+

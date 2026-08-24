@@ -3,7 +3,9 @@
 //WEAPONS
 weapon itemDB::getCombatKnife(){
 	//weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc);
-	return weapon("Combat Knife",0, 1, 5, 100 );
+	weapon w("Combat Knife", 0, 1, 5, 100);
+	w.setMeleeWeapon(true); //strength affects melee weapon
+	return w;
 }
 
 weapon itemDB::getAssaultRifle(){
@@ -11,7 +13,9 @@ weapon itemDB::getAssaultRifle(){
 }
 
 weapon itemDB::getAxe(){
-	return weapon("Axe", 10, 1, 10, 98);
+	weapon w("Axe", 10, 1, 10, 98);
+	w.setMeleeWeapon(true); //strength affects melee weapon
+	return w;
 }
 
 weapon itemDB::getSniperRifle(){
@@ -19,7 +23,9 @@ weapon itemDB::getSniperRifle(){
 }
 
 weapon itemDB::getSledgeHammer(){
-	return weapon("Sledge Hammer", 15, 2, 15, 98);
+	weapon w("Sledge Hammer", 15, 2, 15, 98);
+	w.setMeleeWeapon(true); //strength affects melee weapon
+	return w;
 }
 
 weapon itemDB::getPistol(){

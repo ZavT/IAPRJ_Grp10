@@ -1,11 +1,16 @@
 #include <iostream>
 #include <conio.h>
+#include <cstdlib>
+#include <limits> //dialogue
 #include "game.h"
 #include "enemy.h"
 #include "player.h"
 #include "inventory.h"
 #include "sewer.h"
 #include "inspect.h"
+#include "weaponsmith.h"
+#include "npc.h"
+#include "DialogueTree.h"
 
 #define KEY_ARROW_UP 72
 #define KEY_ARROW_DOWN 80
@@ -287,12 +292,12 @@ void game::Intro()
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "Ready" && player.getStatPoints() != 0) {
+        else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() != 0) { 
             system("CLS");
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
         }
-        else if (ccInput == "Ready" || ccInput == "ready" && player.getStatPoints() == 0) {
+        else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() == 0) {
             characterCreation = false;
             system("CLS");
         }
@@ -610,6 +615,25 @@ void game::handleMovement(int dx, int dy) {
 
     int destX = player.getPosX() + dx;
     int destY = player.getPosY() + dy;
+
+    if (currentMap == Location::Town) {
+
+        //Weaponsmith ('W')
+        if (destX == 7 && destY == 10) {
+            weaponsmith smith;
+            smith.weaponsmithOpen(player, bag);
+            return; // dont overlap
+        }
+
+        //Alchemist ('A')
+        if (destX == 7 && destY == 4) {
+            DialogueTree tree;
+            npc alchemist(npc::Type::Alchemist, &tree);
+            system("CLS"); // Clean the screen before talking
+            alchemist.onOverlap();
+            return; // dont overlap
+        }
+    }
 
     int hitIndex = (enemies != nullptr) ? player.checkEnemyCol(destX, destY, enemies, enemyCount) : -1;
 

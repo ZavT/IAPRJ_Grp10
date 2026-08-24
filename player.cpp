@@ -1,11 +1,12 @@
-#include "player.h"
 #include <cmath>
 #include <iostream>
+#include "player.h"
+#include "enemy.h"
 
 // default constructor delegates to parameterized ctor with default starting gold/fragments
 player::player() : player(0, 0) {}
 
-player::player(int playerGold, int playerKeyFragment)
+player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 {
 	playerName = "Survivor";
 

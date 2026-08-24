@@ -81,18 +81,3 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
         (void)_getch();
     }
 }
-
-weapon::weapon()
-    : item("Unknown Weapon", 0, 0) // adjust params to match item ctor signature
-    , damage(0)
-    , accuracy(0)
-    , isMelee(true)
-{}
-
-// existing ctor
-weapon::weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc)
-    : item(weaponname, weaponprice, weaponAP)
-    , damage(weapondmg)
-    , accuracy(weaponacc)
-    , isMelee(false)
-{}

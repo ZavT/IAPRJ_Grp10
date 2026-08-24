@@ -1,6 +1,5 @@
 #pragma once
 #include "entity.h"
-#include "player.h"
 
 class player;
 class map;

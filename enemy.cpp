@@ -1,6 +1,6 @@
 #include "enemy.h"
 #include "map.h"
-
+#include "player.h"
 #include <iostream>
 #include <cmath>
 

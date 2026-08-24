@@ -1,8 +1,10 @@
 #include "npc.h"
 #include <iostream>
+#include <conio.h>
 
 void npc::onOverlap()
 {
+
 	switch (type) {
 	case Type::Jake:
 		dialogue->performDialogue(dialogue->getJakeStartIndex());
@@ -40,4 +42,7 @@ void npc::onOverlap()
     if (rv == 7) {
         std::cout << "\n'Good luck...'\n";
     }
+
+    std::cout << "\nPress any key to continue..."; //to end dialogue
+    (void)_getch();
 }

@@ -1,10 +1,8 @@
 #pragma once
-#include "npc.h"
 #include "player.h"
 #include "inventory.h"
 
-class weaponsmith :
-    public npc
+class weaponsmith
 {
 private:
     bool isOpen;
