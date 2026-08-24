@@ -44,6 +44,8 @@ private:
     Location currentMap = Location::MainWorld; //default is main world
 
     map& activeMap();
+    enemy** activeEnemy(int& totalCount);
+    void handleMovement(int dx, int dy);
 public:
     game();
 
@@ -52,5 +54,6 @@ public:
     void Run();
     void checkMapChange();
     void discoverpoi();
+    void battlesequence(enemy& currentEnemy);
 };
 

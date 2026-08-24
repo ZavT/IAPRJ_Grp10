@@ -69,6 +69,76 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
     }
 }
 
+void game::battlesequence(enemy& currentEnemy)
+{
+    bool inbattle = true;
+    std::string ratASCII =
+        "\n       _..----.._    _"
+        "\n     .'  .--.    '-.(0)_"
+        "\n'-.__.-''''-:  ,  _  ' '-."
+        "\n             ''''' '''''''\n";
+
+    while (inbattle && player.getHealthPoints() > 0 && currentEnemy.getHealthPoints() > 0) { // while player and enemy is not dead
+        //player turn
+        player.setPlayerActionPoints(player.getPlayerAgility());
+        bool playerturn = true;
+        
+        while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy.getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
+            system("CLS");
+            std::cout << ratASCII << std::endl;
+            std::cout << "\t=== BATTLE ===\n\n";
+            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints()
+                << "  |  AP: " << player.getPlayerActionPoints() << "\n";
+            std::cout << "\tEnemy HP:  " << currentEnemy.getHealthPoints() << "\n\n";
+
+            std::cout << "\t[1] Attack (1 AP)\n";
+            std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
+            std::cout << "\t[3] Skip Turn\n";
+            std::cout << "\t[4] Run Away\n";
+            int act = _getch(); //input
+
+            if (act == '1') {
+                int dmg = player.getPlayerStrengthFinal();
+                currentEnemy.setHealthPoints(currentEnemy.getHealthPoints() - dmg);
+                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); // - 1 ap
+                std::cout << "\n\tYou dealt " << dmg << " damage! Press any key...";
+                (void)_getch();
+            }
+            else if (act == '2') {
+                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1); // - 1 ap
+                bag.inventoryMenu(player);
+            }
+            else if (act == '3') {
+                playerturn = false; // skip turn
+            }
+            else if (act == '4') {
+                std::cout << "\n\tGot away safely! Press any key...";
+                (void)_getch();
+                inbattle = false; // run
+                break;
+            }
+        }
+        //if player ran away or enemy died during the ap loop exit battle
+        if (!inbattle || currentEnemy.getHealthPoints() <= 0) break;
+
+        // enemy turn
+        system("CLS");
+        std::cout << ratASCII << "\n";
+        std::cout << "\t Enemy Turn!\n\n";
+
+        int enemyDmg = 5; 
+        player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+        std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
+        std::cout << "\tPress any key to start your next turn...";
+        (void)_getch();
+    }
+
+    if (currentEnemy.getHealthPoints() <= 0) { // enemy dies
+        std::cout << "\n\tEnemy defeated! Press any key...";
+        (void)_getch();
+    }
+}
+
 void game::createWorldMap() {
     //initiates every single map, fill with '?'
     worldMap.initmap();
@@ -84,7 +154,7 @@ void game::createWorldMap() {
 
 void game::Intro()
 {
-    int statAllocation = 5;
+    player.setStatPoints(5);
     bool characterCreation = true;
     std::string ccInput;
     std::string tempName;
@@ -138,7 +208,7 @@ void game::Intro()
 
     while (characterCreation)
     {
-        std::cout << "STAT POINTS: " << statAllocation << std::endl;
+        std::cout << "STAT POINTS: " << player.getStatPoints() << std::endl;
         std::cout << std::endl;
         std::cout << "Name: " << player.getPlayerName() << std::endl;
         std::cout << std::endl;
@@ -150,62 +220,62 @@ void game::Intro()
         std::cout << "Inputs: S+, S-, A+, A-, L+, L-, E+, E-, I+, I-\nEnter 'Ready' when ready." << std::endl;
         std::cout << "Can't have stats lower than 2 and you have to use all 5 stat points." << std::endl;
         std::cin >> ccInput;
-        if (ccInput == "S+" && statAllocation > 0) {
+        if (ccInput == "S+" && player.getStatPoints() > 0) {
             player.setPlayerStrength(player.getPlayerStrength() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "S-" && player.getPlayerStrength() > 2) {
             player.setPlayerStrength(player.getPlayerStrength() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "A+" && statAllocation > 0) {
+        else if (ccInput == "A+" && player.getStatPoints() > 0) {
             player.setPlayerAgility(player.getPlayerAgility() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "A-" && player.getPlayerAgility() > 2) {
             player.setPlayerAgility(player.getPlayerAgility() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "L+" && statAllocation > 0) {
+        else if (ccInput == "L+" && player.getStatPoints() > 0) {
             player.setPlayerLuck(player.getPlayerLuck() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "L-" && player.getPlayerLuck() > 2) {
             player.setPlayerLuck(player.getPlayerLuck() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "E+" && statAllocation > 0) {
+        else if (ccInput == "E+" && player.getStatPoints() > 0) {
             player.setPlayerEndurance(player.getPlayerEndurance() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "E-" && player.getPlayerEndurance() > 2) {
             player.setPlayerEndurance(player.getPlayerEndurance() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "I+" && statAllocation > 0) {
+        else if (ccInput == "I+" && player.getStatPoints() > 0) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
-            statAllocation--;
+            player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
         else if (ccInput == "I-" && player.getPlayerIntelligence() > 2) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() - 1);
-            statAllocation++;
+            player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "Ready" && statAllocation != 0) {
+        else if (ccInput == "Ready" && player.getStatPoints() != 0) {
             system("CLS");
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
         }
-        else if (ccInput == "Ready" && statAllocation == 0) {
+        else if (ccInput == "Ready" && player.getStatPoints() == 0) {
             characterCreation = false;
             system("CLS");
         }
@@ -246,9 +316,13 @@ void game::Run()
                 enemyY[e] = Sewer1.sewerEnemy[e]->getPosY();
                 enemySymbol[e] = Sewer1.sewerEnemy[e]->getSymbol();
 
-                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap);
+                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
                 Sewer1.sewerEnemy[e]->checkForPlayer(player);
-
+                if (Sewer1.sewerEnemy[e]->getHealthPoints() > 0) {
+                    if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        battlesequence(*Sewer1.sewerEnemy[e]);
+                    }
+                }
                 enemyCount++;
             }
         } else if (currentMap == Location::Sewer2) {
@@ -257,9 +331,13 @@ void game::Run()
                 enemyY[e] = Sewer2.sewerEnemy[e]->getPosY();
                 enemySymbol[e] = Sewer2.sewerEnemy[e]->getSymbol();
 
-                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap);
+                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
                 Sewer2.sewerEnemy[e]->checkForPlayer(player);
-
+                if (Sewer2.sewerEnemy[e]->getHealthPoints() > 0) {
+                    if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        battlesequence(*Sewer2.sewerEnemy[e]);
+                    }
+                }
                 enemyCount++;
             }
         } else if (currentMap == Location::Sewer3) {
@@ -268,8 +346,13 @@ void game::Run()
                 enemyY[e] = Sewer3.sewerEnemy[e]->getPosY();
                 enemySymbol[e] = Sewer3.sewerEnemy[e]->getSymbol();
 
-                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap);
+                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
                 Sewer3.sewerEnemy[e]->checkForPlayer(player);
+                if (Sewer3.sewerEnemy[e]->getHealthPoints() > 0) {
+                    if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        battlesequence(*Sewer3.sewerEnemy[e]);
+                    }
+                }
 
                 enemyCount++;
             }
@@ -291,23 +374,19 @@ void game::Run()
             switch (ch) {
             case KEY_ARROW_UP:
                 system("CLS");
-                player.move(0, -1);
-                player.borderCol(0, -1, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(0, -1);
                 break;
             case KEY_ARROW_DOWN:
                 system("CLS");
-                player.move(0, 1);
-                player.borderCol(0, 1, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(0, 1);
                 break;
             case KEY_ARROW_LEFT:
                 system("CLS");
-                player.move(-1, 0);
-                player.borderCol(-1, 0, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(-1, 0);
                 break;
             case KEY_ARROW_RIGHT:
                 system("CLS");
-                player.move(1, 0);
-                player.borderCol(1, 0, current.getDimensionCOL(), current.getDimensionROW());
+                handleMovement(1, 0);
                 break;
             }
             //checks which POI player has entered/exited
@@ -471,5 +550,42 @@ void game::checkMapChange() {
             std::cout << "Entered: WORLD" << std::endl;
             std::cout << std::endl;
         }
+    }
+}
+
+enemy** game::activeEnemy(int& totalCount) {
+    if (currentMap == Location::Sewer1) {
+        totalCount = Sewer1.enemyCount;
+        return Sewer1.sewerEnemy;
+    }
+    if (currentMap == Location::Sewer2) {
+        totalCount = Sewer2.enemyCount;
+        return Sewer2.sewerEnemy;
+    }
+    if (currentMap == Location::Sewer3) {
+        totalCount = Sewer3.enemyCount;
+        return Sewer3.sewerEnemy;
+    }
+
+    totalCount = 0;
+    return nullptr;
+}
+
+void game::handleMovement(int dx, int dy) {
+    int enemyCount = 0;
+    enemy** enemies = activeEnemy(enemyCount);
+    map& current = activeMap();
+
+    int destX = player.getPosX() + dx;
+    int destY = player.getPosY() + dy;
+
+    int hitIndex = (enemies != nullptr) ? player.checkEnemyCol(destX, destY, enemies, enemyCount) : -1;
+
+    if (hitIndex != -1) {
+        std::cout << "start battle!" << std::endl;
+    }
+    else {
+        player.move(dx, dy);
+        player.borderCol(dx, dy, current.getDimensionCOL(), current.getDimensionROW());
     }
 }

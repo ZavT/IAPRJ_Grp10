@@ -6,6 +6,7 @@
 
 enemy::enemy() {
 	isTargeting = false;
+	setHealthPoints(20); // hp testing
 }
 
 void enemy::checkForPlayer(player& player) {
@@ -33,18 +34,43 @@ void enemy::enemyBorderCol(int moveX, int moveY, int maxBorderX, int maxBorderY)
 	}
 }
 
+bool enemy::enemyCheckCol(int checkX, int checkY, player& player, enemy** allEnemies, int enemyCount, int currentIdx)
+{
+	//check for player collision first
+	if (checkX == player.getPosX() && checkY == player.getPosY()) {
+		return true;
+	}
+	//check collision between other enemies
+	//if e is the current enemy, 
+	for (int i = 0; i < enemyCount; i++) {
+		if (i == currentIdx) {
+			continue;
+		}
+		if (checkX == allEnemies[i]->getPosX() && checkY == allEnemies[i]->getPosY()) {
+			return true;
+		}
+		
+	}
+	return false;
+}
+
 void enemy::enemyMove(int moveX, int moveY) {
 	setPosX(getPosX() + moveX);
 	setPosY(getPosY() + moveY);
 }
 
-void enemy::enemyBehaviour(player& player, map& currentMap) {
+void enemy::enemyBehaviour(player& player, map& currentMap, enemy** allEnemies, int enemyCount, int currentIdx) {
 	if (!isTargeting) {
 		//idle behaviour
 		int randX = (rand() % 3) - 1;
 
-		enemyMove(randX, 0);
-		enemyBorderCol(randX, 0, currentMap.getDimensionCOL(), currentMap.getDimensionROW());
+		int destX = getPosX() + randX; //find tile destination on x axis
+		int destY = getPosY();
+
+		if (!enemyCheckCol(destX, destY, player, allEnemies, enemyCount, currentIdx)) {
+			enemyMove(randX, 0);
+			enemyBorderCol(randX, 0, currentMap.getDimensionCOL(), currentMap.getDimensionROW());
+		}
 	}
 
 	else {
@@ -55,12 +81,23 @@ void enemy::enemyBehaviour(player& player, map& currentMap) {
 		int directionY = (dirEPY > 0) - (dirEPY < 0);
 
 		if (std::abs(dirEPX) > std::abs(dirEPY)) {
-			enemyMove(directionX, 0);
-			enemyBorderCol(directionX, 0, currentMap.getDimensionCOL(), currentMap.getDimensionROW());
+			//move on x axis first if X direction vector is greater than y direction vector 
+			int destX = getPosX() + directionX; //find tile destination on x axis
+			int destY = getPosY();
+
+			if (!enemyCheckCol(destX, destY, player, allEnemies, enemyCount, currentIdx)) {
+				enemyMove(directionX, 0);
+				enemyBorderCol(directionX, 0, currentMap.getDimensionCOL(), currentMap.getDimensionROW());
+			}
 		}
 		else {
-			enemyMove(0, directionY);
-			enemyBorderCol(0, directionY, currentMap.getDimensionCOL(), currentMap.getDimensionROW());
+			int destX = getPosX(); 
+			int destY = getPosY() + directionY; //find tile destination on y axis
+
+			if (!enemyCheckCol(destX, destY, player, allEnemies, enemyCount, currentIdx)) {
+				enemyMove(0, directionY);
+				enemyBorderCol(0, directionY, currentMap.getDimensionCOL(), currentMap.getDimensionROW());
+			}
 		}
 	}
 }

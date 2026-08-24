@@ -3,7 +3,6 @@
 #include "player.h"
 #include "weapon.h"
 #include "consumable.h"
-
 class inventory 
 {
 private:
@@ -20,5 +19,6 @@ public:
 	void inventoryMenu(player& p);
 	void addWeapon(weapon newWeapon);
 	void addPotion(consumable newPotion);
+	weapon getEquippedWeapon();
 };
 

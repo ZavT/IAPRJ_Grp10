@@ -32,6 +32,10 @@ void inventory::addPotion(consumable newPotion)
 	ownedPotions.push_back(newPotion);
 }
 
+weapon inventory::getEquippedWeapon(){
+	return ownedWeapons[equippedWeaponIndex];
+}
+
 //left with
 	//others items
  

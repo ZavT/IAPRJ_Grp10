@@ -18,6 +18,8 @@ player::player(int playerGold, int playerKeyFragment)
 
 	playerHealthPoints = getPlayerMaxHealthPoints();
 
+	statPoints = 0;
+
 	playerCombatMode = false;
 }
 
@@ -35,11 +37,12 @@ void player::move(int moveX, int moveY) {
 	{
 		playerActionPoints--;
 	}
+
 }
 
 void player::takeDamage(int dmg)
 {
-	playerHealthPoints - dmg;
+	playerHealthPoints = playerHealthPoints - dmg;
 }
 
 void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
@@ -50,6 +53,15 @@ void player::borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY) {
 	if (getPosY() < 0 || getPosY() > (maxBorderY - 1)) {
 		setPosY(getPosY() - moveY);
 	}
+}
+
+int player::checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount) {
+	for (int i = 0; i < enemyCount; i++) {
+		if (checkX == allEnemies[i]->getPosX() && checkY == allEnemies[i]->getPosY()) {
+			return i; // return whichever enemy it collided with
+		}
+	}
+	return -1; //not colliding w any enemy
 }
 
 //test functions
@@ -90,6 +102,23 @@ void player::checkForEnemy(enemy& targetenemy)
 	}
 }
 
+bool player::checkforbattle(enemy& targetenemy)
+{
+	//dstx and disty between enemy and player	
+	int distX = getPosX() - targetenemy.getPosX();
+	int distY = getPosY() - targetenemy.getPosY();
+
+	//for diagonals, find hypotenuse of triangles with sides distX distY
+	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
+
+	if (hypoDist <= 1.5) {
+		return true;
+	}
+	return false;
+}
+
+
+//player stat functions
 std::string player::getPlayerName()
 {
 	return playerName;
@@ -99,6 +128,14 @@ void player::setPlayerName(std::string name)
 	playerName = name;
 }
 //player stat functions
+int player::getStatPoints()
+{
+	return statPoints;
+}
+void player::setStatPoints(int sp)
+{
+	statPoints = sp;
+}
 int player::getPlayerHealthPoints()
 {
 	return playerHealthPoints;
