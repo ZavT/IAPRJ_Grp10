@@ -59,4 +59,6 @@ public:
 	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
 	void testAttack(enemy& targetenemy);
 	void checkForEnemy(enemy& targetenemy);
+
+	void takeDamage(int dmg);
 };
