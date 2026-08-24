@@ -1,12 +1,11 @@
 #pragma once
+class player;
 class entity
 {
 private:
 	int posX, posY;
 	int healthPoints;
 	int attack;
-	int gold;
-	int keyFragment;
 	int weapon;
 public:
 	entity(int posX, int posY, int healthPoints, int attack);

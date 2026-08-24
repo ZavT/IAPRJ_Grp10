@@ -11,7 +11,7 @@ class enemy :
 private:
     bool isTargeting;
 public:
-    enemy(int posX, int posY, int id, int health, int attack, int weapon);
+    enemy(int posX, int posY, int id, int healthPoints);
     virtual ~enemy();
 
     void checkForPlayer(player& player);
