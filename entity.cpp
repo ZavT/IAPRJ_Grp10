@@ -16,6 +16,13 @@ void entity::setPosY(int setY) {
 }
 
 //getters
+entity::entity(int posX, int posY, int healthPoints, int attack)
+	: posX(posX), posY(posY), healthPoints(healthPoints), attack(attack) {
+}
+
+entity::~entity() {
+
+}
 int entity::getPosX() {
 	return posX;
 }
@@ -32,4 +39,8 @@ int entity::getHealthPoints()
 void entity::setHealthPoints(int hp)
 {
 	healthPoints = hp;
+}
+
+int entity::getAttack() const {
+	return attack;
 }

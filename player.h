@@ -70,4 +70,7 @@ public:
 
 	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);
 	void takeDamage(int dmg);
+
+	void heal(int value);           // restores some health
+	void loot(int value1, int value2);           // give looted items to player
 };
