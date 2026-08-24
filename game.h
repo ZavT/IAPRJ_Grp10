@@ -48,6 +48,7 @@ public:
     game();
 
     void createWorldMap();
+    void Intro();
     void Run();
     void checkMapChange();
     void discoverpoi();

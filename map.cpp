@@ -47,7 +47,7 @@ void map::setpos(int setX, int setY, char symbol){
 	maps[setY][setX] = symbol;
 }
 
-void map::printmap(int playerX, int playerY, int enemyX, int enemyY) {
+void map::printmap(int playerX, int playerY, int* enemyX, int* enemyY, char* enemySymbol, int enemyCount) {
 	std::cout << "           ";
 	for (int x = 0; x < cols; x++) {
 		std::cout << "+ ";
@@ -61,12 +61,17 @@ void map::printmap(int playerX, int playerY, int enemyX, int enemyY) {
 				continue;
 			}
 
-
-				if (x == enemyX && i == enemyY) {
-					std::cout << BOLD << RED << 'E' << RESET << " ";
-					continue;
+			//enemy rendering
+			bool isEnemy = false;
+			for (int e = 0; e < enemyCount; e++) {
+				if (x == enemyX[e] && i == enemyY[e]) {
+					std::cout << BOLD << RED << enemySymbol[e] << RESET << " ";
+					isEnemy = true;
+					break;
 				}
-			
+			}
+			if (isEnemy) continue;
+
 			//give color to given symbols
 			if (maps[i][x] == 'B') {
 				std::cout << BOLD << CYAN << maps[i][x] << RESET << " ";
@@ -108,9 +113,17 @@ void map::printmap(int playerX, int playerY, int enemyX, int enemyY) {
 
 //note: this is supposed to turn '?' grid spaces into ' ' after the player has been on the tile before.
 //needs some kinda fixing because using ts function will leave a trail of the player behind which is not good
-void map::discovered(int discX, int discY) {
-	if (maps[discY][discX] == '?') {
-		maps[discY][discX] = ' ';
+void map::discovered(int discX, int discY)
+{
+	for (int y = discY - 1; y <= discY + 1; y++)
+	{
+		for (int x = discX - 1; x <= discX + 1; x++)
+		{
+			if (maps[y][x] == '?')
+			{
+				maps[y][x] = ' ';
+			}
+		}
 	}
 }
 	

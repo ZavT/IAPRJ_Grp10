@@ -1,4 +1,6 @@
 #include "lab.h"
+#include "mutRat.h"
+#include "mutHuman.h"
 
 lab::lab() : labMap (9,20){
 }

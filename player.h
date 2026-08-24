@@ -11,21 +11,11 @@ private:
 	std::string playerName;
 
 	int playerHealthPoints;
-
 	int playerStrength;
-	float playerStrengthFinal;
-
 	int playerAgility;
-	float playerAgilityFinal;
-
 	int playerLuck;
-	float playerLuckFinal;
-
 	int playerEndurance;
-	float playerEnduranceFinal;
-
 	int playerIntelligence;
-	float playerIntelligenceFinal;
 
 	int playerActionPoints;
 
@@ -39,6 +29,7 @@ public:
 
 	int getPlayerHealthPoints();
 	void setPlayerHealthPoints(int hp);
+	int getPlayerMaxHealthPoints();
 
 	int getPlayerStrength();
 	float getPlayerStrengthFinal();
@@ -49,7 +40,6 @@ public:
 	void setPlayerAgility(int a);
 
 	int getPlayerLuck();
-	float getPlayerLuckFinal();
 	void setPlayerLuck(int l);
 
 	int getPlayerEndurance();
