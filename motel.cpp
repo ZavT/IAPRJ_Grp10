@@ -1,11 +1,11 @@
 #include "motel.h"
 #include "player.h"
 motel::motel(int posX, int posY, int healPoints)
-	: entity(posX, posY, healPoints) {
+	: entity(posX, posY, healPoints, 0) {
 }
 
 int motel::getHealPoints() const {
-	return getHealth();
+	return getHealthPoints();
 }
 
 // heal player
