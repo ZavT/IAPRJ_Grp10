@@ -71,7 +71,7 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
     }
 }
 
-void game::battlesequence(enemy& currentEnemy)
+void game::battlesequence(enemy*& currentEnemy)
 {
     bool inbattle = true;
     std::string ratASCII =
@@ -80,7 +80,7 @@ void game::battlesequence(enemy& currentEnemy)
         "\n'-.__.-''''-:  ,  _  ' '-."
         "\n             ''''' '''''''\n";
 
-    while (inbattle && player.getHealthPoints() > 0 && currentEnemy.getHealthPoints() > 0) { // while player and enemy is not dead
+    while (inbattle && player.getHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
         //player turn
         player.setPlayerActionPoints(player.getPlayerAgility());
         bool playerturn = true;
@@ -89,13 +89,12 @@ void game::battlesequence(enemy& currentEnemy)
         weapon activeWep = bag.getEquippedWeapon();
         int requiredAP = activeWep.getItemAPcost();
         
-        while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy.getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
+        while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
             std::cout << ratASCII << std::endl;
             std::cout << "\t=== BATTLE ===\n\n";
-            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints()
-                << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() << "\n";
-            std::cout << "\tEnemy HP:  " << currentEnemy.getHealthPoints() << "\n\n";
+            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() <<"\n";
+            std::cout << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << "\n\n";
 
             std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
@@ -103,12 +102,10 @@ void game::battlesequence(enemy& currentEnemy)
             std::cout << "\t[4] Run Away\n";
             int act = _getch(); //input
 
-
             if (act == '1') {
-
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player); 
-                    currentEnemy.setHealthPoints(currentEnemy.getHealthPoints() - dmg);
+                    currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
                     player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP); 
                     std::cout << "\n\tYou dealt " << dmg << " damage with your " 
                         << activeWep.getItemName() << "! Press any key...";
@@ -127,12 +124,13 @@ void game::battlesequence(enemy& currentEnemy)
                 std::cout << "\n\tGot away safely! Press any key...";
                 (void)_getch();
                 inbattle = false; // run
+                system("CLS");
                 break;
             }
         }
+
         //if player ran away or enemy died during the ap loop exit battle
-        if (!inbattle || currentEnemy.getHealthPoints() <= 0) 
-        system("CLS");
+        if (!inbattle || currentEnemy->getHealthPoints() <= 0) 
         break;
 
         // enemy turn
@@ -147,9 +145,12 @@ void game::battlesequence(enemy& currentEnemy)
         (void)_getch();
     }
 
-    if (currentEnemy.getHealthPoints() <= 0) { // enemy dies
+    if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
         std::cout << "\n\tEnemy defeated! Press any key...";
+        delete currentEnemy;
+        currentEnemy = nullptr;
         (void)_getch();
+        inbattle = false;
         system("CLS");
     }
 }
@@ -290,10 +291,11 @@ void game::Intro()
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
         }
-        else if (ccInput == "Ready" && player.getStatPoints() == 0) {
+        else if (ccInput == "Ready" || ccInput == "ready" && player.getStatPoints() == 0) {
             characterCreation = false;
             system("CLS");
         }
+
         else {
             system("CLS");
             std::cout << "Invalid Input" << std::endl;
@@ -327,48 +329,62 @@ void game::Run()
                 
         if (currentMap == Location::Sewer1) {
             for (int e = 0; e < Sewer1.enemyCount; e++) {
-                enemyX[e] = Sewer1.sewerEnemy[e]->getPosX();
-                enemyY[e] = Sewer1.sewerEnemy[e]->getPosY();
-                enemySymbol[e] = Sewer1.sewerEnemy[e]->getSymbol();
+
+                if (Sewer1.sewerEnemy[e] == nullptr) {
+                    continue;
+                }
+    
+                enemyX[enemyCount] = Sewer1.sewerEnemy[e]->getPosX();
+                enemyY[enemyCount] = Sewer1.sewerEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
 
                 Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
                 Sewer1.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer1.sewerEnemy[e]->getHealthPoints() > 0) {
                     if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
-                        battlesequence(*Sewer1.sewerEnemy[e]);
+                        battlesequence(Sewer1.sewerEnemy[e]);
                     }
                 }
                 enemyCount++;
             }
         } else if (currentMap == Location::Sewer2) {
             for (int e = 0; e < Sewer2.enemyCount; e++) {
-                enemyX[e] = Sewer2.sewerEnemy[e]->getPosX();
-                enemyY[e] = Sewer2.sewerEnemy[e]->getPosY();
-                enemySymbol[e] = Sewer2.sewerEnemy[e]->getSymbol();
+
+                if (Sewer2.sewerEnemy[e] == nullptr) {
+                    continue;
+                }
+
+                enemyX[enemyCount] = Sewer2.sewerEnemy[e]->getPosX();
+                enemyY[enemyCount] = Sewer2.sewerEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Sewer2.sewerEnemy[e]->getSymbol();
 
                 Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
                 Sewer2.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer2.sewerEnemy[e]->getHealthPoints() > 0) {
                     if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
-                        battlesequence(*Sewer2.sewerEnemy[e]);
+                        battlesequence(Sewer2.sewerEnemy[e]);
                     }
                 }
                 enemyCount++;
             }
         } else if (currentMap == Location::Sewer3) {
             for (int e = 0; e < Sewer3.enemyCount; e++) {
-                enemyX[e] = Sewer3.sewerEnemy[e]->getPosX();
-                enemyY[e] = Sewer3.sewerEnemy[e]->getPosY();
-                enemySymbol[e] = Sewer3.sewerEnemy[e]->getSymbol();
+
+                if (Sewer3.sewerEnemy[e] == nullptr) {
+                    continue;   
+                }
+            
+                enemyX[enemyCount] = Sewer3.sewerEnemy[e]->getPosX();
+                enemyY[enemyCount] = Sewer3.sewerEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Sewer3.sewerEnemy[e]->getSymbol();
 
                 Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
                 Sewer3.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer3.sewerEnemy[e]->getHealthPoints() > 0) {
                     if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
-                        battlesequence(*Sewer3.sewerEnemy[e]);
+                        battlesequence(Sewer3.sewerEnemy[e]);
                     }
                 }
-
                 enemyCount++;
             }
         }
@@ -604,3 +620,4 @@ void game::handleMovement(int dx, int dy) {
         player.borderCol(dx, dy, current.getDimensionCOL(), current.getDimensionROW());
     }
 }
+
