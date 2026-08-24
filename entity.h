@@ -14,7 +14,7 @@ public:
 	int getPosX();
 	int getPosY();
 
-	int getHealthPoints();
+	int getHealthPoints() const;
 	void setHealthPoints(int hp);
 
 	int getGold() const;

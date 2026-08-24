@@ -31,7 +31,7 @@ int entity::getPosY() {
 	return posY;
 }
 
-int entity::getHealthPoints()
+int entity::getHealthPoints() const
 {
 	return healthPoints;
 }
