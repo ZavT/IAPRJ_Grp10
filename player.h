@@ -21,10 +21,14 @@ private:
 
 	int statPoints;
 
+	int playerGold;
+	int playerKeyFragment;
+
 	bool playerCombatMode;
 
 public:
 	player();
+	player(int playerGold, int playerKeyFragment);
 
 	std::string getPlayerName();
 	void setPlayerName(std::string name);
@@ -73,4 +77,12 @@ public:
 
 	void heal(int value);           // restores some health
 	void loot(int value1, int value2);           // give looted items to player
+
+	// currency / misc
+
+	int getPlayerGold();
+	void setPlayerGold(int value);
+
+	int getPlayerKeyFragment();
+	void setPlayerKeyFragment(int value);
 };

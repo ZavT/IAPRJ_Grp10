@@ -2,6 +2,9 @@
 #include <cmath>
 #include <iostream>
 
+// default constructor delegates to parameterized ctor with default starting gold/fragments
+player::player() : player(0, 0) {}
+
 player::player(int playerGold, int playerKeyFragment)
 {
 	playerName = "Survivor";
