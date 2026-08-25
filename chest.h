@@ -1,7 +1,6 @@
 #pragma once
 #include "entity.h"
-class chest :
-    public entity
+class chest : public entity
 {
 public:
     chest(int posX, int posY, int lootedKeyFragment, int lootedGold);

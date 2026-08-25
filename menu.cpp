@@ -12,8 +12,8 @@ menu::menu()
 {
     isOpen = false;
     selectedOption = 0; 
-    currentTime = " ";
-    playerName = " ";
+    currentTime = " "; //change to noah time
+    playerName = " "; //change to intro name
     currentObjective = 1;
 }
 
@@ -32,7 +32,7 @@ void menu::menuOpen()
         std::string opt3 = (selectedOption == 3) ? "< restart stage >" : "  restart stage  ";
         std::string opt4 = (selectedOption == 4) ? "< restart game >" : "  restart game  ";
 
-        // Print the left menu column, and align the objectives on the right
+        // change objectives
         std::cout << "\t" << std::left << std::setw(30) << opt0 << (currentObjective >= 1 ? "Find three map fragments" : "") << "\n";
         std::cout << "\t" << std::left << std::setw(30) << opt1 << (currentObjective >= 2 ? "Kill all rats" : "") << "\n";
         std::cout << "\t" << std::left << std::setw(30) << opt2 << (currentObjective >= 3 ? "Kill THE scientist" : "") << "\n";
@@ -74,11 +74,11 @@ void menu::menuOpen()
                 std::cin >> playerName;
             }
             else if (selectedOption == 3) {
-                std::cout << "\n\t Press ENTER...";
+                std::cout << "\n\t Press ENTER..."; //restart stage
                 (void)_getch();
             }
             else if (selectedOption == 4) {
-                std::cout << "\n\t Press ENTER...";
+                std::cout << "\n\t Press ENTER..."; //retart game
                 (void)_getch();
             }
         }

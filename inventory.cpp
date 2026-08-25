@@ -18,7 +18,6 @@ inventory::inventory()
 	ownedWeapons.push_back(itemDB::getCombatKnife());
 	ownedPotions.push_back(itemDB::getHealthPotion()); //change later
 	others = 0;
-	statPoints = 5;
 	
 }
 
@@ -47,9 +46,7 @@ void inventory::inventoryMenu(player& p)
 	while (bagOpen) {
 		system("CLS");
 
-		// -------------------------------------------------------------
-		// TOP SECTION: The Main Inventory List
-		// -------------------------------------------------------------
+		
 		std::cout << "\t====== INVENTORY ======\n\n";
 
 		std::cout << "\t" << (tab == 0 ? "[ALL]   " : " ALL    ")
@@ -67,7 +64,7 @@ void inventory::inventoryMenu(player& p)
 				std::cout << "\t" << index++ << ". " << ownedPotions[i].getItemName() << "\n";
 			}
 
-			std::cout << "\t" << index++ << ". Stat points x " << statPoints << "\n";
+			std::cout << "\t" << index++ << ". Stat points x " << statPoints << "\n"; //edit stat points
 		}
 		else if (tab == 1) { // WEAPONS TAB
 			if (ownedWeapons.empty()) std::cout << "\tBag is empty.\n";
@@ -84,18 +81,19 @@ void inventory::inventoryMenu(player& p)
 		}
 		else if (tab == 3) { // OTHERS TAB
 
-			std::cout << "\t3. Stat points x " << statPoints << "\n";
+			std::cout << "\t3. Stat points x " << statPoints << "\n"; //add stat points gained from level
 		}
 
 		std::cout << "\n\t----------------------------------------------------------\n\n";
 
-		// -------------------------------------------------------------
-		// BOTTOM SECTION: Details & Character Stats
-		// -------------------------------------------------------------
-		std::vector<std::string> leftCol; // This will hold either instructions or the inspection menu
+		//details & stat allcoation
+		std::vector<std::string> leftCol; // instructions or inspection menu
 
-		std::vector<std::string> rightCol; // Character stats
+		// Character stats
+		std::vector<std::string> rightCol;
 		rightCol.push_back("Name: " + p.getPlayerName());
+		//insert level
+		//insert current exp/exp to next level 
 		rightCol.push_back("HP:   " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
 		rightCol.push_back("STR:  " + std::to_string(static_cast<int>(p.getPlayerStrengthFinal())));
 		rightCol.push_back("AGI:  " + std::to_string(static_cast<int>(p.getPlayerAgilityFinal())));
@@ -103,13 +101,13 @@ void inventory::inventoryMenu(player& p)
 		rightCol.push_back("END:  " + std::to_string(static_cast<int>(p.getPlayerEnduranceFinal())));
 		rightCol.push_back("INT:  " + std::to_string(static_cast<int>(p.getPlayerIntelligenceFinal())));
 
-		// Initialize default left column (Instructions)
+		//left (Instructions)
 		leftCol.push_back("[Left/Right] Switch Tabs");
 		leftCol.push_back("[1-9] Inspect Item");
 		leftCol.push_back("[N] Edit Name");
 		leftCol.push_back("[ESC] Close Inventory");
 
-		// Print the bottom section side-by-side
+		// bottom side-by-side
 		size_t maxRows = std::max(leftCol.size(), rightCol.size());
 		for (size_t i = 0; i < maxRows; i++) {
 			std::string left = (i < leftCol.size()) ? leftCol[i] : "";
@@ -182,9 +180,7 @@ void inventory::inventoryMenu(player& p)
 					std::cout << "\t" << std::left << std::setw(40) << left << right << "\n";
 				}
 
-				// --- SPLIT INPUT LOGIC ---
-
-				// 1. If inspecting Stat Points, use std::cin for string inputs
+				// use std::cin for stats
 				if (tab == 3 && itemIndex == 2) {
 					std::string statInput;
 					std::cout << "\n\tEnter input: ";
@@ -207,7 +203,7 @@ void inventory::inventoryMenu(player& p)
 
 					else if (statInput == "Back" || statInput == "back") { inDetails = false; }
 				}
-				// 2. If inspecting anything else, use standard _getch()
+				// use standard _getch() for the rest
 				else {
 					int act = _getch();
 
