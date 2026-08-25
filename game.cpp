@@ -133,7 +133,7 @@ void game::battlesequence(enemy*& currentEnemy)
 
             if (act == '1') {
                 int chance = activeWep.getweaponacc();
-                int randchance = rand() % 100;
+                int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
                         int dmg = activeWep.getweapondmg(player);
@@ -178,7 +178,7 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << "\t Enemy Turn!\n\n";
 
             int dodge = player.getPlayerAgilityFinal();
-            int randhit = (rand() % 100) + 1;  
+            int randhit = (rand() % 100) + 1;
             int dodgebuff = dodge;
             if (activeWep.getweaponismelee() == false) {
                 dodgebuff += 30;
@@ -247,10 +247,10 @@ void game::battlesequence(enemy*& currentEnemy)
     if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
         int expgained;
         if (enemysymbol == 'R') {
-            expgained = 10;
+            expgained = 10 + player.getPlayerIntelligenceFinal();
         }
         else if (enemysymbol == 'H') {
-            expgained = 20;
+            expgained = 20 + player.getPlayerIntelligenceFinal();
         }
         player.gainExp(expgained);
         std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp. Press any key...";
