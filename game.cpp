@@ -310,6 +310,14 @@ void game::Intro()
     }
 }
 
+void game::randomEncounterChance(int chance) {
+    int randomNum = rand() % 101;
+
+    if (randomNum <= chance) {
+        // random encounter code
+    }
+}
+
 void game::Run()
 {
     bool gameRunning = true;

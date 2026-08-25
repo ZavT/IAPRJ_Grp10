@@ -56,5 +56,7 @@ public:
     void checkMapChange();
     void discoverpoi();
     void battlesequence(enemy*& currentEnemy);
+
+    void randomEncounterChance(int chance);
 };
 
