@@ -1,7 +1,7 @@
 #include "menu.h"
 #include <iostream>
 #include <conio.h>
-#include <iomanip>
+#include <string>
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -11,39 +11,51 @@
 menu::menu()
 {
     isOpen = false;
-    selectedOption = 0; 
-    currentTime = " "; //change to noah time
-    playerName = " "; //change to intro name
-    currentObjective = 1;
+    selectedOption = 0;
+    currentObjective = 1; // Default starting objective
 }
 
-void menu::menuOpen()
+void menu::setObjective(int obj) {
+    currentObjective = obj;
+}
+
+int menu::menuOpen(int day, int month, int year, int hour, int minute)
 {
     isOpen = true;
+    int minutesToSkip = 0; 
 
     while (isOpen) {
         system("CLS");
 
         std::cout << "\t===============Menu===============\n\n";
 
-        std::string opt0 = (selectedOption == 0) ? "< Time : " + currentTime + " >" : "  Time : " + currentTime + "  ";
-        std::string opt1 = (selectedOption == 1) ? "< Objective : >" : "  Objective :  ";
-        std::string opt2 = (selectedOption == 2) ? "< Edit name: " + playerName + " >" : "  Edit name: " + playerName + "  ";
-        std::string opt3 = (selectedOption == 3) ? "< restart stage >" : "  restart stage  ";
-        std::string opt4 = (selectedOption == 4) ? "< restart game >" : "  restart game  ";
+        std::string timeStr = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year) + " ";
+        timeStr += (hour < 10 ? "0" : "") + std::to_string(hour) + ":";
+        timeStr += (minute < 10 ? "0" : "") + std::to_string(minute);
 
-        // change objectives
-        std::cout << "\t" << std::left << std::setw(30) << opt0 << (currentObjective >= 1 ? "Find three map fragments" : "") << "\n";
-        std::cout << "\t" << std::left << std::setw(30) << opt1 << (currentObjective >= 2 ? "Kill all rats" : "") << "\n";
-        std::cout << "\t" << std::left << std::setw(30) << opt2 << (currentObjective >= 3 ? "Kill THE scientist" : "") << "\n";
-        std::cout << "\t" << std::left << std::setw(30) << opt3 << "\n";
-        std::cout << "\t" << std::left << std::setw(30) << opt4 << "\n\n";
+        //objectives //edit later
+        //settings.setObjective(1); //use this to change objectives
+        std::string objStr = "";
+        if (currentObjective == 1) objStr = "Find three map fragments";
+        else if (currentObjective == 2) objStr = "Kill all mutants";
+        else if (currentObjective == 3) objStr = "Kill THE scientist";
 
-       
-        //instructions
+        std::string opt0 = (selectedOption == 0) ? "< Time : " + timeStr + " >" : "  Time : " + timeStr + "  ";
+        std::string opt1 = (selectedOption == 1) ? "< Objective : " + objStr + " >" : "  Objective : " + objStr + "  ";
+        std::string opt2 = (selectedOption == 2) ? "< Skip 12 Hours >" : "  Skip 12 Hours  ";
+        std::string opt3 = (selectedOption == 3) ? "< Restart stage >" : "  Restart stage  ";
+        std::string opt4 = (selectedOption == 4) ? "< Restart game >" : "  Restart game  ";
+
+        //visual
+        std::cout << "\t" << opt0 << "\n";
+        std::cout << "\t" << opt1 << "\n";
+        std::cout << "\t" << opt2 << "\n";
+        std::cout << "\t" << opt3 << "\n";
+        std::cout << "\t" << opt4 << "\n\n";
+
         std::cout << "\n";
-        std::cout << "\tPress left or right arrow key to switch between tabs\n";
-        std::cout << "\tPress the number to see item in current tab\n";
+        std::cout << "\tPress UP/DOWN arrow key to switch between tabs\n";
+        std::cout << "\tPress ENTER to select\n";
         std::cout << "\tPress ESCAPE to return to map\n";
 
         int ch = _getch();
@@ -59,31 +71,26 @@ void menu::menuOpen()
                 if (selectedOption > 4) selectedOption = 0; // Wrap to top
             }
         }
-
-        else if (ch == ENTER_KEY) { 
-            if (selectedOption == 0) {
-                std::cout << "\n\tEnter new time: ";
-                std::cin >> currentTime;
-            }
-            else if (selectedOption == 1) {  //change to at differnet parts of the game have diff objective
-                currentObjective++;
-                if (currentObjective > 3) currentObjective = 1;
-            }
-            else if (selectedOption == 2) {
-                std::cout << "\n\tEnter new name: ";
-                std::cin >> playerName;
+        else if (ch == ENTER_KEY) {
+            if (selectedOption == 2) {
+                // Skip 12 hours (720 minutes)
+                minutesToSkip += 720;
+                isOpen = false; // Close menu to process time
             }
             else if (selectedOption == 3) {
                 std::cout << "\n\t Press ENTER..."; //restart stage
                 (void)_getch();
             }
             else if (selectedOption == 4) {
-                std::cout << "\n\t Press ENTER..."; //retart game
+                std::cout << "\n\t Press ENTER..."; //restart game
                 (void)_getch();
             }
         }
-        else if (ch == ESCAPE_KEY) { 
+        else if (ch == ESCAPE_KEY) {
             isOpen = false;
         }
     }
+
+    // Return the minutes we want to add back to game.cpp
+    return minutesToSkip;
 }
