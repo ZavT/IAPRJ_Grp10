@@ -1,5 +1,6 @@
 #pragma once
 #include "entity.h"
+#include "level.h"
 #include <string>
 
 class enemy;
@@ -8,7 +9,7 @@ class player : public entity
 {
 private:
 	std::string playerName;
-
+	level pLevel;
 	int playerHealthPoints;
 	int playerStrength;
 	int playerAgility;
