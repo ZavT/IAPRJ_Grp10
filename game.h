@@ -8,6 +8,8 @@
 #include "bunker.h"
 #include "town.h"
 #include "lab.h"
+#include "mutHuman.h"
+#include "mutRat.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -31,7 +33,6 @@ private:
     bunker Bunker;
     town Town;
     lab Lab;
-
     player player; // player object
     inventory bag; //inventory/bag object z
     menu settings;
@@ -56,5 +57,7 @@ public:
     void checkMapChange();
     void discoverpoi();
     void battlesequence(enemy*& currentEnemy);
+
+    void randomEncounterChance(int chance);
 };
 

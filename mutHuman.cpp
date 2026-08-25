@@ -3,7 +3,7 @@
 using namespace std;
 
 mutHuman::mutHuman(int posX, int posY, int id)
-	: enemy(posX, posY, id + '0', 20) {
+	: enemy(posX, posY, id + '0', 50) {
 }
 
 void mutHuman::displayStats() const
