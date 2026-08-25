@@ -104,7 +104,7 @@ void game::battlesequence(enemy*& currentEnemy)
   --------(_,-._)))-------------------------------
 )";
 
-    while (inbattle && player.getHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
+    while (inbattle && player.getPlayerHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
         //player turn
         player.setPlayerActionPoints(player.getPlayerAgility());
         bool playerturn = true;
@@ -653,6 +653,26 @@ void game::Run()
             }
         }
 
+        if (player.checkAlive() == false)
+        {
+            system("CLS");
+            std::cout << "   _-----------_   \n";
+            std::cout << "  |             |  \n";
+            std::cout << " |   R   I   P   | \n";
+            std::cout << " |               | \n";
+            std::cout << " |               | \n";
+            std::cout << " |               | \n";
+            std::cout << " |               | \n";
+            std::cout << " |               | \n";
+            std::cout << " |=&==&==&==&==&=| \n";
+
+            std::cout << "\tPress any key to end game...";
+            (void)_getch();
+
+            gameRunning = false;
+            continue; // Force the loop to restart and gracefully exit
+        }
+
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
         
@@ -708,6 +728,7 @@ void game::Run()
             settings.menuOpen(); 
             system("CLS");      
         }
+
     }
 }
 

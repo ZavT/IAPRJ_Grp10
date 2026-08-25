@@ -26,6 +26,7 @@ private:
 
 	bool playerCombatMode;
 	bool inBattle;
+	bool isAlive;
 
 public:
 	player();
@@ -93,4 +94,6 @@ public:
 	int getPlayerLevel();
 	int getPlayerExp();
 	void gainExp(int amt);
+
+	bool checkAlive();
 };
