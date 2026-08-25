@@ -178,7 +178,7 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << "\t Enemy Turn!\n\n";
 
             int dodge = player.getPlayerAgilityFinal();
-            int randhit = rand() % 100;
+            int randhit = (rand() % 100) + 1;  
             int dodgebuff = dodge;
             if (activeWep.getweaponismelee() == false) {
                 dodgebuff += 30;
