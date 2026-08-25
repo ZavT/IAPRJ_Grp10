@@ -218,3 +218,11 @@ void player::loot(int value1, int value2) {
 	setPlayerGold(getPlayerGold() + value1);
 	setPlayerKeyFragment(getPlayerKeyFragment() + value2);
 }
+
+void player::setBattleState(bool battlestate) {
+	inBattle = battlestate;
+}
+
+bool player::getBattleState() {
+	return inBattle;
+}

@@ -168,7 +168,7 @@ void game::battlesequence(enemy*& currentEnemy)
         }
 
         //if player ran away or enemy died during the ap loop exit battle
-        if (!inbattle || currentEnemy->getHealthPoints() <= 0) 
+        if (!inbattle || currentEnemy->getHealthPoints() <= 0)
         break;
 
         // enemy turn
@@ -255,6 +255,98 @@ void game::createWorldMap() {
         worldMap.setpos(0, 7, 'B');//BUNKER
         worldMap.setpos(12, 8, 'T');//TOWN
         //worldMap.setpos(19, 7, 'L'); // LAB
+    }
+}
+
+void game::timePassMinutes(int m) {
+    int janDays = 28;
+
+    if (minute < 10 && hour < 10)
+        std::cout << day << '/' << month << '/' << year << ' ' << '0' << hour << '0' << minute << std::endl;
+    else if (minute < 10)
+        std::cout << day << '/' << month << '/' << year << ' ' << hour << '0' << minute << std::endl;
+    else if (hour < 10)
+        std::cout << day << '/' << month << '/' << year << ' ' << '0' << hour << minute << std::endl;
+    else
+        std::cout << day << '/' << month << '/' << year << ' ' << hour << minute << std::endl;
+
+    minute = minute + m;
+
+    if (minute >= 60) {
+        while (minute >= 60) {
+            minute = minute - 60;
+            hour = hour + 1;
+        }
+
+        if (hour >= 24) {
+            while (hour >= 24) {
+                hour = hour - 24;
+                day = day + 1;
+            }
+
+            if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
+                janDays = 29;
+            }
+            else {
+                janDays = 28;
+            }
+
+            if ((month == 1 && day >= 32) || (month == 2 && day >= janDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+                (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
+                (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
+
+                while ((month == 1 && day >= 32) || (month == 2 && day >= janDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+                    (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
+                    (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
+
+                    switch (month) {
+                    case 1:
+                        day = day - 31;
+                        break;
+                    case 2:
+                        day = day - janDays;
+                        break;
+                    case 3:
+                        day = day - 31;
+                        break;
+                    case 4:
+                        day = day - 30;
+                        break;
+                    case 5:
+                        day = day - 31;
+                        break;
+                    case 6:
+                        day = day - 30;
+                        break;
+                    case 7:
+                        day = day - 31;
+                        break;
+                    case 8:
+                        day = day - 31;
+                        break;
+                    case 9:
+                        day = day - 30;
+                        break;
+                    case 10:
+                        day = day - 31;
+                        break;
+                    case 11:
+                        day = day - 30;
+                        break;
+                    case 12:
+                        day = day - 31;
+                        break;
+                    }
+                    month = month + 1;
+                    if (month >= 13) {
+                        while (month >= 13) {
+                            month = month - 12;
+                            year = year + 1;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -434,7 +526,7 @@ void game::Run()
                 enemyX[enemyCount] = Sewer1.sewerEnemy[e]->getPosX();
                 enemyY[enemyCount] = Sewer1.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
-
+                
                 if (!Sewer1.sewerEnemy[e]->getEscapeState()) {
                     Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
                 }
@@ -443,8 +535,10 @@ void game::Run()
                     if (Sewer1.sewerEnemy[e]->getEscapeState()) {
                         Sewer1.sewerEnemy[e]->setEscapeState(false);
                     }
-                    else if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer1.sewerEnemy[e]);
+                        player.setBattleState(false);
                     }
                 }
                 enemyCount++;
@@ -468,8 +562,11 @@ void game::Run()
                     if (Sewer2.sewerEnemy[e]->getEscapeState()) {
                         Sewer2.sewerEnemy[e]->setEscapeState(false);
                     }
-                    else if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer2.sewerEnemy[e]);
+                        player.setBattleState(false);
+                        
                     }
                 }
                 enemyCount++;
@@ -493,8 +590,10 @@ void game::Run()
                     if (Sewer3.sewerEnemy[e]->getEscapeState()) {
                         Sewer3.sewerEnemy[e]->setEscapeState(false);
                     }
-                    else if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer3.sewerEnemy[e]);
+                        player.setBattleState(false);
                     }
                 }
                 enemyCount++;
@@ -518,18 +617,22 @@ void game::Run()
             case KEY_ARROW_UP:
                 system("CLS");
                 handleMovement(0, -1);
+                timePassMinutes(60);
                 break;
             case KEY_ARROW_DOWN:
                 system("CLS");
                 handleMovement(0, 1);
+                timePassMinutes(60);
                 break;
             case KEY_ARROW_LEFT:
                 system("CLS");
                 handleMovement(-1, 0);
+                timePassMinutes(60);
                 break;
             case KEY_ARROW_RIGHT:
                 system("CLS");
                 handleMovement(1, 0);
+                timePassMinutes(60);
                 break;
             }
             //checks which POI player has entered/exited
