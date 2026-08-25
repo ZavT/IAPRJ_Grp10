@@ -5,7 +5,7 @@
 #include <cmath>
 
 enemy::enemy(int posX, int posY, int id, int healthPoints)
-	: entity(posX, posY, id, healthPoints) {
+	: entity(posX, posY, healthPoints, 0) { // OLD WAS entity(posX, posY, id, healthpoints) idk whose part 
 	isTargeting = false;
 }
 
