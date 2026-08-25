@@ -225,6 +225,7 @@ void player::setBattleState(bool battlestate) {
 
 bool player::getBattleState() {
 	return inBattle;
+}
 //level 
 	int player::getPlayerLevel() {
 		return pLevel.getlevel();
