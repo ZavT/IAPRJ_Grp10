@@ -25,6 +25,12 @@ enum class Location {
 class game
 {
 private:
+    // Start date and time of our story
+    int day = 29;
+    int month = 12;
+    int year = 2026;
+    int minute = 0;
+    int hour = 4;
     //map objects
     map worldMap;
     sewer Sewer1;
@@ -59,5 +65,7 @@ public:
     void battlesequence(enemy*& currentEnemy);
 
     void randomEncounterChance(int chance);
+
+    void timePassMinutes(int m);
 };
 
