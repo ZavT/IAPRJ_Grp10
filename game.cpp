@@ -596,6 +596,34 @@ void game::Run()
                 enemyCount++;
             }
         }
+        else if (currentMap == Location::Bunker) {
+            for (int e = 0; e < Bunker.BunkerEnemyCount; e++) {
+
+                if (Bunker.bunkerEnemy[e] == nullptr || !Bunker.bunkerEnemy[e]->isSpawned()) {
+                    continue;
+                }
+
+                enemyX[enemyCount] = Bunker.bunkerEnemy[e]->getPosX();
+                enemyY[enemyCount] = Bunker.bunkerEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
+
+                if (!Bunker.bunkerEnemy[e]->getEscapeState()) {
+                    Bunker.bunkerEnemy[e]->enemyBehaviour(player, Bunker.bunkerMap, Bunker.bunkerEnemy, Bunker.BunkerEnemyCount, e);
+                }
+                Bunker.bunkerEnemy[e]->checkForPlayer(player);
+                if (Bunker.bunkerEnemy[e]->getHealthPoints() > 0) {
+                    if (Bunker.bunkerEnemy[e]->getEscapeState()) {
+                        Bunker.bunkerEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Bunker.bunkerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
+                        battlesequence(Bunker.bunkerEnemy[e]);
+                        player.setBattleState(false);
+                    }
+                }
+                enemyCount++;
+            }
+        }
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;

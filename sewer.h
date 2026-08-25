@@ -16,7 +16,6 @@ public:
     sewer& operator=(const sewer&) = delete;
 
     void printSewerMap(int sewernum);
-    void testActiveEnemy(int sewernum);
 
     map sewerMap;
     enemy** sewerEnemy;
