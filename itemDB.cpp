@@ -37,11 +37,7 @@ consumable itemDB::getHealthPotion(){
 	return consumable("Health Potion", 10,1,20,1); // type 1 = health potion 
 }
 
-consumable itemDB::getAccuracyPotion(){
-	return consumable("Accuracy Potion", 20, 1, 20, 2); //type 2 = accuracy
-}
-
 consumable itemDB::getDamagePotion() {
-	return consumable("Damage Potion", 20, 1, 15, 3); //type 3 = damage hello
+	return consumable("Damage Potion", 20, 1, 15, 2); //type 2 = damage hello
 }
 
