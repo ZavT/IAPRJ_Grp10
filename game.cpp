@@ -191,14 +191,14 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << "\t Enemy Turn!\n\n";
 
             if (rand() % 2 == 0) {
-                int enemyDmg = 14; //mutated slash
+                int enemyDmg = 20; //mutated slash
                 player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
                 std::cout << "\tThe Mutated human slashes you for " << enemyDmg << " damage!\n";
                 std::cout << "\tPress any key to start your next turn...";
                 (void)_getch();
             }
             else {
-                int enemyDmg = 8; //punch
+                int enemyDmg = 14; //punch
                 player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
                 std::cout << "\tThe Mutated human punched you for " << enemyDmg << " damage!\n";
                 std::cout << "\tPress any key to start your next turn...";
