@@ -80,29 +80,11 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
 void game::battlesequence(enemy*& currentEnemy)
 {
     bool inbattle = true;
-    char enemysymbol = currentEnemy->getSymbol();
-
     std::string ratASCII =
         "\n       _..----.._    _"
         "\n     .'  .--.    '-.(0)_"
         "\n'-.__.-''''-:  ,  _  ' '-."
         "\n             ''''' '''''''\n";
-
-    std::string muthumanASCII = R"( 
-          _,-""-._
-        ,"        ".
-       /    ,-,  ,"\
-      "    /   \ | o|
-      \    `--"  `-',
-       `,   _.--'`'--`
-         `--`---'             
-           ,' '      
-         ./ ,  `,    
-         / /     \
-        (_)))_ _,"
-           _))))_,
-  --------(_,-._)))-------------------------------
-)";
 
     while (inbattle && player.getHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
         //player turn
@@ -115,12 +97,7 @@ void game::battlesequence(enemy*& currentEnemy)
         
         while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
-            if (enemysymbol == 'H') {
-                std::cout << muthumanASCII << std::endl;
-            }
-            else if (enemysymbol == 'R') {
-                std::cout << ratASCII << std::endl;
-            }
+            std::cout << ratASCII << std::endl;
             std::cout << "\t=== BATTLE ===\n\n";
             std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() <<"\n";
             std::cout << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << "\n\n";
@@ -164,47 +141,15 @@ void game::battlesequence(enemy*& currentEnemy)
         break;
 
         // enemy turn
-        if (enemysymbol == 'R') { //if enemy is rat
-            system("CLS");
-            std::cout << ratASCII << "\n";
-            std::cout << "\t Enemy Turn!\n\n";
+        system("CLS");
+        std::cout << ratASCII << "\n";
+        std::cout << "\t Enemy Turn!\n\n";
 
-            if (rand() % 2 == 0) { // BITE //if 0 do bite
-                int enemyDmg = 10;
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
-                std::cout << "\tPress any key to start your next turn...";
-                (void)_getch();
-            }
-            else { // RAZOR TAIL
-                int enemyDmg = (rand() % 6) + 10; // 10-15 dmg
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutant Rat swings its razor tail for " << enemyDmg << " damage!\n";
-                std::cout << "\tPress any key to start your next turn...";
-                (void)_getch();
-            }
-        }
-
-        if (enemysymbol == 'H') { // if enemy is mutated human
-            system("CLS");
-            std::cout << muthumanASCII << "\n";
-            std::cout << "\t Enemy Turn!\n\n";
-
-            if (rand() % 2 == 0) {
-                int enemyDmg = 14; //mutated slash
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutated human slashes you for " << enemyDmg << " damage!\n";
-                std::cout << "\tPress any key to start your next turn...";
-                (void)_getch();
-            }
-            else {
-                int enemyDmg = 8; //punch
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutated human punched you for " << enemyDmg << " damage!\n";
-                std::cout << "\tPress any key to start your next turn...";
-                (void)_getch();
-            }
-        }
+        int enemyDmg = 5; 
+        player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+        std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
+        std::cout << "\tPress any key to start your next turn...";
+        (void)_getch();
     }
 
     if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
