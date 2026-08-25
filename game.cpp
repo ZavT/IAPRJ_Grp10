@@ -656,15 +656,15 @@ void game::Run()
         if (player.checkAlive() == false)
         {
             system("CLS");
-            std::cout << "   _-----------_   \n";
-            std::cout << "  |             |  \n";
-            std::cout << " |   R   I   P   | \n";
-            std::cout << " |               | \n";
-            std::cout << " |               | \n";
-            std::cout << " |               | \n";
-            std::cout << " |               | \n";
-            std::cout << " |               | \n";
-            std::cout << " |=&==&==&==&==&=| \n";
+            std::cout << "\t   _-----------_   \n";
+            std::cout << "\t  |             |  \n";
+            std::cout << "\t |   R   I   P   | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |=&==&==&==&==&=| \n";
 
             std::cout << "\tPress any key to end game...";
             (void)_getch();
