@@ -21,6 +21,7 @@ DialogueTree::DialogueTree() {
 	DialogueNode* node6 = new DialogueNode("'It's a tall order, I know. But really... what kind of life would we all be living otherwise? I know you're capable. You've come this far, haven't you?'");
 	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating.'");
 	DialogueNode* node8 = new DialogueNode("'If you want to end him, you need to hunt down every last mutant guarding that facility. Only when they're dead will he be vulnerable. Do that, and you might actually stand a chance.'");
+	DialogueNode* node9 = new DialogueNode("'Y'know, I've heard that he could be planning something for the end of March. Like, a world-ending type of something. Not to rush you or anything...'");
 
 	node0->dialogueOptions.push_back(DialogueOption("<1: You lower your weapon.>", 0, node1));
 	node0->dialogueOptions.push_back(DialogueOption("<2: 'Bye.'>", 1, nullptr));
@@ -50,8 +51,11 @@ DialogueTree::DialogueTree() {
 	node7->dialogueOptions.push_back(DialogueOption("<1: 'Jeez, what a nut.'>", 0, node8));
 	dialogueNodes.push_back(node7);
 
-	node8->dialogueOptions.push_back(DialogueOption("<1: 'Piece of cake.'>", 2, nullptr));
+	node8->dialogueOptions.push_back(DialogueOption("<1: 'Piece of cake.'>", 0, node9));
 	dialogueNodes.push_back(node8);
+
+	node9->dialogueOptions.push_back(DialogueOption("<1: 'Oh.'>", 2, nullptr));
+	dialogueNodes.push_back(node9);
 
 	// Jake's second tree
 	fjakeStartIndex = dialogueNodes.size();

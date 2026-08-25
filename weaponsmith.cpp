@@ -22,6 +22,7 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
         std::cout << "\t============Weaponsmith============\n\n";
 
         std::cout << "AP: Action points. Each weapon requires a certain amount of AP to use.\n\n" << std::endl;
+        std::cout << "Enter the item's number to purchase it.\n\n" << std::endl;
         std::cout << "1. Assault Rifle. Cost: 20 gold. <2 AP | 15 DMG | 85% Accuracy>\n" << std::endl;
         std::cout << "2. Axe. Cost: 10 gold. <1 AP | 10 DMG | 98% Accuracy>\n" << std::endl;
         std::cout << "3. Sniper Rifle. Cost: 30 gold. <3 AP | 25 DMG | 95% Accuracy>\n" << std::endl;

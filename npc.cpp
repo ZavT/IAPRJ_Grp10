@@ -23,7 +23,7 @@ void npc::onOverlap()
         std::cout << "\n'Oh... well, thanks for sparing me.'\n";
     }
     if (rv == 2) {
-        std::cout << "\n'Good luck, stranger. Make him pay for what he did to us.'\n";
+        std::cout << "\n'Yep! Well, good luck...'\n";
     }
     if (rv == 3) {
         std::cout << "\n'Hey, come back to me if you need any weapons. You should arm yourself up before you go out there.'\n";
