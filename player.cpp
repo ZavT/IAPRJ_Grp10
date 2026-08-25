@@ -83,7 +83,7 @@ bool player::checkforbattle(enemy& targetenemy)
 	//for diagonals, find hypotenuse of triangles with sides distX distY
 	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
 
-	if (hypoDist <= 1) {
+	if (hypoDist <= 1) { // ENEMY RANGE 
 		return true;
 	}
 	return false;
