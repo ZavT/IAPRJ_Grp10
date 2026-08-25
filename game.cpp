@@ -181,7 +181,7 @@ void game::battlesequence(enemy*& currentEnemy)
             int randchance = rand() % 100;
 
             if (randchance < chance) {
-                std::cout << "\tThe enemy missed\n";
+                std::cout << "\tYou dodged the enemy's attack\n";
                 std::cout << "\tPress any key to start your next turn...";
                 (void)_getch();
             }
