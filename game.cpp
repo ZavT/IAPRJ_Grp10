@@ -723,10 +723,18 @@ void game::Run()
             bag.inventoryMenu(player); //opens inventory until ESC is pressed.
             system("CLS");       //clear text to see map again
             break;
+
         case KEY_M:
-            system("CLS");       
-            settings.menuOpen(); 
-            system("CLS");      
+            system("CLS");
+            {
+                int skippedMins = settings.menuOpen(day, month, year, hour, minute);
+
+                if (skippedMins > 0) {
+                    timePassMinutes(skippedMins);
+                }
+            }
+            system("CLS");
+            break;
         }
 
     }

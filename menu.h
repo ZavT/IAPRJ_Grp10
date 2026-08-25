@@ -6,11 +6,14 @@ class menu
 private:
     bool isOpen;
     int selectedOption;
-    std::string currentTime;
-    std::string playerName;
-    int currentObjective; 
+    int currentObjective;
 
 public:
     menu();
-    void menuOpen();
+
+    // Allows you to change the objective from game.cpp
+    void setObjective(int obj);
+
+    // Now accepts the real time, and returns the minutes to skip!
+    int menuOpen(int day, int month, int year, int hour, int minute);
 };
