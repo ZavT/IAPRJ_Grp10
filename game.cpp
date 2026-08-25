@@ -177,10 +177,14 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << ratASCII << "\n";
             std::cout << "\t Enemy Turn!\n\n";
 
-            int chance = player.getPlayerAgilityFinal();
-            int randchance = rand() % 100;
+            int dodge = player.getPlayerAgilityFinal();
+            int randhit = rand() % 100;
+            int dodgebuff = dodge;
+            if (activeWep.getweaponismelee() == false) {
+                dodgebuff += 30;
+            }
 
-            if (randchance < chance) {
+            if (randhit < dodgebuff) {
                 std::cout << "\tYou dodged the enemy's attack\n";
                 std::cout << "\tPress any key to start your next turn...";
                 (void)_getch();
@@ -208,10 +212,15 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << muthumanASCII << "\n";
             std::cout << "\t Enemy Turn!\n\n";
 
-            int chance = player.getPlayerAgilityFinal();
-            int randchance = rand() % 100;
+            int dodge = player.getPlayerAgilityFinal();
+            int randhit = rand() % 100;
+            int dodgebuff = dodge;
 
-            if (randchance < chance) {
+            if (activeWep.getweaponismelee() == false) {
+                 dodgebuff += 30;
+            }
+
+            if (randhit < dodgebuff) {
                 std::cout << "\tYou dodged the enemy's attack\n";
                 std::cout << "\tPress any key to start your next turn...";
                 (void)_getch();
@@ -497,7 +506,7 @@ void game::randomEncounterChance(int chance) {
 void game::Run()
 {
     bool gameRunning = true;
-    Intro(); //comment out to skip intro
+    //Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
     player.setPosition(1, 1);

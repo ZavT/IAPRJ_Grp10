@@ -15,4 +15,5 @@ public:
     int getweapondmg(player& p);
     int getweaponacc();
     void setMeleeWeapon(bool m);
+    bool getweaponismelee();
 };

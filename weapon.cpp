@@ -20,7 +20,7 @@ int weapon::getweapondmg(player& p){
 	}
 	else
 	{
-		return damage;
+		return damage ;
 	}
 }
 
@@ -31,4 +31,9 @@ int weapon::getweaponacc(){
 void weapon::setMeleeWeapon(bool m)
 {
 	isMelee = m;
+}
+
+bool weapon::getweaponismelee()
+{
+	return isMelee;
 }

@@ -24,9 +24,18 @@ void bunker::printbunkerMap(){
 	bunkerMap.setpos(8,5 , '-');
 	bunkerMap.setpos(8, 3, '-');
 
-	bunkerEnemy[0]->setPosition(7, 0);
-	bunkerEnemy[1]->setPosition(3, 7);
+	if (bunkerEnemy[0] != nullptr) {
+		bunkerEnemy[0]->setPosition(7, 0);
+		bunkerEnemy[0]->setSpawnState(true);
+	}
 
-	bunkerEnemy[0]->setSpawnState(true);
-	bunkerEnemy[1]->setSpawnState(true);
+
+	if (bunkerEnemy[1] != nullptr) {
+		bunkerEnemy[1]->setPosition(3, 7);
+		bunkerEnemy[1]->setSpawnState(true);
+	}
 }
+	
+	
+
+	
