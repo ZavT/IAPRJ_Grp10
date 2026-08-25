@@ -34,11 +34,11 @@ void sewer::printSewerMap(int sewernum) {
 
 		//rat positions
 		if (sewerEnemy[0] != nullptr) { 
-			sewerEnemy[0]->setPosition(10, 0); 
+			sewerEnemy[0]->setPosition(13, 0); 
 			sewerEnemy[0]->setSpawnState(true);
 		}
 		if (sewerEnemy[1] != nullptr) {
-			sewerEnemy[1]->setPosition(14, 2); 
+			sewerEnemy[1]->setPosition(23, 2); 
 			sewerEnemy[1]->setSpawnState(true);
 		}
 		if (sewerEnemy[2] != nullptr) {
@@ -61,7 +61,7 @@ void sewer::printSewerMap(int sewernum) {
 			sewerEnemy[0]->setSpawnState(true);
 		}
 		if (sewerEnemy[1] != nullptr) {
-			sewerEnemy[1]->setPosition(25, 1);
+			sewerEnemy[1]->setPosition(28, 1);
 			sewerEnemy[1]->setSpawnState(true);
 		}
 		if (sewerEnemy[2] != nullptr) {
@@ -85,7 +85,7 @@ void sewer::printSewerMap(int sewernum) {
 			sewerEnemy[0]->setSpawnState(true);
 		}
 		if (sewerEnemy[1] != nullptr) {
-			sewerEnemy[1]->setPosition(22, 4);
+			sewerEnemy[1]->setPosition(26, 4);
 			sewerEnemy[1]->setSpawnState(true);
 		}
 		if (sewerEnemy[2] != nullptr) {

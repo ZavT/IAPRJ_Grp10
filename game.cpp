@@ -512,6 +512,16 @@ void game::Run()
         int enemyY[6];
         char enemySymbol[6];
         int enemyCount = 0;
+
+        //every start of the loop, change the time depending on current location
+        if (currentMap == Location::MainWorld) {
+            int randomTimeOW = (rand() % 9) + 52;
+            timePassMinutes(randomTimeOW);
+        }
+        else {
+            int randomTimePOI = (rand() % 2) + 1;
+            timePassMinutes(randomTimePOI);
+        }
                 
         if (currentMap == Location::Sewer1) {
             for (int e = 0; e < Sewer1.enemyCount; e++) {
@@ -605,7 +615,7 @@ void game::Run()
 
                 enemyX[enemyCount] = Bunker.bunkerEnemy[e]->getPosX();
                 enemyY[enemyCount] = Bunker.bunkerEnemy[e]->getPosY();
-                enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
+                enemySymbol[enemyCount] = Bunker.bunkerEnemy[e]->getSymbol();
 
                 if (!Bunker.bunkerEnemy[e]->getEscapeState()) {
                     Bunker.bunkerEnemy[e]->enemyBehaviour(player, Bunker.bunkerMap, Bunker.bunkerEnemy, Bunker.BunkerEnemyCount, e);
@@ -627,7 +637,7 @@ void game::Run()
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
-
+        
         //print map when loop starts again
 
         current.printmap(player.getPosX(), player.getPosY(), enemyX, enemyY, enemySymbol ,enemyCount);
@@ -642,22 +652,18 @@ void game::Run()
             case KEY_ARROW_UP:
                 system("CLS");
                 handleMovement(0, -1);
-                timePassMinutes(60);
                 break;
             case KEY_ARROW_DOWN:
                 system("CLS");
                 handleMovement(0, 1);
-                timePassMinutes(60);
                 break;
             case KEY_ARROW_LEFT:
                 system("CLS");
                 handleMovement(-1, 0);
-                timePassMinutes(60);
                 break;
             case KEY_ARROW_RIGHT:
                 system("CLS");
                 handleMovement(1, 0);
-                timePassMinutes(60);
                 break;
             }
             //checks which POI player has entered/exited
@@ -674,22 +680,6 @@ void game::Run()
         }
 
         switch (ch) {
-        case KEY_I:
-            system("CLS");
-            std::cout << "enemy moved up" << std::endl;
-            break;
-        case KEY_J:
-            system("CLS");
-            std::cout << "enemy moved left" << std::endl;
-            break;
-        case KEY_K:
-            system("CLS");
-            std::cout << "enemy moved down" << std::endl;
-            break;
-        case KEY_L:
-            system("CLS");
-            std::cout << "enemy moved right" << std::endl;
-            break;
         case KEY_B:
             system("CLS");       //hides the world map
             bag.inventoryMenu(player); //opens inventory until ESC is pressed.
