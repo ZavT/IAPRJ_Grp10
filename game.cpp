@@ -160,7 +160,7 @@ void game::battlesequence(enemy*& currentEnemy)
         }
 
         //if player ran away or enemy died during the ap loop exit battle
-        if (!inbattle || currentEnemy->getHealthPoints() <= 0) 
+        if (!inbattle || currentEnemy->getHealthPoints() <= 0)
         break;
 
         // enemy turn
@@ -406,7 +406,7 @@ void game::Run()
                 enemyX[enemyCount] = Sewer1.sewerEnemy[e]->getPosX();
                 enemyY[enemyCount] = Sewer1.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
-
+                
                 if (!Sewer1.sewerEnemy[e]->getEscapeState()) {
                     Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
                 }
@@ -415,8 +415,10 @@ void game::Run()
                     if (Sewer1.sewerEnemy[e]->getEscapeState()) {
                         Sewer1.sewerEnemy[e]->setEscapeState(false);
                     }
-                    else if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer1.sewerEnemy[e]);
+                        player.setBattleState(false);
                     }
                 }
                 enemyCount++;
@@ -440,8 +442,11 @@ void game::Run()
                     if (Sewer2.sewerEnemy[e]->getEscapeState()) {
                         Sewer2.sewerEnemy[e]->setEscapeState(false);
                     }
-                    else if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer2.sewerEnemy[e]);
+                        player.setBattleState(false);
+                        
                     }
                 }
                 enemyCount++;
@@ -465,8 +470,10 @@ void game::Run()
                     if (Sewer3.sewerEnemy[e]->getEscapeState()) {
                         Sewer3.sewerEnemy[e]->setEscapeState(false);
                     }
-                    else if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer3.sewerEnemy[e]);
+                        player.setBattleState(false);
                     }
                 }
                 enemyCount++;

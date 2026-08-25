@@ -24,6 +24,7 @@ private:
 	int playerKeyFragment;
 
 	bool playerCombatMode;
+	bool inBattle;
 
 public:
 	player();
@@ -71,6 +72,10 @@ public:
 
 	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);
 	void takeDamage(int dmg);
+
+	//player battle things
+	void setBattleState(bool battlestate);
+	bool getBattleState();
 
 	void heal(int value);           // restores some health
 	void loot(int value1, int value2);           // give looted items to player
