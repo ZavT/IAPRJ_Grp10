@@ -10,6 +10,7 @@ public:
 	void gainexp(int amt);
 	int getlevel();
 	int getexp();
+	int getexpneeded();
 	bool checklevelup();
 };
 

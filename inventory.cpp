@@ -18,7 +18,7 @@ inventory::inventory()
 	ownedWeapons.push_back(itemDB::getCombatKnife());
 	ownedPotions.push_back(itemDB::getHealthPotion()); //change later
 	others = 0;
-	
+	statPoints = 0;
 }
 
 void inventory::addWeapon(weapon newWeapon)
@@ -64,8 +64,11 @@ void inventory::inventoryMenu(player& p)
 				std::cout << "\t" << index++ << ". " << ownedPotions[i].getItemName() << "\n";
 			}
 
-			std::cout << "\t" << index++ << ". Stat points x " << statPoints << "\n"; //edit stat points
+			std::cout << "\t" << index++ << ". Stat points x " << p.getStatPoints() << "\n";
+			std::cout << "\t" << index++ << ". Gold x " << p.getPlayerGold() << "\n";
+			std::cout << "\t" << index++ << ". Key Fragments x " << p.getPlayerKeyFragment() << "\n";
 		}
+
 		else if (tab == 1) { // WEAPONS TAB
 			if (ownedWeapons.empty()) std::cout << "\tBag is empty.\n";
 			for (size_t i = 0; i < ownedWeapons.size(); i++) {
@@ -80,8 +83,9 @@ void inventory::inventoryMenu(player& p)
 			}
 		}
 		else if (tab == 3) { // OTHERS TAB
-
-			std::cout << "\t3. Stat points x " << statPoints << "\n"; //add stat points gained from level
+			std::cout << "\t1. Stat points x " << p.getStatPoints() << "\n";
+			std::cout << "\t2. Gold x " << p.getPlayerGold() << "\n";
+			std::cout << "\t3. Key Fragments x " << p.getPlayerKeyFragment() << "\n";
 		}
 
 		std::cout << "\n\t----------------------------------------------------------\n\n";
@@ -150,8 +154,8 @@ void inventory::inventoryMenu(player& p)
 					leftCol.push_back("");
 					leftCol.push_back("[C] Consume | [ESC] Back");
 				}
-				else if (tab == 3 && itemIndex == 2) { // 3rd item in Others tab is Stat Points
-					leftCol.push_back("Unspent Points: " + std::to_string(statPoints));
+				else if (tab == 3 && itemIndex == 0) { // 1st item (Index 0) in Others tab is Stat Points
+					leftCol.push_back("Unspent Points: " + std::to_string(p.getStatPoints()));
 					leftCol.push_back("");
 					leftCol.push_back("Inputs: S+, S-, A+, A-, L+, L-");
 					leftCol.push_back("        E+, E-, I+, I-");
@@ -181,28 +185,30 @@ void inventory::inventoryMenu(player& p)
 				}
 
 				// use std::cin for stats
-				if (tab == 3 && itemIndex == 2) {
+				if (tab == 3 && itemIndex == 0) {
 					std::string statInput;
 					std::cout << "\n\tEnter input: ";
 					std::cin >> statInput;
 
-					if (statInput == "S+" && statPoints > 0) { p.setPlayerStrength(p.getPlayerStrength() + 1); statPoints--; }
-					else if (statInput == "S-" && p.getPlayerStrength() > 2) { p.setPlayerStrength(p.getPlayerStrength() - 1); statPoints++; }
+					if (statInput == "S+" && p.getStatPoints() > 0) { p.setPlayerStrength(p.getPlayerStrength() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "S-" && p.getPlayerStrength() > 2) { p.setPlayerStrength(p.getPlayerStrength() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "A+" && statPoints > 0) { p.setPlayerAgility(p.getPlayerAgility() + 1); statPoints--; }
-					else if (statInput == "A-" && p.getPlayerAgility() > 2) { p.setPlayerAgility(p.getPlayerAgility() - 1); statPoints++; }
+					else if (statInput == "A+" && p.getStatPoints() > 0) { p.setPlayerAgility(p.getPlayerAgility() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "A-" && p.getPlayerAgility() > 2) { p.setPlayerAgility(p.getPlayerAgility() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "L+" && statPoints > 0) { p.setPlayerLuck(p.getPlayerLuck() + 1); statPoints--; }
-					else if (statInput == "L-" && p.getPlayerLuck() > 2) { p.setPlayerLuck(p.getPlayerLuck() - 1); statPoints++; }
+					else if (statInput == "L+" && p.getStatPoints() > 0) { p.setPlayerLuck(p.getPlayerLuck() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "L-" && p.getPlayerLuck() > 2) { p.setPlayerLuck(p.getPlayerLuck() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "E+" && statPoints > 0) { p.setPlayerEndurance(p.getPlayerEndurance() + 1); statPoints--; }
-					else if (statInput == "E-" && p.getPlayerEndurance() > 2) { p.setPlayerEndurance(p.getPlayerEndurance() - 1); statPoints++; }
+					else if (statInput == "E+" && p.getStatPoints() > 0) { p.setPlayerEndurance(p.getPlayerEndurance() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "E-" && p.getPlayerEndurance() > 2) { p.setPlayerEndurance(p.getPlayerEndurance() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "I+" && statPoints > 0) { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); statPoints--; }
-					else if (statInput == "I-" && p.getPlayerIntelligence() > 2) { p.setPlayerIntelligence(p.getPlayerIntelligence() - 1); statPoints++; }
+					else if (statInput == "I+" && p.getStatPoints() > 0) { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "I-" && p.getPlayerIntelligence() > 2) { p.setPlayerIntelligence(p.getPlayerIntelligence() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "Back" || statInput == "back") { inDetails = false; }
+					else if (statInput == "Back" || statInput == "back") { 
+						inDetails = false; }
 				}
+
 				// use standard _getch() for the rest
 				else {
 					int act = _getch();

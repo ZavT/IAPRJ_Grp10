@@ -3,8 +3,8 @@
 #include "player.h"
 #include "enemy.h"
 
-// default constructor delegates to parameterized ctor with default starting gold/fragments
-player::player() : player(0, 0) {}
+//starting gold/fragments
+player::player() : player(20, 0) {}
 
 player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 {
@@ -225,4 +225,18 @@ void player::setBattleState(bool battlestate) {
 
 bool player::getBattleState() {
 	return inBattle;
-}
+//level 
+	int player::getPlayerLevel() {
+		return pLevel.getlevel();
+	}
+
+	int player::getPlayerExp() {
+		return pLevel.getexp();
+	}
+
+	void player::gainExp(int amt) {
+		pLevel.gainexp(amt);
+		if (pLevel.checklevelup()) {
+			setStatPoints(getStatPoints() + 1);
+		}
+	}

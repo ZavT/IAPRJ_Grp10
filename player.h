@@ -87,4 +87,9 @@ public:
 
 	int getPlayerKeyFragment();
 	void setPlayerKeyFragment(int value);
+
+	//level
+	int getPlayerLevel();
+	int getPlayerExp();
+	void gainExp(int amt);
 };
