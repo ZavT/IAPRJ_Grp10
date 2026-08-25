@@ -4,23 +4,21 @@
 
 void npc::onOverlap()
 {
-
-	switch (type) {
-	case Type::Jake:
-		dialogue->performDialogue(dialogue->getJakeStartIndex());
-		break;
-	case Type::Ryan:
-		dialogue->performDialogue(dialogue->getRyanStartIndex());
-		break;
-	case Type::Alchemist:
-		dialogue->performDialogue(dialogue->getAlchemistStartIndex());
-		break;
-	default:
-		dialogue->performDialogue();
-		break;
-	}
-    DialogueTree dialogueTree;
-    int rv = dialogueTree.performDialogue();
+    int rv = 0;
+    switch (type) {
+    case Type::Jake:
+        rv = dialogue->performDialogue(dialogue->getJakeStartIndex());
+        break;
+    case Type::Ryan:
+        rv = dialogue->performDialogue(dialogue->getRyanStartIndex());
+        break;
+    case Type::Alchemist:
+        rv = dialogue->performDialogue(dialogue->getAlchemistStartIndex());
+        break;
+    default:
+        rv = dialogue->performDialogue();
+        break;
+    }
     if (rv == 1) {
         std::cout << "\n'Oh... well, thanks for sparing me.'\n";
     }
