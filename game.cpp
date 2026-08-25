@@ -132,13 +132,21 @@ void game::battlesequence(enemy*& currentEnemy)
             int act = _getch(); //input
 
             if (act == '1') {
+                int chance = activeWep.getweaponacc();
+                int randchance = rand() % 100;
                 if (player.getPlayerActionPoints() >= requiredAP) {
-                    int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player); 
-                    currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
-                    player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP); 
-                    std::cout << "\n\tYou dealt " << dmg << " damage with your " 
-                        << activeWep.getItemName() << "! Press any key...";
-                    (void)_getch();
+                    if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
+                        int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player);
+                        currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
+                        player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
+                        std::cout << "\n\tYou dealt " << dmg << " damage with your "
+                            << activeWep.getItemName() << "! Press any key...";
+                        (void)_getch();
+                    }
+                    else {
+                        std::cout << "\n\tYou missed. Press any key...";
+                        (void)_getch();
+                    }
                 }
 
             }
