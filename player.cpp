@@ -32,7 +32,7 @@ player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 
 float player::playerLuckBoost()
 {
-	return (getPlayerLuck() / 8.0f);
+	return (getPlayerLuck() / 4.0f);
 }
 
 //player actions
