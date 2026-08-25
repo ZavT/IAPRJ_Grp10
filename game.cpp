@@ -129,7 +129,6 @@ void game::battlesequence(enemy*& currentEnemy)
             else if (act == '4') {
                 std::cout << "\n\tGot away safely! Press any key...";
                 (void)_getch();
-                currentEnemy->setEscapeState(true);
                 inbattle = false; // run
                 system("CLS");
                 break;
@@ -156,7 +155,6 @@ void game::battlesequence(enemy*& currentEnemy)
         std::cout << "\n\tEnemy defeated! Press any key...";
         delete currentEnemy;
         currentEnemy = nullptr;
-        //currentEnemy->setSpawnState(false);
         (void)_getch();
         inbattle = false;
         system("CLS");
@@ -313,7 +311,7 @@ void game::Intro()
 }
 
 void game::randomEncounterChance(int chance) {
-    int randomNum = rand() % 101;
+    int randomNum = (rand() % 100) + 1;
 
     if (randomNum <= chance) {
         // random encounter code
@@ -323,7 +321,6 @@ void game::randomEncounterChance(int chance) {
 void game::Run()
 {
     bool gameRunning = true;
-
     //Intro(); //comment out to skip intro
     
     //createWorldMap();
@@ -343,31 +340,21 @@ void game::Run()
         char enemySymbol[6];
         int enemyCount = 0;
                 
-        //--------------------------
-        //spawning enemies
-        //--------------------------
-
         if (currentMap == Location::Sewer1) {
             for (int e = 0; e < Sewer1.enemyCount; e++) {
 
-                if (Sewer1.sewerEnemy[e] == nullptr || !Sewer1.sewerEnemy[e]->isSpawned()) {
+                if (Sewer1.sewerEnemy[e] == nullptr) {
                     continue;
-                }   
+                }
     
                 enemyX[enemyCount] = Sewer1.sewerEnemy[e]->getPosX();
                 enemyY[enemyCount] = Sewer1.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
 
-                if (!Sewer1.sewerEnemy[e]->getEscapeState()) { //check if player just escaped. if so, dont let the enemy move
-                    Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
-                }
-
+                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
                 Sewer1.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer1.sewerEnemy[e]->getHealthPoints() > 0) {
-                    if (Sewer1.sewerEnemy[e]->getEscapeState()) {
-                        Sewer1.sewerEnemy[e]->setEscapeState(false);//see if player just escaped. when the escape state is true, set to false on the next tick
-                    }
-                    else if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //otherwise if escape state is false, then if enemy is close to the player trigger battle sequence for that enemy
+                    if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
                         battlesequence(Sewer1.sewerEnemy[e]);
                     }
                 }
@@ -376,7 +363,7 @@ void game::Run()
         } else if (currentMap == Location::Sewer2) {
             for (int e = 0; e < Sewer2.enemyCount; e++) {
 
-                if (Sewer2.sewerEnemy[e] == nullptr || !Sewer2.sewerEnemy[e]->isSpawned()) {
+                if (Sewer2.sewerEnemy[e] == nullptr) {
                     continue;
                 }
 
@@ -384,15 +371,10 @@ void game::Run()
                 enemyY[enemyCount] = Sewer2.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer2.sewerEnemy[e]->getSymbol();
 
-                if (!Sewer2.sewerEnemy[e]->getEscapeState()) {//check if player just escaped. if so, dont let the enemy move
-                    Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
-                }
+                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
                 Sewer2.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer2.sewerEnemy[e]->getHealthPoints() > 0) {
-                    if (Sewer2.sewerEnemy[e]->getEscapeState()) {
-                        Sewer2.sewerEnemy[e]->setEscapeState(false);//see if player just escaped. when the escape state is true, set to false on the next tick
-                    }
-                    else if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
                         battlesequence(Sewer2.sewerEnemy[e]);
                     }
                 }
@@ -401,7 +383,7 @@ void game::Run()
         } else if (currentMap == Location::Sewer3) {
             for (int e = 0; e < Sewer3.enemyCount; e++) {
 
-                if (Sewer3.sewerEnemy[e] == nullptr || !Sewer3.sewerEnemy[e]->isSpawned()) {
+                if (Sewer3.sewerEnemy[e] == nullptr) {
                     continue;   
                 }
             
@@ -409,15 +391,10 @@ void game::Run()
                 enemyY[enemyCount] = Sewer3.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer3.sewerEnemy[e]->getSymbol();
 
-                if (!Sewer3.sewerEnemy[e]->getEscapeState()) { //check if player just escaped. if so, dont let the enemy moves
-                    Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
-                }
+                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
                 Sewer3.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer3.sewerEnemy[e]->getHealthPoints() > 0) {
-                    if (Sewer3.sewerEnemy[e]->getEscapeState()) {
-                        Sewer3.sewerEnemy[e]->setEscapeState(false);//see if player just escaped. when the escape state is true, set to false on the next tick
-                    }
-                    else if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
                         battlesequence(Sewer3.sewerEnemy[e]);
                     }
                 }
