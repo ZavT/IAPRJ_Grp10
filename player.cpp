@@ -25,6 +25,9 @@ player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 	statPoints = 0;
 
 	playerCombatMode = false;
+
+	this->playerGold = playerGold;
+	this->playerKeyFragment = playerKeyFragment;
 }
 
 float player::playerLuckBoost()

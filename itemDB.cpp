@@ -29,7 +29,7 @@ weapon itemDB::getSledgeHammer(){
 }
 
 weapon itemDB::getPistol(){
-	return weapon("Pistol",10,2,5,70);
+	return weapon("Pistol",10,2,15,70);
 }
 
 //consumable::consumable(std::string potionname, int potionprice, int potionAP, int potioneffectvalue, int potioneffecttype)

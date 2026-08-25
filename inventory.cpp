@@ -96,8 +96,9 @@ void inventory::inventoryMenu(player& p)
 		// Character stats
 		std::vector<std::string> rightCol;
 		rightCol.push_back("Name: " + p.getPlayerName());
-		//insert level
-		//insert current exp/exp to next level 
+
+		rightCol.push_back("Lvl:  " + std::to_string(p.getPlayerLevel()) + " (" + std::to_string(p.getPlayerExp()) + " EXP)");
+
 		rightCol.push_back("HP:   " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
 		rightCol.push_back("STR:  " + std::to_string(static_cast<int>(p.getPlayerStrengthFinal())));
 		rightCol.push_back("AGI:  " + std::to_string(static_cast<int>(p.getPlayerAgilityFinal())));
@@ -144,7 +145,7 @@ void inventory::inventoryMenu(player& p)
 					leftCol.push_back("Item: " + ownedWeapons[itemIndex].getItemName());
 					leftCol.push_back("AP Cost: " + std::to_string(ownedWeapons[itemIndex].getItemAPcost()));
 					leftCol.push_back("Acc:  " + std::to_string(ownedWeapons[itemIndex].getweaponacc()) + "%");
-					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p)));
+					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p) - p.getPlayerStrength()));
 					leftCol.push_back("");
 					leftCol.push_back("[E] Equip | [U] Unequip | [ESC] Back");
 				}

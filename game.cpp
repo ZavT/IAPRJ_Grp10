@@ -136,7 +136,7 @@ void game::battlesequence(enemy*& currentEnemy)
                 int randchance = rand() % 100;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
-                        int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player);
+                        int dmg = activeWep.getweapondmg(player);
                         currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
                         player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
                         std::cout << "\n\tYou dealt " << dmg << " damage with your "
@@ -497,10 +497,7 @@ void game::randomEncounterChance(int chance) {
 void game::Run()
 {
     bool gameRunning = true;
-    //Intro(); //comment out to skip intro
-    
-    //createWorldMap();
-    //player.setPosition(1, 7);
+    Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
     player.setPosition(1, 1);

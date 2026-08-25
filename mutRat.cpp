@@ -3,7 +3,7 @@
 using namespace std;
 
 mutRat::mutRat(int posX, int posY, int id)
-	: enemy(posX, posY, id + '0', 60) {
+	: enemy(posX, posY, id + '0', 100) {
 }
 
 void mutRat::displayStats() const
