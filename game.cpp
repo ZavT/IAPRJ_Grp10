@@ -177,19 +177,29 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << ratASCII << "\n";
             std::cout << "\t Enemy Turn!\n\n";
 
-            if (rand() % 2 == 0) { // BITE //if 0 do bite
-                int enemyDmg = 10;
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
+            int chance = player.getPlayerAgilityFinal();
+            int randchance = rand() % 100;
+
+            if (randchance < chance) {
+                std::cout << "\tYou dodged the enemy's attack\n";
                 std::cout << "\tPress any key to start your next turn...";
                 (void)_getch();
             }
-            else { // RAZOR TAIL
-                int enemyDmg = (rand() % 6) + 10; // 10-15 dmg
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutant Rat swings its razor tail for " << enemyDmg << " damage!\n";
-                std::cout << "\tPress any key to start your next turn...";
-                (void)_getch();
+            else {
+                if (rand() % 2 == 0) { // BITE //if 0 do bite
+                    int enemyDmg = 10;
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
+                else { // RAZOR TAIL
+                    int enemyDmg = (rand() % 6) + 10; // 10-15 dmg
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutant Rat swings its razor tail for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
             }
         }
 
@@ -198,19 +208,29 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << muthumanASCII << "\n";
             std::cout << "\t Enemy Turn!\n\n";
 
-            if (rand() % 2 == 0) {
-                int enemyDmg = 20; //mutated slash
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutated human slashes you for " << enemyDmg << " damage!\n";
+            int chance = player.getPlayerAgilityFinal();
+            int randchance = rand() % 100;
+
+            if (randchance < chance) {
+                std::cout << "\tYou dodged the enemy's attack\n";
                 std::cout << "\tPress any key to start your next turn...";
                 (void)_getch();
             }
             else {
-                int enemyDmg = 14; //punch
-                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-                std::cout << "\tThe Mutated human punched you for " << enemyDmg << " damage!\n";
-                std::cout << "\tPress any key to start your next turn...";
-                (void)_getch();
+                if (rand() % 2 == 0) {
+                    int enemyDmg = 20; //mutated slash
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutated human slashes you for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
+                else {
+                    int enemyDmg = 14; //punch
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutated human punched you for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
             }
         }
     }
