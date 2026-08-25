@@ -245,7 +245,16 @@ void game::battlesequence(enemy*& currentEnemy)
     }
 
     if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
-        std::cout << "\n\tEnemy defeated! Press any key...";
+        int expgained;
+        if (enemysymbol == 'R') {
+            expgained = 10;
+        }
+        else if (enemysymbol == 'H') {
+            expgained = 20;
+        }
+        player.gainExp(expgained);
+        std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp. Press any key...";
+
         delete currentEnemy;
         currentEnemy = nullptr;
         (void)_getch();

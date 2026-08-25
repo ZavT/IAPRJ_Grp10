@@ -13,6 +13,7 @@ private:
 	std::vector<consumable> ownedPotions;
 	int others;
 	int statPoints;
+	level level;
 
 public:
 	inventory();

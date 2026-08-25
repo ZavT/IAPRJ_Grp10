@@ -10,6 +10,7 @@
 #include "lab.h"
 #include "mutHuman.h"
 #include "mutRat.h"
+#include "level.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -42,6 +43,7 @@ private:
     player player; // player object
     inventory bag; //inventory/bag object z
     menu settings;
+    level level;
     //enemy enemy; // testing
 
     
