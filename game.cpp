@@ -133,7 +133,7 @@ void game::battlesequence(enemy*& currentEnemy)
 
             if (act == '1') {
                 int chance = activeWep.getweaponacc();
-                int randchance = rand() % 100;
+                int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
                         int dmg = activeWep.getweapondmg(player);
@@ -178,7 +178,7 @@ void game::battlesequence(enemy*& currentEnemy)
             std::cout << "\t Enemy Turn!\n\n";
 
             int dodge = player.getPlayerAgilityFinal();
-            int randhit = rand() % 100;
+            int randhit = (rand() % 100) + 1;
             int dodgebuff = dodge;
             if (activeWep.getweaponismelee() == false) {
                 dodgebuff += 30;
@@ -247,10 +247,10 @@ void game::battlesequence(enemy*& currentEnemy)
     if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
         int expgained;
         if (enemysymbol == 'R') {
-            expgained = 10;
+            expgained = 10 + player.getPlayerIntelligenceFinal();
         }
         else if (enemysymbol == 'H') {
-            expgained = 20;
+            expgained = 20 + player.getPlayerIntelligenceFinal();
         }
         player.gainExp(expgained);
         std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp. Press any key...";
@@ -277,7 +277,7 @@ void game::createWorldMap() {
 }
 
 void game::timePassMinutes(int m) {
-    int janDays = 28;
+    int febDays = 28;
 
     if (minute < 10 && hour < 10)
         std::cout << day << '/' << month << '/' << year << ' ' << '0' << hour << '0' << minute << std::endl;
@@ -303,17 +303,17 @@ void game::timePassMinutes(int m) {
             }
 
             if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
-                janDays = 29;
+                febDays = 29;
             }
             else {
-                janDays = 28;
+                febDays = 28;
             }
 
-            if ((month == 1 && day >= 32) || (month == 2 && day >= janDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+            if ((month == 1 && day >= 32) || (month == 2 && day >= febDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
                 (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
                 (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
 
-                while ((month == 1 && day >= 32) || (month == 2 && day >= janDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+                while ((month == 1 && day >= 32) || (month == 2 && day >= febDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
                     (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
                     (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
 
@@ -322,7 +322,7 @@ void game::timePassMinutes(int m) {
                         day = day - 31;
                         break;
                     case 2:
-                        day = day - janDays;
+                        day = day - febDays;
                         break;
                     case 3:
                         day = day - 31;
