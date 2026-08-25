@@ -18,7 +18,7 @@ void enemy::checkForPlayer(player& player) {
 	//for diagonals, find hypotenuse of triangles with sides distX distY
 	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
 
-	if (hypoDist <= 3.9) {
+	if (hypoDist <= 4.3) {
 		isTargeting = true;
 	}
 	else {
@@ -107,4 +107,20 @@ void enemy::enemyBehaviour(player& player, map& currentMap, enemy** allEnemies, 
 }
 
 enemy::~enemy() {
+}
+
+void enemy::setSpawnState(bool s) {
+	spawned = s;
+}
+
+bool enemy::isSpawned() {
+	return spawned;
+}
+
+void enemy::setEscapeState(bool escape) {
+	justEscaped = escape;
+}
+
+bool enemy::getEscapeState() {
+	return justEscaped;
 }

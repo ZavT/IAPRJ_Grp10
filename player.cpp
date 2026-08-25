@@ -71,44 +71,6 @@ int player::checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyC
 	return -1; //not colliding w any enemy
 }
 
-//test functions
-//player attack functions testing
-void player::testAttack(enemy& targetenemy) {
-	//dstx and disty between enemy and player
-	int distX = getPosX() - targetenemy.getPosX();
-	int distY = getPosY() - targetenemy.getPosY();
-
-	float accuracy = 95;
-
-	//for diagonals, find hypotenuse of triangles with sides distX distY
-	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
-
-	int a = static_cast<int>(hypoDist);
-
-	if (hypoDist > 2) {
-		accuracy = accuracy - (a * (8 / getPlayerStrengthFinal()));
-	}
-	else {
-		accuracy = accuracy - a;
-	}
-	
-	std::cout << "distance: " << hypoDist << ", accuracy: " << accuracy << std::endl;
-}
-
-//void player::checkForEnemy(enemy& targetenemy)
-//{
-//	//dstx and disty between enemy and player
-//	int distX = getPosX() - targetenemy.getPosX();
-//	int distY = getPosY() - targetenemy.getPosY();
-//
-//	//for diagonals, find hypotenuse of triangles with sides distX distY
-//	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
-//
-//	if (hypoDist <= 1.5) {
-//		std::cout << "triggered battle cutscene with enemy" << std::endl;
-//	}
-//}
-
 bool player::checkforbattle(enemy& targetenemy)
 {
 	//dstx and disty between enemy and player	
@@ -118,12 +80,11 @@ bool player::checkforbattle(enemy& targetenemy)
 	//for diagonals, find hypotenuse of triangles with sides distX distY
 	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
 
-	if (hypoDist == 1) {
+	if (hypoDist <= 1) {
 		return true;
 	}
 	return false;
 }
-
 
 //player stat functions
 std::string player::getPlayerName()
