@@ -21,5 +21,6 @@ public:
 	void addWeapon(weapon newWeapon);
 	void addPotion(consumable newPotion);
 	weapon getEquippedWeapon();
+	bool hasWeapon(std::string weaponName);
 };
 

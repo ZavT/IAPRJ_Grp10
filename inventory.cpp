@@ -35,6 +35,17 @@ weapon inventory::getEquippedWeapon(){
 	return ownedWeapons[equippedWeaponIndex];
 }
 
+bool inventory::hasWeapon(std::string weaponName)
+{
+	//check if weapon in bag
+	for (size_t i = 0; i < ownedWeapons.size(); i++) {
+		if (ownedWeapons[i].getItemName() == weaponName) {
+			return true; 
+		}
+	}
+	return false;
+}
+
 //left with
 	//others items
  

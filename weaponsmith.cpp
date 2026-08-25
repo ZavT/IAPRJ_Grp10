@@ -69,6 +69,10 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
 
         if (!validChoice) continue;
 
+        if (bag.hasWeapon(toAdd.getItemName())) {
+            std::cout << "\n\tYou already own the " << toAdd.getItemName() << "! Try buying something else.\n";
+        }
+
         if (p.getPlayerGold() >= price) {
             p.setPlayerGold(p.getPlayerGold() - price);
             bag.addWeapon(toAdd);
