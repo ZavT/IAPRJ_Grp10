@@ -38,7 +38,7 @@ bool level::checklevelup()
 	if (exp >= expneeded) {
 		exp -= expneeded;
 		Plevel++; // level up
-		return false;
+		return true;
 	}
 
 	return false;

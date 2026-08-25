@@ -277,7 +277,7 @@ void game::createWorldMap() {
 }
 
 void game::timePassMinutes(int m) {
-    int janDays = 28;
+    int febDays = 28;
 
     if (minute < 10 && hour < 10)
         std::cout << day << '/' << month << '/' << year << ' ' << '0' << hour << '0' << minute << std::endl;
@@ -303,17 +303,17 @@ void game::timePassMinutes(int m) {
             }
 
             if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
-                janDays = 29;
+                febDays = 29;
             }
             else {
-                janDays = 28;
+                febDays = 28;
             }
 
-            if ((month == 1 && day >= 32) || (month == 2 && day >= janDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+            if ((month == 1 && day >= 32) || (month == 2 && day >= febDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
                 (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
                 (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
 
-                while ((month == 1 && day >= 32) || (month == 2 && day >= janDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+                while ((month == 1 && day >= 32) || (month == 2 && day >= febDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
                     (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
                     (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
 
@@ -322,7 +322,7 @@ void game::timePassMinutes(int m) {
                         day = day - 31;
                         break;
                     case 2:
-                        day = day - janDays;
+                        day = day - febDays;
                         break;
                     case 3:
                         day = day - 31;
