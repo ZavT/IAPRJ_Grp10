@@ -1,7 +1,7 @@
 #include "level.h"
 
 level::level(){
-	Plevel = 1;
+	Plevel = 0;
 	exp = 0;
 }
 
@@ -18,13 +18,14 @@ int level::getlevel()
 int level::getexp()
 {
 	return exp;
-}
+}	
 
 int level::getexpneeded() {
-	if (Plevel <= 1) return 10;
-	if (Plevel == 2) return 20;
-	if (Plevel == 3) return 50;
-	if (Plevel == 4) return 70;
+	if (Plevel == 0) return 20;
+	if (Plevel == 1) return 70;
+	if (Plevel == 2) return 80;
+	if (Plevel == 3) return 100;
+	if (Plevel == 4) return 100;
 	return 0; // reach max lv
 }
 

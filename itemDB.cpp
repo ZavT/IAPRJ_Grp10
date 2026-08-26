@@ -3,7 +3,7 @@
 //WEAPONS
 weapon itemDB::getCombatKnife(){
 	//weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc);
-	weapon w("Combat Knife", 0, 1, 5, 100);
+	weapon w("Combat Knife", 0, 1, 100000, 100); //p lease change 
 	w.setMeleeWeapon(true); //strength affects melee weapon
 	return w;
 }

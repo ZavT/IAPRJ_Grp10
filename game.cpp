@@ -411,7 +411,7 @@ void game::Intro()
               << "to run low. With supplies running low, you had no choice but to leave the bunker to\n"
               << "avoid dying of starvation. This is where your story begins." << std::endl;
     std::cout << std::endl;
-    std::cout << "Press Enter to start creating your character";
+    std::cout << "Press Enter to start creating your character...";
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     system("CLS");
@@ -419,8 +419,7 @@ void game::Intro()
 
 
     std::cout << "Enter your name: ";
-    std::cin >> tempName;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::getline(std::cin, tempName);
     player.setPlayerName(tempName);
     std::cout << "Your name is " << player.getPlayerName() << "." << std::endl;
     std::cout << std::endl;
@@ -441,60 +440,62 @@ void game::Intro()
         std::cout << "Luck: " << player.getPlayerLuck() << std::endl;
         std::cout << "Endurance: " << player.getPlayerEndurance() << std::endl;
         std::cout << "Intelligence: " << player.getPlayerIntelligence() << std::endl;
-        std::cout << "Inputs: S+, S-, A+, A-, L+, L-, E+, E-, I+, I-\nEnter 'Ready' when ready." << std::endl;
+        std::cout << std::endl;
         std::cout << "Can't have stats lower than 2 and you have to use all 5 stat points." << std::endl;
+        std::cout << "Enter 'Ready' when ready." << std::endl;
+        std::cout << "Inputs: S+, S-, A+, A-, L+, L-, E+, E-, I+, I-" << std::endl;
         std::cin >> ccInput;
-        if (ccInput == "S+" && player.getStatPoints() > 0) {
+        if ((ccInput == "S+" || ccInput == "s+") && player.getStatPoints() > 0) {
             player.setPlayerStrength(player.getPlayerStrength() + 1);
             player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
-        else if (ccInput == "S-" && player.getPlayerStrength() > 2) {
+        else if ((ccInput == "S-" || ccInput == "s-") && player.getPlayerStrength() > 2) {
             player.setPlayerStrength(player.getPlayerStrength() - 1);
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "A+" && player.getStatPoints() > 0) {
+        else if ((ccInput == "A+" || ccInput == "a+") && player.getStatPoints() > 0) {
             player.setPlayerAgility(player.getPlayerAgility() + 1);
             player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
-        else if (ccInput == "A-" && player.getPlayerAgility() > 2) {
+        else if ((ccInput == "A-" || ccInput == "a-") && player.getPlayerAgility() > 2) {
             player.setPlayerAgility(player.getPlayerAgility() - 1);
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "L+" && player.getStatPoints() > 0) {
+        else if ((ccInput == "L+" || ccInput == "l+") && player.getStatPoints() > 0) {
             player.setPlayerLuck(player.getPlayerLuck() + 1);
             player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
-        else if (ccInput == "L-" && player.getPlayerLuck() > 2) {
+        else if ((ccInput == "L-" || ccInput == "l-") && player.getPlayerLuck() > 2) {
             player.setPlayerLuck(player.getPlayerLuck() - 1);
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "E+" && player.getStatPoints() > 0) {
+        else if ((ccInput == "E+" || ccInput == "e+") && player.getStatPoints() > 0) {
             player.setPlayerEndurance(player.getPlayerEndurance() + 1);
             player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
-        else if (ccInput == "E-" && player.getPlayerEndurance() > 2) {
+        else if ((ccInput == "E-" || ccInput == "e-") && player.getPlayerEndurance() > 2) {
             player.setPlayerEndurance(player.getPlayerEndurance() - 1);
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "I+" && player.getStatPoints() > 0) {
+        else if ((ccInput == "I+" || ccInput == "i+") && player.getStatPoints() > 0) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
             player.setStatPoints(player.getStatPoints() - 1);
             system("CLS");
         }
-        else if (ccInput == "I-" && player.getPlayerIntelligence() > 2) {
+        else if ((ccInput == "I-" || ccInput == "i-") && player.getPlayerIntelligence() > 2) {
             player.setPlayerIntelligence(player.getPlayerIntelligence() - 1);
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() != 0) { 
+        else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() != 0) {
             system("CLS");
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
@@ -509,6 +510,15 @@ void game::Intro()
             std::cout << "Invalid Input" << std::endl;
             std::cout << std::endl;
         }
+    }
+}
+
+int game::randEncCalc() {
+    if ((hour > 21) && (hour < 6)) { // night time
+        return (40 - player.getPlayerLuck());
+    }
+    else {
+        return (15 - player.getPlayerLuck());
     }
 }
 
