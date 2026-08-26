@@ -1,6 +1,7 @@
 #pragma once
 #include "map.h"
 #include "enemy.h"
+#include "boss.h"
 
 class lab :
     public map
@@ -13,10 +14,12 @@ public:
 
     map labMap;
     enemy** labEnemy;
-    enemy** TheScientist;
+    boss* TheScientist = nullptr;
     int labEnemyCount;
+  
 
     void summonBoss();
     void printlabMap();
+    void checkRoomClear();
 };
 
