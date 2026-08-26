@@ -57,6 +57,7 @@ void npc::onOverlap()
     if (rv == 9) {
         // +1 Health Potion
     }
+}
 
 void npc::onOverlap(player& p, inventory& bag)
 {

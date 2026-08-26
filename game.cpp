@@ -1322,7 +1322,6 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 29 && destY == 0) {
 			if (!isLooted1) {
 				player.loot(10, 1);
-<<<<<<< Updated upstream
 				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
                 DialogueTree tree;
