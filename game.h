@@ -49,6 +49,8 @@ private:
     int backupStatPoints;
     int backupKeyFragment;
     inventory backupBag;
+    int backupPosX;
+    int backupPosY;
 
     bool gameEnd = false;
    

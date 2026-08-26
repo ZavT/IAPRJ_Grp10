@@ -147,9 +147,9 @@ void inventory::inventoryMenu(player& p)
 					leftCol.push_back("Item: " + ownedWeapons[itemIndex].getItemName());
 					leftCol.push_back("AP Cost: " + std::to_string(ownedWeapons[itemIndex].getItemAPcost()));
 					leftCol.push_back("Acc:  " + std::to_string(ownedWeapons[itemIndex].getweaponacc()) + "%");
-					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p) - static_cast<int>(p.getPlayerStrengthFinal())));
+					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p)));
 					leftCol.push_back("");
-					leftCol.push_back("[E] Equip | [U] Unequip | [ESC] Back");
+					leftCol.push_back("[E] Equip | [ESC] Back");
 				}
 				else if (tab == 2 && (itemIndex == 0 || itemIndex == 1)) { // POTION DETAILS
 					if (itemIndex == 0 && hpCount > 0) {
@@ -220,7 +220,6 @@ void inventory::inventoryMenu(player& p)
 
 					if (tab == 1) { // Weapons
 						if (act == 'e' || act == 'E') { equippedWeaponIndex = itemIndex; inDetails = false; }
-						else if (act == 'u' || act == 'U') { equippedWeaponIndex = -1; inDetails = false; }
 					}
 					else if (tab == 2) { // Potions
 						if (act == 'c' || act == 'C') {

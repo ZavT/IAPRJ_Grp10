@@ -1056,51 +1056,34 @@ void game::checkMapChange() {
     //worldmap entry to POIs checking
     if (currentMap == Location::MainWorld) {
         if (player.getPosX() == 3 && player.getPosY() == 5) {
-            //when player enters sewer1 from the worldmap, make current active map Sewer1.
             currentMap = Location::Sewer1;
-            initialinfo();
             Sewer1.printSewerMap(1);
-            //set player position
             player.setPosition(1, 2);
+            initialinfo(); // Moved below setPosition!
         }
-
         else if (player.getPosX() == 7 && player.getPosY() == 10) {
-            //when player enters sewer2 from the worldmap, make current active map Sewer2.
             currentMap = Location::Sewer2;
-            initialinfo();
             Sewer2.printSewerMap(2);
-            //set player position
             player.setPosition(1, 2);
-
+            initialinfo();
         }
-
         else if (player.getPosX() == 15 && player.getPosY() == 12) {
-            //when player enters sewer3 from the worldmap, make current active map Sewer3.
             currentMap = Location::Sewer3;
-            initialinfo();
             Sewer3.printSewerMap(3);
-            //set player position
             player.setPosition(1, 2);
-
-        }
-
-        else if (player.getPosX() == 0 && player.getPosY() == 7) {
-            //when player enters bunker from the worldmap, make current active map bunker.
-            currentMap = Location::Bunker;
             initialinfo();
-            Bunker.printbunkerMap();
-            //set entity positions
-            player.setPosition(7, 4);
-
         }
-
+        else if (player.getPosX() == 0 && player.getPosY() == 7) {
+            currentMap = Location::Bunker;
+            Bunker.printbunkerMap();
+            player.setPosition(7, 4);
+            initialinfo();
+        }
         else if (player.getPosX() == 12 && player.getPosY() == 8) {
-            //when player enters town from the worldmap, make current active map town.
             currentMap = Location::Town;
             Town.printtownMap();
-            //set entity positions
             player.setPosition(1, 7);
-
+            initialinfo(); // Added to Town!
         }
         else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() < 3) {
             player.setPosition(18, 7);
@@ -1108,8 +1091,8 @@ void game::checkMapChange() {
         else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() >= 3) {
             currentMap = Location::Lab;
             Lab.printlabMap();
-            //set entity positions
             player.setPosition(1, 4);
+            initialinfo(); // Added to Lab!
         }
     }
 
@@ -1118,34 +1101,37 @@ void game::checkMapChange() {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(2, 5);
+            initialinfo(); // Added to Overworld!
         }
     }
     else if (currentMap == Location::Sewer2) {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(6, 10);
+            initialinfo();
         }
     }
     else if (currentMap == Location::Sewer3) {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(14, 12);
+            initialinfo();
         }
     }
-
     else if (currentMap == Location::Bunker) {
         if (player.getPosX() == 8 && player.getPosY() == 4) {
             currentMap = Location::MainWorld;
             player.setPosition(1, 7);
+            initialinfo();
         }
     }
     else if (currentMap == Location::Town) {
         if (player.getPosX() == 0 && player.getPosY() == 7) {
             currentMap = Location::MainWorld;
             player.setPosition(11, 8);
+            initialinfo();
         }
     }
-
     else if (currentMap == Location::Lab) {
         if (player.getPosX() == 0 && player.getPosY() == 4) {
             if (Lab.TheScientist != nullptr && Lab.TheScientist->getBossActive()) {
@@ -1153,6 +1139,7 @@ void game::checkMapChange() {
             else {
                 currentMap = Location::MainWorld;
                 player.setPosition(18, 7);
+                initialinfo();
             }
         }
     }
@@ -1195,66 +1182,69 @@ void game::initialinfo() //for restart stage to chang info to your info when you
 
 void game::restartstage() //testing
 {
-   //restore the time
+    // 1. Restore the time
     day = backupDay; month = backupMonth; year = backupYear;
     hour = backupHour; minute = backupMinute;
 
-    //restore the player stats //missing exp, level, name, weapons and potions 
+    // 2. Restore the player stats
     player.setPlayerHealthPoints(backupHP);
     player.setPlayerName(backupName);
-    player.setPlayerLevel(backupLevel);
-    player.setPlayerExp(backupExp);
     player.setPlayerGold(backupGold);
     player.setPlayerKeyFragment(backupKeyFragment);
     player.setStatPoints(backupStatPoints);
+    player.setPlayerLevel(backupLevel);
+    player.setPlayerExp(backupExp);
     bag = backupBag;
 
-    //player at entrance and revive the enemies!
+    // 3. SET POSITION AUTOMATICALLY FOR ANY MAP!
+    player.setPosition(backupPosX, backupPosY);
 
+    // 4. Revive the map's enemies
     if (currentMap == Location::Sewer1) {
-        player.setPosition(1, 2);
         for (int e = 0; e < Sewer1.enemyCount; e++) {
-            if (Sewer1.sewerEnemy[e] == nullptr) {
-                // If enemy was deleted, rebuild it! (0, 1, 2 are Rats. 3, 4 are Humans)
-                if (e < 3) Sewer1.sewerEnemy[e] = new mutRat(0, 0, e);
-                else Sewer1.sewerEnemy[e] = new mutHuman(0, 0, e);
-            }
-            // Restore max HP
+            if (Sewer1.sewerEnemy[e] == nullptr) Sewer1.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
             Sewer1.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
         }
-        Sewer1.printSewerMap(1); // This resets their exact map positions!
+        Sewer1.printSewerMap(1);
     }
     else if (currentMap == Location::Sewer2) {
-        player.setPosition(1, 2);
         for (int e = 0; e < Sewer2.enemyCount; e++) {
-            if (Sewer2.sewerEnemy[e] == nullptr) {
-                if (e < 3) Sewer2.sewerEnemy[e] = new mutRat(0, 0, e);
-                else Sewer2.sewerEnemy[e] = new mutHuman(0, 0, e);
-            }
+            if (Sewer2.sewerEnemy[e] == nullptr) Sewer2.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
             Sewer2.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
         }
         Sewer2.printSewerMap(2);
     }
     else if (currentMap == Location::Sewer3) {
-        player.setPosition(1, 2);
         for (int e = 0; e < Sewer3.enemyCount; e++) {
-            if (Sewer3.sewerEnemy[e] == nullptr) {
-                if (e < 3) Sewer3.sewerEnemy[e] = new mutRat(0, 0, e);
-                else Sewer3.sewerEnemy[e] = new mutHuman(0, 0, e);
-            }
+            if (Sewer3.sewerEnemy[e] == nullptr) Sewer3.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
             Sewer3.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
         }
         Sewer3.printSewerMap(3);
     }
     else if (currentMap == Location::Bunker) {
-        player.setPosition(0, 4); // Bunker starting position
         for (int e = 0; e < Bunker.BunkerEnemyCount; e++) {
-            if (Bunker.bunkerEnemy[e] == nullptr) {
-                Bunker.bunkerEnemy[e] = new mutRat(0, 0, e); // Bunker only has Rats
-            }
+            if (Bunker.bunkerEnemy[e] == nullptr) Bunker.bunkerEnemy[e] = new mutRat(0, 0, e);
             Bunker.bunkerEnemy[e]->setHealthPoints(30);
         }
         Bunker.printbunkerMap();
+    }
+    else if (currentMap == Location::Lab) {
+        for (int e = 0; e < Lab.labEnemyCount; e++) {
+            if (Lab.labEnemy[e] == nullptr) Lab.labEnemy[e] = (e < 2) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
+            Lab.labEnemy[e]->setHealthPoints((e < 2) ? 30 : 70);
+        }
+        // Force the Scientist to reset!
+        if (Lab.TheScientist != nullptr) {
+            delete Lab.TheScientist;
+            Lab.TheScientist = nullptr;
+        }
+        Lab.printlabMap();
+    }
+    else if (currentMap == Location::Town) {
+        Town.printtownMap();
+    }
+    else if (currentMap == Location::MainWorld) {
+        // The overworld doesn't have permanent map enemies to revive, so just do nothing here!
     }
 
 }
@@ -1311,10 +1301,10 @@ void game::restartgame()
     }
 
     Intro();
-    initialinfo(); //remove other backups
     currentMap = Location::Bunker;
     Bunker.printbunkerMap();
     player.setPosition(0, 4);
+    initialinfo();
 }
 
 void game::handleMovement(int dx, int dy) {
