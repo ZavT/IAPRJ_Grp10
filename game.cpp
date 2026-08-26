@@ -513,6 +513,15 @@ void game::Intro()
     }
 }
 
+int game::randEncCalc() {
+    if ((hour > 21) && (hour < 6)) { // night time
+        return (40 - player.getPlayerLuck());
+    }
+    else {
+        return (15 - player.getPlayerLuck());
+    }
+}
+
 void game::randomEncounterChance(int chance) {
     int randomNum = (rand() % 100) + 1;
 
