@@ -245,15 +245,19 @@ void game::battlesequence(enemy*& currentEnemy)
     }
 
     if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
-        int expgained;
+        int expgained;  
+        int gold;
         if (enemysymbol == 'R') {
             expgained = 10 + player.getPlayerIntelligenceFinal();
+            gold = 10;
         }
         else if (enemysymbol == 'H') {
             expgained = 20 + player.getPlayerIntelligenceFinal();
+            gold = 15;
         }
         player.gainExp(expgained);
-        std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp. Press any key...";
+        player.loot(gold, 0); //gain gold and 0 frags
+        std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp and "<< gold << " gold. Press any key...";
 
         delete currentEnemy;
         currentEnemy = nullptr;
