@@ -530,11 +530,12 @@ void game::Run()
         map& current = activeMap();
 
         //define the number of enemies in total
+        //total number of sewer enemies
         int enemyX[6];
         int enemyY[6];
         char enemySymbol[6];
-        int enemyCount = 0;
 
+        int enemyCount = 0;
         //every start of the loop, change the time depending on current location
         if (currentMap == Location::MainWorld) {
             int randomTimeOW = (rand() % 9) + 52;
@@ -544,7 +545,8 @@ void game::Run()
             int randomTimePOI = (rand() % 2) + 1;
             timePassMinutes(randomTimePOI);
         }
-                
+         
+        //controls enemy behaviour, render and battle for each room w enemies inside
         if (currentMap == Location::Sewer1) {
             for (int e = 0; e < Sewer1.enemyCount; e++) {
 
@@ -676,6 +678,34 @@ void game::Run()
             gameRunning = false;
             continue; // Force the loop to restart and gracefully exit
         }
+        else if (currentMap == Location::Lab) {
+            for (int e = 0; e < Lab.labEnemyCount; e++) {
+
+                if (Lab.labEnemy[e] == nullptr || !Lab.labEnemy[e]->isSpawned()) {
+                    continue;
+                }
+
+                enemyX[enemyCount] = Lab.labEnemy[e]->getPosX();
+                enemyY[enemyCount] = Lab.labEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Lab.labEnemy[e]->getSymbol();
+
+                if (!Lab.labEnemy[e]->getEscapeState()) {
+                    Lab.labEnemy[e]->enemyBehaviour(player, Lab.labMap, Lab.labEnemy, Lab.labEnemyCount, e);
+                }
+                Lab.labEnemy[e]->checkForPlayer(player);
+                if (Lab.labEnemy[e]->getHealthPoints() > 0) {
+                    if (Lab.labEnemy[e]->getEscapeState()) {
+                        Lab.labEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Lab.labEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
+                        battlesequence(Lab.labEnemy[e]);
+                        player.setBattleState(false);
+                    }
+                }
+                enemyCount++;
+            }
+        }
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
@@ -712,8 +742,8 @@ void game::Run()
             //check if player has discovered a poi after moving
             discoverpoi();
             checkMapChange();
+            
         }
-
         //check if quit game
         else if (ch == 'q' || ch == 'Q') {
             system("CLS");
@@ -740,7 +770,7 @@ void game::Run()
             system("CLS");
             break;
         }
-
+        system("CLS");
     }
 }
 
