@@ -35,12 +35,10 @@ void npc::onOverlap()
     if (rv == 5) {
         weaponsmith smith;
         smith.weaponsmithOpen(player, bag);
-        std::cout << "\nWeapon shop\n";
     }
     if (rv == 6) {
         alchemist alchemist;
         alchemist.alchemistOpen(player, bag);
-        std::cout << "\nPotion shop\n";
     }
     if (rv == 7) {
         std::cout << "\n'Good luck...'\n";
