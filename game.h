@@ -68,7 +68,7 @@ public:
     void discoverpoi();
     void battlesequence(enemy*& currentEnemy);
 
-    int randEncCalc();
+    int randEncChanceNum();
     void randomEncounterChance(int chance);
 
     void timePassMinutes(int m);

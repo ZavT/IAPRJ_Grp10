@@ -517,7 +517,7 @@ void game::Intro()
     }
 }
 
-int game::randEncCalc() {
+int game::randEncChanceNum() {
     if ((hour > 21) && (hour < 6)) { // night time
         return (40 - player.getPlayerLuck());
     }
@@ -530,7 +530,7 @@ void game::randomEncounterChance(int chance) {
     int randomNum = (rand() % 100) + 1;
 
     if (randomNum <= chance) {
-        // random encounter code
+        // random encounter code (reuse entering POI code)
     }
 }
 
