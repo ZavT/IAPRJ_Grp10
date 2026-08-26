@@ -259,8 +259,18 @@ bool player::getBattleState() {
 
 	bool player::respawn()
 	{
+		//set hp again
 		setPlayerHealthPoints(getPlayerMaxHealthPoints());
 		isAlive = true; 
+
+		//gold reduction
+		int currentGold = getPlayerGold();
+		if (currentGold >= 50) {
+			setPlayerGold(currentGold - 50); 
+		}
+		else {
+			setPlayerGold(0);
+		}
 
 		return true;
 	}
