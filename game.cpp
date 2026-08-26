@@ -702,11 +702,6 @@ void game::randomEncounterChance(int chance) {
                 (player.getPosX() != 15 && player.getPosY() != 12) || (player.getPosX() != 0 && player.getPosY() != 7) ||
                 (player.getPosX() != 12 && player.getPosY() != 8) || (player.getPosX() != 19 && player.getPosY() != 7)) {
 
-                currentMap = Location::RandEnc;
-                randEnc.printRandEncMap(1);
-                player.setPosition(6, 7);
-                std::cout << "RANDOM ENCOUNTER" << std::endl;
-                std::cout << std::endl;
 
             }
         }
