@@ -1259,10 +1259,7 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 29 && destY == 0) {
 			if (!isLooted1) {
 				player.loot(10, 1);
-                DialogueTree tree;
-                npc chest(npc::Type::Chest, &tree);
-                system("CLS");
-                chest.onOverlap();
+				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
 				isLooted1 = true;
 			}
 			else {
@@ -1275,10 +1272,7 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 29 && destY == 0) {
             if (!isLooted2) {
                 player.loot(10, 1);
-                DialogueTree tree;
-                npc chest(npc::Type::Chest, &tree);
-                system("CLS");
-                chest.onOverlap();
+                std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 isLooted2 = true;
             }
 			else {
@@ -1291,10 +1285,7 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 29 && destY == 0) {
             if (!isLooted3) {
                 player.loot(10, 1);
-                DialogueTree tree;
-                npc chest(npc::Type::Chest, &tree);
-                system("CLS");
-                chest.onOverlap();
+                std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 isLooted3 = true;
             }
             else {
