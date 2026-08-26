@@ -56,6 +56,8 @@ private:
     map& activeMap();
     enemy** activeEnemy(int& totalCount);
     void handleMovement(int dx, int dy);
+
+    entity* sewerGrid[15][5];
 public:
     game();
 
@@ -70,5 +72,8 @@ public:
     void randomEncounterChance(int chance);
 
     void timePassMinutes(int m);
+
+    entity* getEntityAt(int x, int y) const;
+    void destroyEntity(entity* e);
 };
 
