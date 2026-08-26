@@ -13,6 +13,7 @@ private:
 	std::vector<consumable> ownedPotions;
 	int others;
 	int statPoints;
+	level level;
 
 public:
 	inventory();
@@ -20,5 +21,6 @@ public:
 	void addWeapon(weapon newWeapon);
 	void addPotion(consumable newPotion);
 	weapon getEquippedWeapon();
+	bool hasWeapon(std::string weaponName);
 };
 

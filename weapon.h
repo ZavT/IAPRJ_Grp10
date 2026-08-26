@@ -10,8 +10,10 @@ private:
     bool isMelee;
 
 public:
+    weapon();
     weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc);
     int getweapondmg(player& p);
     int getweaponacc();
     void setMeleeWeapon(bool m);
+    bool getweaponismelee();
 };

@@ -18,8 +18,7 @@ inventory::inventory()
 	ownedWeapons.push_back(itemDB::getCombatKnife());
 	ownedPotions.push_back(itemDB::getHealthPotion()); //change later
 	others = 0;
-	statPoints = 5;
-	
+	statPoints = 0;
 }
 
 void inventory::addWeapon(weapon newWeapon)
@@ -36,6 +35,17 @@ weapon inventory::getEquippedWeapon(){
 	return ownedWeapons[equippedWeaponIndex];
 }
 
+bool inventory::hasWeapon(std::string weaponName)
+{
+	//check if weapon in bag
+	for (size_t i = 0; i < ownedWeapons.size(); i++) {
+		if (ownedWeapons[i].getItemName() == weaponName) {
+			return true; 
+		}
+	}
+	return false;
+}
+
 //left with
 	//others items
  
@@ -47,9 +57,7 @@ void inventory::inventoryMenu(player& p)
 	while (bagOpen) {
 		system("CLS");
 
-		// -------------------------------------------------------------
-		// TOP SECTION: The Main Inventory List
-		// -------------------------------------------------------------
+		
 		std::cout << "\t====== INVENTORY ======\n\n";
 
 		std::cout << "\t" << (tab == 0 ? "[ALL]   " : " ALL    ")
@@ -67,8 +75,11 @@ void inventory::inventoryMenu(player& p)
 				std::cout << "\t" << index++ << ". " << ownedPotions[i].getItemName() << "\n";
 			}
 
-			std::cout << "\t" << index++ << ". Stat points x " << statPoints << "\n";
+			std::cout << "\t" << index++ << ". Stat points x " << p.getStatPoints() << "\n";
+			std::cout << "\t" << index++ << ". Gold x " << p.getPlayerGold() << "\n";
+			std::cout << "\t" << index++ << ". Key Fragments x " << p.getPlayerKeyFragment() << "\n";
 		}
+
 		else if (tab == 1) { // WEAPONS TAB
 			if (ownedWeapons.empty()) std::cout << "\tBag is empty.\n";
 			for (size_t i = 0; i < ownedWeapons.size(); i++) {
@@ -83,19 +94,22 @@ void inventory::inventoryMenu(player& p)
 			}
 		}
 		else if (tab == 3) { // OTHERS TAB
-
-			std::cout << "\t3. Stat points x " << statPoints << "\n";
+			std::cout << "\t1. Stat points x " << p.getStatPoints() << "\n";
+			std::cout << "\t2. Gold x " << p.getPlayerGold() << "\n";
+			std::cout << "\t3. Key Fragments x " << p.getPlayerKeyFragment() << "\n";
 		}
 
 		std::cout << "\n\t----------------------------------------------------------\n\n";
 
-		// -------------------------------------------------------------
-		// BOTTOM SECTION: Details & Character Stats
-		// -------------------------------------------------------------
-		std::vector<std::string> leftCol; // This will hold either instructions or the inspection menu
+		//details & stat allcoation
+		std::vector<std::string> leftCol; // instructions or inspection menu
 
-		std::vector<std::string> rightCol; // Character stats
+		// Character stats
+		std::vector<std::string> rightCol;
 		rightCol.push_back("Name: " + p.getPlayerName());
+
+		rightCol.push_back("Lvl:  " + std::to_string(p.getPlayerLevel()) + " (" + std::to_string(p.getPlayerExp()) + " EXP)");
+
 		rightCol.push_back("HP:   " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
 		rightCol.push_back("STR:  " + std::to_string(static_cast<int>(p.getPlayerStrengthFinal())));
 		rightCol.push_back("AGI:  " + std::to_string(static_cast<int>(p.getPlayerAgilityFinal())));
@@ -103,13 +117,13 @@ void inventory::inventoryMenu(player& p)
 		rightCol.push_back("END:  " + std::to_string(static_cast<int>(p.getPlayerEnduranceFinal())));
 		rightCol.push_back("INT:  " + std::to_string(static_cast<int>(p.getPlayerIntelligenceFinal())));
 
-		// Initialize default left column (Instructions)
+		//left (Instructions)
 		leftCol.push_back("[Left/Right] Switch Tabs");
 		leftCol.push_back("[1-9] Inspect Item");
 		leftCol.push_back("[N] Edit Name");
 		leftCol.push_back("[ESC] Close Inventory");
 
-		// Print the bottom section side-by-side
+		// bottom side-by-side
 		size_t maxRows = std::max(leftCol.size(), rightCol.size());
 		for (size_t i = 0; i < maxRows; i++) {
 			std::string left = (i < leftCol.size()) ? leftCol[i] : "";
@@ -142,7 +156,7 @@ void inventory::inventoryMenu(player& p)
 					leftCol.push_back("Item: " + ownedWeapons[itemIndex].getItemName());
 					leftCol.push_back("AP Cost: " + std::to_string(ownedWeapons[itemIndex].getItemAPcost()));
 					leftCol.push_back("Acc:  " + std::to_string(ownedWeapons[itemIndex].getweaponacc()) + "%");
-					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p)));
+					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p) - p.getPlayerStrength()));
 					leftCol.push_back("");
 					leftCol.push_back("[E] Equip | [U] Unequip | [ESC] Back");
 				}
@@ -152,8 +166,8 @@ void inventory::inventoryMenu(player& p)
 					leftCol.push_back("");
 					leftCol.push_back("[C] Consume | [ESC] Back");
 				}
-				else if (tab == 3 && itemIndex == 2) { // 3rd item in Others tab is Stat Points
-					leftCol.push_back("Unspent Points: " + std::to_string(statPoints));
+				else if (tab == 3 && itemIndex == 0) { // 1st item (Index 0) in Others tab is Stat Points
+					leftCol.push_back("Unspent Points: " + std::to_string(p.getStatPoints()));
 					leftCol.push_back("");
 					leftCol.push_back("Inputs: S+, S-, A+, A-, L+, L-");
 					leftCol.push_back("        E+, E-, I+, I-");
@@ -182,32 +196,32 @@ void inventory::inventoryMenu(player& p)
 					std::cout << "\t" << std::left << std::setw(40) << left << right << "\n";
 				}
 
-				// --- SPLIT INPUT LOGIC ---
-
-				// 1. If inspecting Stat Points, use std::cin for string inputs
-				if (tab == 3 && itemIndex == 2) {
+				// use std::cin for stats
+				if (tab == 3 && itemIndex == 0) {
 					std::string statInput;
 					std::cout << "\n\tEnter input: ";
 					std::cin >> statInput;
 
-					if (statInput == "S+" && statPoints > 0) { p.setPlayerStrength(p.getPlayerStrength() + 1); statPoints--; }
-					else if (statInput == "S-" && p.getPlayerStrength() > 2) { p.setPlayerStrength(p.getPlayerStrength() - 1); statPoints++; }
+					if (statInput == "S+" && p.getStatPoints() > 0) { p.setPlayerStrength(p.getPlayerStrength() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "S-" && p.getPlayerStrength() > 2) { p.setPlayerStrength(p.getPlayerStrength() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "A+" && statPoints > 0) { p.setPlayerAgility(p.getPlayerAgility() + 1); statPoints--; }
-					else if (statInput == "A-" && p.getPlayerAgility() > 2) { p.setPlayerAgility(p.getPlayerAgility() - 1); statPoints++; }
+					else if (statInput == "A+" && p.getStatPoints() > 0) { p.setPlayerAgility(p.getPlayerAgility() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "A-" && p.getPlayerAgility() > 2) { p.setPlayerAgility(p.getPlayerAgility() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "L+" && statPoints > 0) { p.setPlayerLuck(p.getPlayerLuck() + 1); statPoints--; }
-					else if (statInput == "L-" && p.getPlayerLuck() > 2) { p.setPlayerLuck(p.getPlayerLuck() - 1); statPoints++; }
+					else if (statInput == "L+" && p.getStatPoints() > 0) { p.setPlayerLuck(p.getPlayerLuck() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "L-" && p.getPlayerLuck() > 2) { p.setPlayerLuck(p.getPlayerLuck() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "E+" && statPoints > 0) { p.setPlayerEndurance(p.getPlayerEndurance() + 1); statPoints--; }
-					else if (statInput == "E-" && p.getPlayerEndurance() > 2) { p.setPlayerEndurance(p.getPlayerEndurance() - 1); statPoints++; }
+					else if (statInput == "E+" && p.getStatPoints() > 0) { p.setPlayerEndurance(p.getPlayerEndurance() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "E-" && p.getPlayerEndurance() > 2) { p.setPlayerEndurance(p.getPlayerEndurance() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "I+" && statPoints > 0) { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); statPoints--; }
-					else if (statInput == "I-" && p.getPlayerIntelligence() > 2) { p.setPlayerIntelligence(p.getPlayerIntelligence() - 1); statPoints++; }
+					else if (statInput == "I+" && p.getStatPoints() > 0) { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if (statInput == "I-" && p.getPlayerIntelligence() > 2) { p.setPlayerIntelligence(p.getPlayerIntelligence() - 1); p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if (statInput == "Back" || statInput == "back") { inDetails = false; }
+					else if (statInput == "Back" || statInput == "back") { 
+						inDetails = false; }
 				}
-				// 2. If inspecting anything else, use standard _getch()
+
+				// use standard _getch() for the rest
 				else {
 					int act = _getch();
 

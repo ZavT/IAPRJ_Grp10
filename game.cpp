@@ -1,11 +1,16 @@
 #include <iostream>
 #include <conio.h>
+#include <cstdlib>
+#include <limits> //dialogue
 #include "game.h"
 #include "enemy.h"
 #include "player.h"
 #include "inventory.h"
 #include "sewer.h"
 #include "inspect.h"
+#include "weaponsmith.h"
+#include "npc.h"
+#include "DialogueTree.h"
 
 #define KEY_ARROW_UP 72
 #define KEY_ARROW_DOWN 80
@@ -75,13 +80,31 @@ void game::discoverpoi() //when within one tile range of the POI, reveal on worl
 void game::battlesequence(enemy*& currentEnemy)
 {
     bool inbattle = true;
+    char enemysymbol = currentEnemy->getSymbol();
+
     std::string ratASCII =
         "\n       _..----.._    _"
         "\n     .'  .--.    '-.(0)_"
         "\n'-.__.-''''-:  ,  _  ' '-."
         "\n             ''''' '''''''\n";
 
-    while (inbattle && player.getHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
+    std::string muthumanASCII = R"( 
+          _,-""-._
+        ,"        ".
+       /    ,-,  ,"\
+      "    /   \ | o|
+      \    `--"  `-',
+       `,   _.--'`'--`
+         `--`---'             
+           ,' '      
+         ./ ,  `,    
+         / /     \
+        (_)))_ _,"
+           _))))_,
+  --------(_,-._)))-------------------------------
+)";
+
+    while (inbattle && player.getPlayerHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
         //player turn
         player.setPlayerActionPoints(player.getPlayerAgility());
         bool playerturn = true;
@@ -92,7 +115,12 @@ void game::battlesequence(enemy*& currentEnemy)
         
         while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
-            std::cout << ratASCII << std::endl;
+            if (enemysymbol == 'H') {
+                std::cout << muthumanASCII << std::endl;
+            }
+            else if (enemysymbol == 'R') {
+                std::cout << ratASCII << std::endl;
+            }
             std::cout << "\t=== BATTLE ===\n\n";
             std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() <<"\n";
             std::cout << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << "\n\n";
@@ -104,13 +132,21 @@ void game::battlesequence(enemy*& currentEnemy)
             int act = _getch(); //input
 
             if (act == '1') {
+                int chance = activeWep.getweaponacc();
+                int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
-                    int dmg = player.getPlayerStrengthFinal() + activeWep.getweapondmg(player); 
-                    currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
-                    player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP); 
-                    std::cout << "\n\tYou dealt " << dmg << " damage with your " 
-                        << activeWep.getItemName() << "! Press any key...";
-                    (void)_getch();
+                    if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
+                        int dmg = activeWep.getweapondmg(player);
+                        currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
+                        player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
+                        std::cout << "\n\tYou dealt " << dmg << " damage with your "
+                            << activeWep.getItemName() << "! Press any key...";
+                        (void)_getch();
+                    }
+                    else {
+                        std::cout << "\n\tYou missed. Press any key...";
+                        (void)_getch();
+                    }
                 }
 
             }
@@ -125,29 +161,104 @@ void game::battlesequence(enemy*& currentEnemy)
                 std::cout << "\n\tGot away safely! Press any key...";
                 (void)_getch();
                 inbattle = false; // run
+                currentEnemy->setEscapeState(true); //player just escaped, so set escape state to true.
                 system("CLS");
                 break;
             }
         }
 
         //if player ran away or enemy died during the ap loop exit battle
-        if (!inbattle || currentEnemy->getHealthPoints() <= 0) 
+        if (!inbattle || currentEnemy->getHealthPoints() <= 0)
         break;
 
         // enemy turn
-        system("CLS");
-        std::cout << ratASCII << "\n";
-        std::cout << "\t Enemy Turn!\n\n";
+        if (enemysymbol == 'R') { //if enemy is rat
+            system("CLS");
+            std::cout << ratASCII << "\n";
+            std::cout << "\t Enemy Turn!\n\n";
 
-        int enemyDmg = 5; 
-        player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
-        std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
-        std::cout << "\tPress any key to start your next turn...";
-        (void)_getch();
+            int dodge = player.getPlayerAgilityFinal();
+            int randhit = (rand() % 100) + 1;
+            int dodgebuff = dodge;
+            if (activeWep.getweaponismelee() == false) {
+                dodgebuff += 30;
+            }
+
+            if (randhit < dodgebuff) {
+                std::cout << "\tYou dodged the enemy's attack\n";
+                std::cout << "\tPress any key to start your next turn...";
+                (void)_getch();
+            }
+            else {
+                if (rand() % 2 == 0) { // BITE //if 0 do bite
+                    int enemyDmg = 10;
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutant Rat bites you for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
+                else { // RAZOR TAIL
+                    int enemyDmg = (rand() % 6) + 10; // 10-15 dmg
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutant Rat swings its razor tail for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
+            }
+        }
+
+        if (enemysymbol == 'H') { // if enemy is mutated human
+            system("CLS");
+            std::cout << muthumanASCII << "\n";
+            std::cout << "\t Enemy Turn!\n\n";
+
+            int dodge = player.getPlayerAgilityFinal();
+            int randhit = rand() % 100;
+            int dodgebuff = dodge;
+
+            if (activeWep.getweaponismelee() == false) {
+                 dodgebuff += 30;
+            }
+
+            if (randhit < dodgebuff) {
+                std::cout << "\tYou dodged the enemy's attack\n";
+                std::cout << "\tPress any key to start your next turn...";
+                (void)_getch();
+            }
+            else {
+                if (rand() % 2 == 0) {
+                    int enemyDmg = 20; //mutated slash
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutated human slashes you for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
+                else {
+                    int enemyDmg = 14; //punch
+                    player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemyDmg); // enemy attack hp deduct
+                    std::cout << "\tThe Mutated human punched you for " << enemyDmg << " damage!\n";
+                    std::cout << "\tPress any key to start your next turn...";
+                    (void)_getch();
+                }
+            }
+        }
     }
 
     if (currentEnemy->getHealthPoints() <= 0) { // enemy dies
-        std::cout << "\n\tEnemy defeated! Press any key...";
+        int expgained;  
+        int gold;
+        if (enemysymbol == 'R') {
+            expgained = 10 + player.getPlayerIntelligenceFinal();
+            gold = 10;
+        }
+        else if (enemysymbol == 'H') {
+            expgained = 20 + player.getPlayerIntelligenceFinal();
+            gold = 15;
+        }
+        player.gainExp(expgained);
+        player.loot(gold, 0); //gain gold and 0 frags
+        std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp and "<< gold << " gold. Press any key...";
+
         delete currentEnemy;
         currentEnemy = nullptr;
         (void)_getch();
@@ -166,6 +277,98 @@ void game::createWorldMap() {
         worldMap.setpos(0, 7, 'B');//BUNKER
         worldMap.setpos(12, 8, 'T');//TOWN
         //worldMap.setpos(19, 7, 'L'); // LAB
+    }
+}
+
+void game::timePassMinutes(int m) {
+    int febDays = 28;
+
+    if (minute < 10 && hour < 10)
+        std::cout << day << '/' << month << '/' << year << ' ' << '0' << hour << '0' << minute << std::endl;
+    else if (minute < 10)
+        std::cout << day << '/' << month << '/' << year << ' ' << hour << '0' << minute << std::endl;
+    else if (hour < 10)
+        std::cout << day << '/' << month << '/' << year << ' ' << '0' << hour << minute << std::endl;
+    else
+        std::cout << day << '/' << month << '/' << year << ' ' << hour << minute << std::endl;
+
+    minute = minute + m;
+
+    if (minute >= 60) {
+        while (minute >= 60) {
+            minute = minute - 60;
+            hour = hour + 1;
+        }
+
+        if (hour >= 24) {
+            while (hour >= 24) {
+                hour = hour - 24;
+                day = day + 1;
+            }
+
+            if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
+                febDays = 29;
+            }
+            else {
+                febDays = 28;
+            }
+
+            if ((month == 1 && day >= 32) || (month == 2 && day >= febDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+                (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
+                (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
+
+                while ((month == 1 && day >= 32) || (month == 2 && day >= febDays + 1) || (month == 3 && day >= 32) || (month == 4 && day >= 31) ||
+                    (month == 5 && day >= 32) || (month == 6 && day >= 31) || (month == 7 && day >= 32) || (month == 8 && day >= 32) ||
+                    (month == 9 && day >= 31) || (month == 10 && day >= 32) || (month == 11 && day >= 31) || (month == 12 && day >= 32)) {
+
+                    switch (month) {
+                    case 1:
+                        day = day - 31;
+                        break;
+                    case 2:
+                        day = day - febDays;
+                        break;
+                    case 3:
+                        day = day - 31;
+                        break;
+                    case 4:
+                        day = day - 30;
+                        break;
+                    case 5:
+                        day = day - 31;
+                        break;
+                    case 6:
+                        day = day - 30;
+                        break;
+                    case 7:
+                        day = day - 31;
+                        break;
+                    case 8:
+                        day = day - 31;
+                        break;
+                    case 9:
+                        day = day - 30;
+                        break;
+                    case 10:
+                        day = day - 31;
+                        break;
+                    case 11:
+                        day = day - 30;
+                        break;
+                    case 12:
+                        day = day - 31;
+                        break;
+                    }
+                    month = month + 1;
+                    if (month >= 13) {
+                        while (month >= 13) {
+                            month = month - 12;
+                            year = year + 1;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -287,12 +490,12 @@ void game::Intro()
             player.setStatPoints(player.getStatPoints() + 1);
             system("CLS");
         }
-        else if (ccInput == "Ready" && player.getStatPoints() != 0) {
+        else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() != 0) { 
             system("CLS");
             std::cout << "Use up remaining stat points" << std::endl;
             std::cout << std::endl;
         }
-        else if (ccInput == "Ready" || ccInput == "ready" && player.getStatPoints() == 0) {
+        else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() == 0) {
             characterCreation = false;
             system("CLS");
         }
@@ -305,14 +508,18 @@ void game::Intro()
     }
 }
 
+void game::randomEncounterChance(int chance) {
+    int randomNum = (rand() % 100) + 1;
+
+    if (randomNum <= chance) {
+        // random encounter code
+    }
+}
+
 void game::Run()
 {
     bool gameRunning = true;
-
     //Intro(); //comment out to skip intro
-    
-    //createWorldMap();
-    //player.setPosition(1, 7);
 
     Bunker.printbunkerMap();
     player.setPosition(1, 1);
@@ -323,27 +530,46 @@ void game::Run()
         map& current = activeMap();
 
         //define the number of enemies in total
+        //total number of sewer enemies
         int enemyX[6];
         int enemyY[6];
         char enemySymbol[6];
+
         int enemyCount = 0;
-                
+        //every start of the loop, change the time depending on current location
+        if (currentMap == Location::MainWorld) {
+            int randomTimeOW = (rand() % 9) + 52;
+            timePassMinutes(randomTimeOW);
+        }
+        else {
+            int randomTimePOI = (rand() % 2) + 1;
+            timePassMinutes(randomTimePOI);
+        }
+         
+        //controls enemy behaviour, render and battle for each room w enemies inside
         if (currentMap == Location::Sewer1) {
             for (int e = 0; e < Sewer1.enemyCount; e++) {
 
-                if (Sewer1.sewerEnemy[e] == nullptr) {
+                if (Sewer1.sewerEnemy[e] == nullptr || !Sewer1.sewerEnemy[e]->isSpawned()) {
                     continue;
                 }
     
                 enemyX[enemyCount] = Sewer1.sewerEnemy[e]->getPosX();
                 enemyY[enemyCount] = Sewer1.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer1.sewerEnemy[e]->getSymbol();
-
-                Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
+                
+                if (!Sewer1.sewerEnemy[e]->getEscapeState()) {
+                    Sewer1.sewerEnemy[e]->enemyBehaviour(player, Sewer1.sewerMap, Sewer1.sewerEnemy, Sewer1.enemyCount, e);
+                }
                 Sewer1.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer1.sewerEnemy[e]->getHealthPoints() > 0) {
-                    if (player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                    if (Sewer1.sewerEnemy[e]->getEscapeState()) {
+                        Sewer1.sewerEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer1.sewerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer1.sewerEnemy[e]);
+                        player.setBattleState(false);
                     }
                 }
                 enemyCount++;
@@ -351,7 +577,7 @@ void game::Run()
         } else if (currentMap == Location::Sewer2) {
             for (int e = 0; e < Sewer2.enemyCount; e++) {
 
-                if (Sewer2.sewerEnemy[e] == nullptr) {
+                if (Sewer2.sewerEnemy[e] == nullptr || !Sewer2.sewerEnemy[e]->isSpawned()) {
                     continue;
                 }
 
@@ -359,11 +585,19 @@ void game::Run()
                 enemyY[enemyCount] = Sewer2.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer2.sewerEnemy[e]->getSymbol();
 
-                Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
+                if (!Sewer2.sewerEnemy[e]->getEscapeState()) {
+                    Sewer2.sewerEnemy[e]->enemyBehaviour(player, Sewer2.sewerMap, Sewer2.sewerEnemy, Sewer2.enemyCount, e);
+                }
                 Sewer2.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer2.sewerEnemy[e]->getHealthPoints() > 0) {
-                    if (player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    if (Sewer2.sewerEnemy[e]->getEscapeState()) {
+                        Sewer2.sewerEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer2.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer2.sewerEnemy[e]);
+                        player.setBattleState(false);
+                        
                     }
                 }
                 enemyCount++;
@@ -371,7 +605,7 @@ void game::Run()
         } else if (currentMap == Location::Sewer3) {
             for (int e = 0; e < Sewer3.enemyCount; e++) {
 
-                if (Sewer3.sewerEnemy[e] == nullptr) {
+                if (Sewer3.sewerEnemy[e] == nullptr || !Sewer3.sewerEnemy[e]->isSpawned()) {
                     continue;   
                 }
             
@@ -379,11 +613,94 @@ void game::Run()
                 enemyY[enemyCount] = Sewer3.sewerEnemy[e]->getPosY();
                 enemySymbol[enemyCount] = Sewer3.sewerEnemy[e]->getSymbol();
 
-                Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
+                if (!Sewer3.sewerEnemy[e]->getEscapeState()) {
+                    Sewer3.sewerEnemy[e]->enemyBehaviour(player, Sewer3.sewerMap, Sewer3.sewerEnemy, Sewer3.enemyCount, e);
+                }
                 Sewer3.sewerEnemy[e]->checkForPlayer(player);
                 if (Sewer3.sewerEnemy[e]->getHealthPoints() > 0) {
-                    if (player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                    if (Sewer3.sewerEnemy[e]->getEscapeState()) {
+                        Sewer3.sewerEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Sewer3.sewerEnemy[e])) { //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
                         battlesequence(Sewer3.sewerEnemy[e]);
+                        player.setBattleState(false);
+                    }
+                }
+                enemyCount++;
+            }
+        }
+        else if (currentMap == Location::Bunker) {
+            for (int e = 0; e < Bunker.BunkerEnemyCount; e++) {
+
+                if (Bunker.bunkerEnemy[e] == nullptr || !Bunker.bunkerEnemy[e]->isSpawned()) {
+                    continue;
+                }
+
+                enemyX[enemyCount] = Bunker.bunkerEnemy[e]->getPosX();
+                enemyY[enemyCount] = Bunker.bunkerEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Bunker.bunkerEnemy[e]->getSymbol();
+
+                if (!Bunker.bunkerEnemy[e]->getEscapeState()) {
+                    Bunker.bunkerEnemy[e]->enemyBehaviour(player, Bunker.bunkerMap, Bunker.bunkerEnemy, Bunker.BunkerEnemyCount, e);
+                }
+                Bunker.bunkerEnemy[e]->checkForPlayer(player);
+                if (Bunker.bunkerEnemy[e]->getHealthPoints() > 0) {
+                    if (Bunker.bunkerEnemy[e]->getEscapeState()) {
+                        Bunker.bunkerEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Bunker.bunkerEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
+                        battlesequence(Bunker.bunkerEnemy[e]);
+                        player.setBattleState(false);
+                    }
+                }
+                enemyCount++;
+            }
+        }
+
+        if (player.checkAlive() == false)
+        {
+            system("CLS");
+            std::cout << "\t   _-----------_   \n";
+            std::cout << "\t  |             |  \n";
+            std::cout << "\t |   R   I   P   | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |=&==&==&==&==&=| \n";
+
+            std::cout << "\tPress any key to end game...";
+            (void)_getch();
+
+            gameRunning = false;
+            continue; // Force the loop to restart and gracefully exit
+        }
+        else if (currentMap == Location::Lab) {
+            for (int e = 0; e < Lab.labEnemyCount; e++) {
+
+                if (Lab.labEnemy[e] == nullptr || !Lab.labEnemy[e]->isSpawned()) {
+                    continue;
+                }
+
+                enemyX[enemyCount] = Lab.labEnemy[e]->getPosX();
+                enemyY[enemyCount] = Lab.labEnemy[e]->getPosY();
+                enemySymbol[enemyCount] = Lab.labEnemy[e]->getSymbol();
+
+                if (!Lab.labEnemy[e]->getEscapeState()) {
+                    Lab.labEnemy[e]->enemyBehaviour(player, Lab.labMap, Lab.labEnemy, Lab.labEnemyCount, e);
+                }
+                Lab.labEnemy[e]->checkForPlayer(player);
+                if (Lab.labEnemy[e]->getHealthPoints() > 0) {
+                    if (Lab.labEnemy[e]->getEscapeState()) {
+                        Lab.labEnemy[e]->setEscapeState(false);
+                    }
+                    else if (!player.getBattleState() && player.checkforbattle(*Lab.labEnemy[e])) {  //if enemy is close to the player trigger battle sequence for that enemy
+                        player.setBattleState(true);
+                        battlesequence(Lab.labEnemy[e]);
+                        player.setBattleState(false);
                     }
                 }
                 enemyCount++;
@@ -392,7 +709,7 @@ void game::Run()
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
-
+        
         //print map when loop starts again
 
         current.printmap(player.getPosX(), player.getPosY(), enemyX, enemyY, enemySymbol ,enemyCount);
@@ -425,8 +742,8 @@ void game::Run()
             //check if player has discovered a poi after moving
             discoverpoi();
             checkMapChange();
+            
         }
-
         //check if quit game
         else if (ch == 'q' || ch == 'Q') {
             system("CLS");
@@ -435,32 +752,25 @@ void game::Run()
         }
 
         switch (ch) {
-        case KEY_I:
-            system("CLS");
-            std::cout << "enemy moved up" << std::endl;
-            break;
-        case KEY_J:
-            system("CLS");
-            std::cout << "enemy moved left" << std::endl;
-            break;
-        case KEY_K:
-            system("CLS");
-            std::cout << "enemy moved down" << std::endl;
-            break;
-        case KEY_L:
-            system("CLS");
-            std::cout << "enemy moved right" << std::endl;
-            break;
         case KEY_B:
             system("CLS");       //hides the world map
             bag.inventoryMenu(player); //opens inventory until ESC is pressed.
             system("CLS");       //clear text to see map again
             break;
+
         case KEY_M:
-            system("CLS");       
-            settings.menuOpen(); 
-            system("CLS");      
+            system("CLS");
+            {
+                int skippedMins = settings.menuOpen(day, month, year, hour, minute);
+
+                if (skippedMins > 0) {
+                    timePassMinutes(skippedMins);
+                }
+            }
+            system("CLS");
+            break;
         }
+        system("CLS");
     }
 }
 
@@ -610,6 +920,25 @@ void game::handleMovement(int dx, int dy) {
 
     int destX = player.getPosX() + dx;
     int destY = player.getPosY() + dy;
+
+    if (currentMap == Location::Town) {
+
+        //Weaponsmith ('W')
+        if (destX == 7 && destY == 10) {
+            weaponsmith smith;
+            smith.weaponsmithOpen(player, bag);
+            return; // dont overlap
+        }
+
+        //Alchemist ('A')
+        if (destX == 7 && destY == 4) {
+            DialogueTree tree;
+            npc alchemist(npc::Type::Alchemist, &tree);
+            system("CLS"); // Clean the screen before talking
+            alchemist.onOverlap();
+            return; // dont overlap
+        }
+    }
 
     int hitIndex = (enemies != nullptr) ? player.checkEnemyCol(destX, destY, enemies, enemyCount) : -1;
 

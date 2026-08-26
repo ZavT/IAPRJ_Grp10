@@ -1,6 +1,6 @@
 #pragma once
 #include "entity.h"
-#include "enemy.h"
+#include "level.h"
 #include <string>
 
 class enemy;
@@ -9,7 +9,7 @@ class player : public entity
 {
 private:
 	std::string playerName;
-
+	level pLevel;
 	int playerHealthPoints;
 	int playerStrength;
 	int playerAgility;
@@ -25,6 +25,8 @@ private:
 	int playerKeyFragment;
 
 	bool playerCombatMode;
+	bool inBattle;
+	bool isAlive;
 
 public:
 	player();
@@ -68,12 +70,14 @@ public:
 	//player action functions
 	void move(int moveX, int moveY);
 	void borderCol(int moveX, int moveY, int maxBorderX, int maxBorderY);
-	void testAttack(enemy& targetenemy);
-	//void checkForEnemy(enemy& targetenemy);
 	bool checkforbattle(enemy& targetenemy);
 
 	int checkEnemyCol(int checkX, int checkY, enemy** allEnemies, int enemyCount);
 	void takeDamage(int dmg);
+
+	//player battle things
+	void setBattleState(bool battlestate);
+	bool getBattleState();
 
 	void heal(int value);           // restores some health
 	void loot(int value1, int value2);           // give looted items to player
@@ -85,4 +89,11 @@ public:
 
 	int getPlayerKeyFragment();
 	void setPlayerKeyFragment(int value);
+
+	//level
+	int getPlayerLevel();
+	int getPlayerExp();
+	void gainExp(int amt);
+
+	bool checkAlive();
 };

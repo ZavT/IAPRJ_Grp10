@@ -22,6 +22,7 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
         std::cout << "\t============Weaponsmith============\n\n";
 
         std::cout << "AP: Action points. Each weapon requires a certain amount of AP to use.\n\n" << std::endl;
+        std::cout << "Enter the item's number to purchase it.\n\n" << std::endl;
         std::cout << "1. Assault Rifle. Cost: 20 gold. <2 AP | 15 DMG | 85% Accuracy>\n" << std::endl;
         std::cout << "2. Axe. Cost: 10 gold. <1 AP | 10 DMG | 98% Accuracy>\n" << std::endl;
         std::cout << "3. Sniper Rifle. Cost: 30 gold. <3 AP | 25 DMG | 95% Accuracy>\n" << std::endl;
@@ -68,6 +69,10 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
 
         if (!validChoice) continue;
 
+        if (bag.hasWeapon(toAdd.getItemName())) {
+            std::cout << "\n\tYou already own the " << toAdd.getItemName() << "! Try buying something else.\n";
+        }
+
         if (p.getPlayerGold() >= price) {
             p.setPlayerGold(p.getPlayerGold() - price);
             bag.addWeapon(toAdd);
@@ -81,18 +86,3 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
         (void)_getch();
     }
 }
-
-weapon::weapon()
-    : item("Unknown Weapon", 0, 0) // adjust params to match item ctor signature
-    , damage(0)
-    , accuracy(0)
-    , isMelee(true)
-{}
-
-// existing ctor
-weapon::weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc)
-    : item(weaponname, weaponprice, weaponAP)
-    , damage(weapondmg)
-    , accuracy(weaponacc)
-    , isMelee(false)
-{}

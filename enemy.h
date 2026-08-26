@@ -1,6 +1,5 @@
 #pragma once
 #include "entity.h"
-#include "player.h"
 
 class player;
 class map;
@@ -10,6 +9,8 @@ class enemy :
 {
 private:
     bool isTargeting;
+    bool spawned = false;
+    bool justEscaped = false;
 public:
     enemy(int posX, int posY, int id, int healthPoints);
     virtual ~enemy();
@@ -24,5 +25,11 @@ public:
     bool enemyCheckCol(int checkX, int checkY, player& player, enemy** allEnemies, int enemyCount, int currentIdx);
 
     virtual char getSymbol() { return 'E';}
+
+    void setSpawnState(bool s);
+    bool isSpawned();
+
+    void setEscapeState(bool escaped);
+    bool getEscapeState();
 };
 

@@ -8,6 +8,9 @@
 #include "bunker.h"
 #include "town.h"
 #include "lab.h"
+#include "mutHuman.h"
+#include "mutRat.h"
+#include "level.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -23,6 +26,12 @@ enum class Location {
 class game
 {
 private:
+    // Start date and time of our story
+    int day = 29;
+    int month = 12;
+    int year = 2026;
+    int minute = 0;
+    int hour = 4;
     //map objects
     map worldMap;
     sewer Sewer1;
@@ -31,13 +40,14 @@ private:
     bunker Bunker;
     town Town;
     lab Lab;
-
     player player; // player object
     inventory bag; //inventory/bag object z
     menu settings;
+    level level;
     //enemy enemy; // testing
 
-    player* playerPtr;   // pointer to player
+    
+    class player* playerPtr;   // pointer to player
     enemy* mutRats[3];  // pointer to mutant rats
     enemy* mutHumans[3];  // pointer to mutant humans
 
@@ -55,5 +65,9 @@ public:
     void checkMapChange();
     void discoverpoi();
     void battlesequence(enemy*& currentEnemy);
+
+    void randomEncounterChance(int chance);
+
+    void timePassMinutes(int m);
 };
 

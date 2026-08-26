@@ -20,28 +20,25 @@ int level::getexp()
 	return exp;
 }
 
+int level::getexpneeded() {
+	if (Plevel <= 1) return 10;
+	if (Plevel == 2) return 20;
+	if (Plevel == 3) return 50;
+	if (Plevel == 4) return 70;
+	return 0; // reach max lv
+}
+
 bool level::checklevelup()
 {
-	int expneeded;
+	int expneeded = getexpneeded();
 
-	if (Plevel == 0 || Plevel == 1) {
-		expneeded = 10;
-	}
-	else if (Plevel = 2) {
-		expneeded = 20;
-	}
-	else if (Plevel = 3) {
-		expneeded = 50;
-	}
-	else if (Plevel = 4) {
-		expneeded = 70;
-	}
-	else
-		return false; // level 5 
+	if (expneeded == 0) 
+	return false;  //level 5
 
 	if (exp >= expneeded) {
 		exp -= expneeded;
 		Plevel++; // level up
+		return true;
 	}
 
 	return false;

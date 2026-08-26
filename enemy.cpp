@@ -1,13 +1,12 @@
 #include "enemy.h"
 #include "map.h"
-
+#include "player.h"
 #include <iostream>
 #include <cmath>
 
 enemy::enemy(int posX, int posY, int id, int healthPoints)
-	: entity(posX, posY, id, healthPoints) {
+	: entity(posX, posY, healthPoints, 0) { // OLD WAS entity(posX, posY, id, healthpoints) idk whose part 
 	isTargeting = false;
-	setHealthPoints(20); // hp testing
 }
 
 void enemy::checkForPlayer(player& player) {
@@ -18,7 +17,7 @@ void enemy::checkForPlayer(player& player) {
 	//for diagonals, find hypotenuse of triangles with sides distX distY
 	float hypoDist = std::sqrt((distX * distX) + (distY * distY));
 
-	if (hypoDist <= 3.9) {
+	if (hypoDist <= 4.3) {
 		isTargeting = true;
 	}
 	else {
@@ -104,4 +103,23 @@ void enemy::enemyBehaviour(player& player, map& currentMap, enemy** allEnemies, 
 			}
 		}
 	}
+}
+
+enemy::~enemy() {
+}
+
+void enemy::setSpawnState(bool s) {
+	spawned = s;
+}
+
+bool enemy::isSpawned() {
+	return spawned;
+}
+
+void enemy::setEscapeState(bool escape) {
+	justEscaped = escape;
+}
+
+bool enemy::getEscapeState() {
+	return justEscaped;
 }
