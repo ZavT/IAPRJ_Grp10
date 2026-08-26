@@ -91,6 +91,9 @@ void map::printmap(int playerX, int playerY, int* enemyX, int* enemyY, char* ene
 			else if (maps[i][x] == 'X') {
 				std::cout << BOLD << RED << maps[i][x] << RESET << " ";
 			}
+			else if (maps[i][x] == '#') {
+				std::cout << BOLD << RED << maps[i][x] << RESET << " ";
+			}
 			else if (maps[i][x] == 'A') {
 				std::cout << BOLD << BRIGHT_MAGENTA << maps[i][x] << RESET << " ";
 			}

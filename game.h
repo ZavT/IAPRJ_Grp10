@@ -56,10 +56,6 @@ private:
 
     Location currentMap = Location::MainWorld; //default is main world
 
-    map& activeMap();
-    enemy** activeEnemy(int& totalCount);
-    void handleMovement(int dx, int dy);
-
     entity* sewerGrid[15][5];
 public:
     game();
@@ -79,5 +75,11 @@ public:
 
     entity* getEntityAt(int x, int y) const;
     void destroyEntity(entity* e);
-};
+    
+    void handleMovement(int dx, int dy);
 
+    void handleEndings();
+    
+    map& activeMap();
+    enemy** activeEnemy(int& totalCount);
+};

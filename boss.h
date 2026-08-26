@@ -12,6 +12,6 @@ public:
     char getSymbol() override { return 'B'; }
 
     void setBossActive(bool state);
-    bool getBossActive();
+    bool getBossActive() const;
 };
 

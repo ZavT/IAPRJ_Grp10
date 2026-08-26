@@ -8,6 +8,6 @@ void boss::setBossActive(bool state) {
 	bossActive = state;
 }
 
-bool boss::getBossActive() {
+bool boss::getBossActive() const {
 	return bossActive;
 }

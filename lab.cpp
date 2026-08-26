@@ -2,6 +2,7 @@
 #include "mutRat.h"
 #include "mutHuman.h"
 #include "boss.h"
+#include <iostream>
 
 lab::lab() : labMap (9,20){
 	labEnemyCount = 5;
@@ -25,6 +26,7 @@ lab::~lab() {
 
 void lab::printlabMap() {
 	labMap.initPOImap();
+
 	labMap.setpos(0, 4, 'X');
 
 	if (labEnemy[0] != nullptr) {
@@ -60,4 +62,8 @@ void lab::summonBoss() {
 	TheScientist = new boss(0, 0, 1);
 
 	TheScientist->setPosition(10, 4);
+
+	std::cout << "The exit has been blocked off! You must face THE SCIENTIST!" << std::endl;
+
+	labMap.setpos(0, 4, '#');
 }

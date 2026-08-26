@@ -574,7 +574,7 @@ void game::Intro()
 
 
 
-    std::cout << "CONTEXT" << std::endl;
+    std::cout << "<PROLOGUE>" << std::endl;
     std::cout << std::endl;
     std::cout << "You are a survivor of a war. During the initial outbreak of the war, you quickly took\n"
               << "shelter in a nearby bunker for safety. No one else made it. Overtime, supplies started\n"
@@ -719,10 +719,9 @@ void game::Run()
 
     Bunker.printbunkerMap();
     player.setPosition(0, 4);
-    currentMap = Location::Bunker;
+    currentMap = Location::Bunker; //starting map
 
     while (gameRunning) {
-
         map& current = activeMap();
 
         //define the number of enemies in total
@@ -1021,9 +1020,6 @@ void game::checkMapChange() {
             Sewer1.printSewerMap(1);
             //set player position
             player.setPosition(1, 2);
-            std::cout << "Entered: SEWER ONE" << std::endl;
-            std::cout << std::endl;
-
         }
 
         else if (player.getPosX() == 7 && player.getPosY() == 10) {
@@ -1032,8 +1028,6 @@ void game::checkMapChange() {
             Sewer2.printSewerMap(2);
             //set player position
             player.setPosition(1, 2);
-            std::cout << "Entered: SEWER TWO" << std::endl;
-            std::cout << std::endl;
 
         }
 
@@ -1043,8 +1037,6 @@ void game::checkMapChange() {
             Sewer3.printSewerMap(3);
             //set player position
             player.setPosition(1, 2);
-            std::cout << "Entered: SEWER THREE" << std::endl;
-            std::cout << std::endl;
 
         }
 
@@ -1054,8 +1046,6 @@ void game::checkMapChange() {
             Bunker.printbunkerMap();
             //set entity positions
             player.setPosition(7, 4);
-            std::cout << "Entered: BUNKER" << std::endl;
-            std::cout << std::endl;
 
         }
 
@@ -1065,20 +1055,16 @@ void game::checkMapChange() {
             Town.printtownMap();
             //set entity positions
             player.setPosition(1, 7);
-            std::cout << "Entered: TOWN" << std::endl;
-            std::cout << std::endl;
 
         }
-        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() != 3) {
-            player.setPosition(18, 7);
-        }
-        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() == 3) {
+        //else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() != 3) {
+          //  player.setPosition(18, 7);
+       // }
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() >= 0) {
             currentMap = Location::Lab;
             Lab.printlabMap();
             //set entity positions
             player.setPosition(1, 4);
-            std::cout << "Entered: LAB" << std::endl;
-            std::cout << std::endl;
         }
     }
 
@@ -1087,24 +1073,18 @@ void game::checkMapChange() {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(2, 5);
-            std::cout << "Entered: WORLD" << std::endl;
-            std::cout << std::endl;
         }
     }
     else if (currentMap == Location::Sewer2) {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(6, 10);
-            std::cout << "Entered: WORLD" << std::endl;
-            std::cout << std::endl;
         }
     }
     else if (currentMap == Location::Sewer3) {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(14, 12);
-            std::cout << "Entered: WORLD" << std::endl;
-            std::cout << std::endl;
         }
     }
 
@@ -1112,25 +1092,23 @@ void game::checkMapChange() {
         if (player.getPosX() == 8 && player.getPosY() == 4) {
             currentMap = Location::MainWorld;
             player.setPosition(1, 7);
-            std::cout << "Entered: WORLD" << std::endl;
-            std::cout << std::endl;
         }
     }
     else if (currentMap == Location::Town) {
         if (player.getPosX() == 0 && player.getPosY() == 7) {
             currentMap = Location::MainWorld;
             player.setPosition(11, 8);
-            std::cout << "Entered: WORLD" << std::endl;
-            std::cout << std::endl;
         }
     }
 
     else if (currentMap == Location::Lab) {
         if (player.getPosX() == 0 && player.getPosY() == 4) {
-            currentMap = Location::MainWorld;
-            player.setPosition(18, 7);
-            std::cout << "Entered: WORLD" << std::endl;
-            std::cout << std::endl;
+            if (Lab.TheScientist != nullptr && Lab.TheScientist->getBossActive()) {
+            }
+            else {
+                currentMap = Location::MainWorld;
+                player.setPosition(18, 7);
+            }
         }
     }
 }
@@ -1209,3 +1187,54 @@ void game::handleMovement(int dx, int dy) {
     }
 }
 
+void game::handleEndings() {
+    system("CLS");
+
+    std::cout << "<EPILOGUE>" << std::endl;
+    std::cout << "The Scientist stumbles to the ground, on the verge of death. As you loom over his body, he says one final sentence." << std::endl;
+    (void)_getch();
+    std::cout <<"'" << player.getPlayerName() << "... it seems like I wasn't strong enough to take you down...";
+    (void)_getch();
+    std::cout << "but are you strong enough to hold off against...";
+    (void)_getch();
+    std::cout << "THEM?' says The Scientist, with his final breath." << std::endl;
+    std::cout << std::endl;
+    (void)_getch();
+    std::cout << "You turn around. Right outside you hear the sounds of the mutants.";
+    (void)_getch();
+    std::cout << "You listen carefully. They're getting louder, they're getting closer." << std::endl;
+    (void)_getch();
+    std::cout << "Realising that you don't have much time, you quickly run towards Jake's workbench" << std::endl;
+    (void)_getch();
+    std::cout << "You know there's only ONE way to get out of this situation alive." << std::endl;
+    (void)_getch();
+    system("CLS");
+
+    if (player.getPlayerIntelligenceFinal() >= 10) {
+        std::cout << "You precisely grab some bottles of chemicals.";
+        (void)_getch();
+        std::cout << "Referring to Jake's unfinished research, you create a mixture of chemicals that replicate the exact cure Jake had left off with." << std::endl;
+        (void)_getch();
+        std::cout << "You think to yourself. Your brain is working overtime, trying to solve the problem behind the cure's incompleteness. Then, it hits you." << std::endl;
+        (void)_getch();
+        std::cout << "From the nearby cupboard, you grab a small vial will a green liquid inside.";
+        (void)_getch();
+        std::cout << "Pouring it inside your current concoction, the entire mixture changes to a bright green colour, emitting a blinding glow." << std::endl;
+        (void)_getch();
+        std::cout << "BAM! The mutants suddenly burst through the door and sprint straight towards you. You remember something that Jake said..." << std::endl;
+        (void)_getch();
+        std::cout << "'As long as the mutants are alive, he'll keep regenerating.' You realise something game changing." << std::endl;
+        (void)_getch();
+        std::cout << "In one swift motion, you turn around and throw the cure at the mutants with all your strength." << std::endl;
+        (void)_getch();
+        std::cout << "The vial shatters and spills everywhere on a Mutated Human's head. The liquid seeps in through an open wound." << std::endl;
+        (void)_getch();
+        std::cout << "Suddenly, the Mutants come to a halt, and their distinctive mutant features start to fade away.";
+        (void)_getch();
+        std::cout << "You cautiously approach one of the hopefully cured humans." << std::endl;
+        (void)_getch();
+        std::cout << "'Are you good?' you ask the human. He looks up at you, and says 'What.. even happened here?'";
+        (void)_getch();
+        std::cout << "You run out";
+    }
+}
