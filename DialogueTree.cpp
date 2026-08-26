@@ -16,13 +16,14 @@ DialogueTree::DialogueTree() {
 	DialogueNode* node0 = new DialogueNode("It's a mutant. You tense, ready for another fight -- but something seems off. It recoils in fear, and you falter at the look in its eyes.\n'STOP! I'm not gonna hurt you, I swear. I'm not like the rest of them. Please, just lower your weapon.'");
 	DialogueNode* node1 = new DialogueNode("Surprise flashes over his face. You put away your weapon.\n'You must be Jake. Ryan said you could tell me about this 'scientist'.'\nJake relaxes at the mention of Ryan's name. 'Well, yes.What do you want to know?'");
 	DialogueNode* node2 = new DialogueNode("His twisted face sours.\n'That scientist... he liked experimenting on people. I'm one of his early prototypes. He mutated my body, but for some reason, my mind stayed intact. You don't have to be wary around me.'");
-	DialogueNode* node3 = new DialogueNode("Well, it's always about money, isn't it? He pays people to be his experiments. Buys his way out of trouble. Next thing you know, everyone's dead or mutated and we're in the midst of a damn apocalypse.");
+	DialogueNode* node3 = new DialogueNode("Well, it's always about money, isn't it? He pays people to be his experiments. Buys his way out of trouble. Next thing you know, everyone's dead or mutated and we're in the midst of a damn apocalypse.'\n<You gained 1 Intelligence!>");
 	DialogueNode* node4 = new DialogueNode("When I first escaped, I thought I could make one. I gathered whatever equipment I could scavenge and tried to synthesize a cure. But... something's missing. And I'd bet whatever I need is in that lab...");
 	DialogueNode* node5 = new DialogueNode("His eyes are on you, and there's a small glimmer of hope in them that wasn't there before.\n'My research is still over there on the workbench. If you can find the right materials, maybe you can finish the cure. Free everyone from this torture.'");
 	DialogueNode* node6 = new DialogueNode("'It's a tall order, I know. But really... what kind of life would we all be living otherwise? I know you're capable. You've come this far, haven't you?'");
 	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating.'");
 	DialogueNode* node8 = new DialogueNode("'If you want to end him, you need to hunt down every last mutant guarding that facility. Only when they're dead will he be vulnerable. Do that, and you might actually stand a chance.'");
 	DialogueNode* node9 = new DialogueNode("'Y'know, I've heard that he could be planning something for the end of March. Like, a world-ending type of something. Not to rush you or anything...'");
+	DialogueNode* node10 = new DialogueNode("''If it makes you feel better, have this. It's a failed version of the cure. It should ease your pain.'\n<You gained 1 Health Potion!> ");
 
 	node0->dialogueOptions.push_back(DialogueOption("<1: You lower your weapon.>", 0, node1));
 	node0->dialogueOptions.push_back(DialogueOption("<2: 'Bye.'>", 1, nullptr));
@@ -53,10 +54,14 @@ DialogueTree::DialogueTree() {
 	dialogueNodes.push_back(node7);
 
 	node8->dialogueOptions.push_back(DialogueOption("<1: 'Piece of cake.'>", 0, node9));
+	node8->dialogueOptions.push_back(DialogueOption("<2: 'Every last mutant...'>", 0, node10));
 	dialogueNodes.push_back(node8);
 
 	node9->dialogueOptions.push_back(DialogueOption("<1: 'Oh.'>", 2, nullptr));
 	dialogueNodes.push_back(node9);
+
+	node10->dialogueOptions.push_back(DialogueOption("<1: 'Sweet! Thanks.'> ", 9, node9));
+	dialogueNodes.push_back(node10);
 
 	// Jake's second tree
 	fJakeStartIndex = dialogueNodes.size();

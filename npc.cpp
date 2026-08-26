@@ -1,6 +1,7 @@
 #include "npc.h"
 #include "weaponsmith.h"
 #include "alchemist.h"
+#include "player.h"
 #include <iostream>
 #include <conio.h>
 bool npc::talkedToRyan = false;
@@ -49,8 +50,12 @@ void npc::onOverlap()
     if (rv == 7) {
         std::cout << "\n'Good luck...'\n";
     }
+    if (rv == 8) {
+        // +1 Intelligence
+        player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
+    }
     if (rv == 9) {
-        std::cout << "\nYou take the items from the chest.\n";
+        // +1 Health Potion
     }
 
     std::cout << "\nPress any key to continue..."; //to end dialogue
