@@ -82,11 +82,15 @@ void game::battlesequence(enemy*& currentEnemy)
     bool inbattle = true;
     char enemysymbol = currentEnemy->getSymbol();
 
-    std::string ratASCII =
-        "\n       _..----.._    _"
-        "\n     .'  .--.    '-.(0)_"
-        "\n'-.__.-''''-:  ,  _  ' '-."
-        "\n             ''''' '''''''\n";
+    std::string ratASCII = R"(
+                       ,     .
+                       (\,;,/)
+                        (o o)\//,
+                         \ /     \,
+                         `+'(  (   \    )
+                            //  \   |_./
+ ---------------------------'~' '~----'----------------          
+)";
 
     std::string muthumanASCII = R"( 
           _,-""-._
@@ -522,7 +526,7 @@ void game::Run()
     //Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
-    player.setPosition(1, 1);
+    player.setPosition(0, 4);
     currentMap = Location::Bunker;
 
     while (gameRunning) {
@@ -831,8 +835,10 @@ void game::checkMapChange() {
             std::cout << std::endl;
 
         }
-
-        else if (player.getPosX() == 19 && player.getPosY() == 7) {
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() != 3) {
+            player.setPosition(18, 7);
+        }
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() == 3) {
             currentMap = Location::Lab;
             Lab.printlabMap();
             //set entity positions
