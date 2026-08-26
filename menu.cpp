@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "game.h"
 #include <iostream>
 #include <conio.h>
 #include <string>
@@ -73,17 +74,16 @@ int menu::menuOpen(int day, int month, int year, int hour, int minute)
         }
         else if (ch == ENTER_KEY) {
             if (selectedOption == 2) {
-                // Skip 12 hours (720 minutes)
                 minutesToSkip += 720;
-                isOpen = false; // Close menu to process time
+                isOpen = false;
             }
             else if (selectedOption == 3) {
-                std::cout << "\n\t Press ENTER..."; //restart stage
-                (void)_getch();
+                isOpen = false;
+                return -1; // -1 is our secret code for "Restart Stage"
             }
             else if (selectedOption == 4) {
-                std::cout << "\n\t Press ENTER..."; //restart game
-                (void)_getch();
+                isOpen = false;
+                return -2; // -2 is our secret code for "Restart Game"
             }
         }
         else if (ch == ESCAPE_KEY) {

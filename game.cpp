@@ -923,28 +923,6 @@ void game::Run()
                 bossbattlesequence(Lab.TheScientist);
 
             }
-
-
-        }
-        
-        if (player.checkAlive() == false)
-        {
-            system("CLS");
-            std::cout << "\t   _-----------_   \n";
-            std::cout << "\t  |             |  \n";
-            std::cout << "\t |   R   I   P   | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |=&==&==&==&==&=| \n";
-
-            std::cout << "\tPress any key to end game...";
-            (void)_getch();
-
-            gameRunning = false;
-            continue; // Force the loop to restart and gracefully exit
         }
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
@@ -1000,11 +978,19 @@ void game::Run()
         case KEY_M:
             system("CLS");
             {
-                int skippedMins = settings.menuOpen(day, month, year, hour, minute);
-                if (skippedMins > 0) {
-                    timePassMinutes(skippedMins);
+                int menuAction = settings.menuOpen(day, month, year, hour, minute);
+
+                if (menuAction > 0) {
+                    timePassMinutes(menuAction); // Skip time
+                }
+                else if (menuAction == -1) {
+                    restartstage(); // Trigger stage restart
+                }
+                else if (menuAction == -2) {
+                    restartgame(); // Trigger full restart
                 }
             }
+
             system("CLS");
             break;
         }
@@ -1018,6 +1004,7 @@ void game::checkMapChange() {
         if (player.getPosX() == 3 && player.getPosY() == 5) {
             //when player enters sewer1 from the worldmap, make current active map Sewer1.
             currentMap = Location::Sewer1;
+            initialinfo();
             Sewer1.printSewerMap(1);
             //set player position
             player.setPosition(1, 2);
@@ -1029,6 +1016,7 @@ void game::checkMapChange() {
         else if (player.getPosX() == 7 && player.getPosY() == 10) {
             //when player enters sewer2 from the worldmap, make current active map Sewer2.
             currentMap = Location::Sewer2;
+            initialinfo();
             Sewer2.printSewerMap(2);
             //set player position
             player.setPosition(1, 2);
@@ -1040,6 +1028,7 @@ void game::checkMapChange() {
         else if (player.getPosX() == 15 && player.getPosY() == 12) {
             //when player enters sewer3 from the worldmap, make current active map Sewer3.
             currentMap = Location::Sewer3;
+            initialinfo();
             Sewer3.printSewerMap(3);
             //set player position
             player.setPosition(1, 2);
@@ -1051,6 +1040,7 @@ void game::checkMapChange() {
         else if (player.getPosX() == 0 && player.getPosY() == 7) {
             //when player enters bunker from the worldmap, make current active map bunker.
             currentMap = Location::Bunker;
+            initialinfo();
             Bunker.printbunkerMap();
             //set entity positions
             player.setPosition(7, 4);
@@ -1152,6 +1142,7 @@ enemy** game::activeEnemy(int& totalCount) {
     totalCount = 0;
     return nullptr;
 }
+
 entity* game::getEntityAt(int x, int y) const {
     return sewerGrid[y][x];
 }
@@ -1162,6 +1153,108 @@ void game::destroyEntity(entity* e) {
         delete e; // free the memory
     }
 }
+
+void game::initialinfo() //for restart stage to chang info to your info when you first entered the location
+{
+    // Save the time
+    backupDay = day; backupMonth = month; backupYear = year;
+    backupHour = hour; backupMinute = minute;
+
+    // Save the player's stats
+    backupHP = player.getPlayerHealthPoints();
+    backupName = player.getPlayerName();
+    backupGold = player.getPlayerGold();
+    backupKeyFragment = player.getPlayerKeyFragment();
+    backupStatPoints = player.getStatPoints();
+    backupBag = bag;
+}
+
+void game::restartstage() //testing
+{
+   //restore the time
+    day = backupDay; month = backupMonth; year = backupYear;
+    hour = backupHour; minute = backupMinute;
+
+    //restore the player stats //missing exp, level, name, weapons and potions 
+    player.setPlayerHealthPoints(backupHP);
+    player.setPlayerName(backupName);
+    player.setPlayerGold(backupGold);
+    player.setPlayerKeyFragment(backupKeyFragment);
+    player.setStatPoints(backupStatPoints);
+    bag = backupBag;
+
+    //player at entrance and revive the enemies!
+
+    if (currentMap == Location::Sewer1) {
+        player.setPosition(1, 2);
+        for (int e = 0; e < Sewer1.enemyCount; e++) {
+            if (Sewer1.sewerEnemy[e] == nullptr) {
+                // If enemy was deleted, rebuild it! (0, 1, 2 are Rats. 3, 4 are Humans)
+                if (e < 3) Sewer1.sewerEnemy[e] = new mutRat(0, 0, e);
+                else Sewer1.sewerEnemy[e] = new mutHuman(0, 0, e);
+            }
+            // Restore max HP
+            Sewer1.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
+        }
+        Sewer1.printSewerMap(1); // This resets their exact map positions!
+    }
+    else if (currentMap == Location::Sewer2) {
+        player.setPosition(1, 2);
+        for (int e = 0; e < Sewer2.enemyCount; e++) {
+            if (Sewer2.sewerEnemy[e] == nullptr) {
+                if (e < 3) Sewer2.sewerEnemy[e] = new mutRat(0, 0, e);
+                else Sewer2.sewerEnemy[e] = new mutHuman(0, 0, e);
+            }
+            Sewer2.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
+        }
+        Sewer2.printSewerMap(2);
+    }
+    else if (currentMap == Location::Sewer3) {
+        player.setPosition(1, 2);
+        for (int e = 0; e < Sewer3.enemyCount; e++) {
+            if (Sewer3.sewerEnemy[e] == nullptr) {
+                if (e < 3) Sewer3.sewerEnemy[e] = new mutRat(0, 0, e);
+                else Sewer3.sewerEnemy[e] = new mutHuman(0, 0, e);
+            }
+            Sewer3.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
+        }
+        Sewer3.printSewerMap(3);
+    }
+    else if (currentMap == Location::Bunker) {
+        player.setPosition(0, 4); // Bunker starting position
+        for (int e = 0; e < Bunker.BunkerEnemyCount; e++) {
+            if (Bunker.bunkerEnemy[e] == nullptr) {
+                Bunker.bunkerEnemy[e] = new mutRat(0, 0, e); // Bunker only has Rats
+            }
+            Bunker.bunkerEnemy[e]->setHealthPoints(30);
+        }
+        Bunker.printbunkerMap();
+    }
+
+}
+
+
+void game::restartgame() //testing
+{
+    // Wipe time back to default
+    day = 29; month = 12; year = 2026;
+    hour = 4; minute = 0;
+
+    // Wipe player stats
+    player.setPlayerHealthPoints(100);
+    player.setPlayerGold(20);
+    player.setPlayerKeyFragment(0);
+    player.setStatPoints(0);
+
+    // Empty the bag
+    bag = inventory();
+
+    // Throw them back into the bunker
+    currentMap = Location::Bunker;
+    Bunker.printbunkerMap();
+    player.setPosition(0, 4);
+}
+
 void game::handleMovement(int dx, int dy) {
     int enemyCount = 0;
     enemy** enemies = activeEnemy(enemyCount);
@@ -1171,7 +1264,6 @@ void game::handleMovement(int dx, int dy) {
     int destY = player.getPosY() + dy;
 
     if (currentMap == Location::Town) {
-
         //Weaponsmith ('W')
         if (destX == 7 && destY == 10) {
             weaponsmith smith;
@@ -1183,18 +1275,17 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 7 && destY == 4) {
             DialogueTree tree;
             npc alchemist(npc::Type::Alchemist, &tree);
-            system("CLS"); // Clean the screen before talking
+            system("CLS");
             alchemist.onOverlap();
             return; // dont overlap
         }
-        if (currentMap == Location::Sewer1 || currentMap == Location::Sewer2 || currentMap == Location::Sewer3) {
-            entity* inCell = getEntityAt(destX, destY);
-            if (inCell != NULL) {
-                inCell->interact(playerPtr);
-
-                // delete the chest
-                destroyEntity(inCell);
-            }
+    }
+    
+    else if (currentMap == Location::Sewer1 || currentMap == Location::Sewer2 || currentMap == Location::Sewer3) {
+        entity* inCell = getEntityAt(destX, destY);
+        if (inCell != NULL) {
+            inCell->interact(playerPtr);
+            destroyEntity(inCell); // delete the chest
         }
     }
 
