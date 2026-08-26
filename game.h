@@ -65,6 +65,7 @@ public:
     void checkMapChange();
     void discoverpoi();
     void battlesequence(enemy*& currentEnemy);
+    void bossbattlesequence(boss*& thescientist);
 
     int randEncCalc();
     void randomEncounterChance(int chance);

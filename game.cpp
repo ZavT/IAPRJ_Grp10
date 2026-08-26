@@ -25,6 +25,9 @@
 #define KEY_B 98
 #define KEY_M 109
 
+#define ESC "\033"
+#define RED     ESC "[31m"
+
 //MAP STUFF
 //when setting the world map dimensions, the numbers go by (number of rows/y spaces, number of cols/x spaces)
 game::game() : worldMap(15, 20)
@@ -263,7 +266,7 @@ void game::battlesequence(enemy*& currentEnemy)
             gold = 15;
         }
         player.gainExp(expgained);
-        player.loot(gold, 0); //gain gold and 0 frags
+        player.loot(gold, 3); //gain gold and 0 frags
         std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp and "<< gold << " gold. Press any key...";
 
         //delete enemy after it dies
@@ -274,6 +277,169 @@ void game::battlesequence(enemy*& currentEnemy)
         system("CLS");
     }
 }
+
+void game::bossbattlesequence(boss*& thescientist)
+{
+    bool inbattle = true;
+    int weaknessturns = 0;
+    int shieldturns = 0;
+    std::string bossASCII = R"(
+                 .---.
+                /     \
+               | () () |
+                \  ^  /
+                (_____)
+             .-'       '-.
+            /   .-----.   \
+           /  . |      | .  \
+          /  /| |      | |\  \
+         /  / | |     | | \  \
+        |  |  | '-----'  |  |  |
+        |  |  |  [===]   |  |  |
+       //\\//\\         //\\//\\
+      //  \/  \\       //  \/  \\
+     ''   ''   ''     ''   ''   '')";
+    while (inbattle && player.getPlayerHealthPoints() > 0 && thescientist->getHealthPoints() > 0) { // while player and enemy is not dead
+        //player turn
+        player.setPlayerActionPoints(player.getPlayerAgility());
+        bool playerturn = true;
+
+        //active weapon
+        weapon activeWep = bag.getEquippedWeapon();
+        int requiredAP = activeWep.getItemAPcost();
+
+        while (playerturn && player.getPlayerActionPoints() > 0 && thescientist->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
+            system("CLS");
+            std::cout << bossASCII << std::endl;
+            std::cout << "\t=== BOSS BATTLE ===\n\n";
+            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() << "\n";
+            std::cout << "\t Boss HP:  " << thescientist->getHealthPoints() << "\n\n";
+
+            if (weaknessturns > 0) {
+                std::cout << "\t[STATUS]: WEAKENED (-30% Attack Power, " << weaknessturns << " turns left)\n";
+            }
+            std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
+            std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
+            std::cout << "\t[3] Skip Turn\n";
+            std::cout << "\t[4] Run Away\n";
+            int act = _getch(); //input
+
+            if (act == '1') {
+                int chance = activeWep.getweaponacc();
+                int randchance = (rand() % 100) + 1;
+                if (player.getPlayerActionPoints() >= requiredAP) {
+                    if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
+                        int dmg = activeWep.getweapondmg(player);
+                    if (shieldturns > 0 && weaknessturns > 0) { // if have both shield and weakness
+                            int weakdmg = dmg * 0.7;
+                            int dmgreduction = weakdmg * 0.2;
+                            thescientist->setHealthPoints(thescientist->getHealthPoints() - dmgreduction);
+                            player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
+                            std::cout << "\n\tYou dealt " << dmgreduction << " damage with your"
+                                << activeWep.getItemName() << "! It did not hit as hard... (20% Damage dealt) Press any key...";
+                            (void)_getch();
+                        }
+                        else if (weaknessturns > 0) { // weakness only
+                            int weakdmg = dmg * 0.7;
+                            thescientist->setHealthPoints(thescientist->getHealthPoints() - weakdmg);
+                            player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
+                            std::cout << "\n\tYou dealt " << weakdmg << " damage with your "
+                                << activeWep.getItemName() << "! (Weakened -30% Damage) Press any key...";
+                            (void)_getch();
+                        } 
+                        else if (shieldturns > 0) { // shield only
+                            int dmgreduction = dmg * 0.2;
+                            thescientist->setHealthPoints(thescientist->getHealthPoints() - dmgreduction);
+                            player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
+                            std::cout << "\n\tYou dealt " << dmgreduction << " damage with your"
+                                << activeWep.getItemName() << "! It did not hit as hard... (20% Damage dealt) (Weakened -30% Damage)  Press any key...";
+                            (void)_getch();
+                        }
+                        else {
+                            thescientist->setHealthPoints(thescientist->getHealthPoints() - dmg);
+                            player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
+                            std::cout << "\n\tYou dealt " << dmg << " damage with your "
+                                << activeWep.getItemName() << "! Press any key...";
+                            (void)_getch();
+                        }
+                    }
+                    else {
+                        std::cout << "\n\tYou missed. Press any key...";
+                        (void)_getch();
+                    }
+                }
+
+            }
+            else if (act == '2') {
+                player.setPlayerActionPoints(player.getPlayerActionPoints() - 1);
+                bag.inventoryMenu(player);
+            }
+            else if (act == '3') {
+                playerturn = false; // skip turn
+            }
+        }
+
+        if (thescientist->getHealthPoints() <= 0) break; //if the scientist dies stop loop
+        system("CLS");
+        std::cout << bossASCII << std::endl;
+        std::cout << "\t Boss Turn \n\n";
+
+        int dodge = player.getPlayerAgilityFinal();
+        int randhit = rand() % 100;
+        int dodgebuff = dodge;
+        int moverand = rand() % 4;
+        if (!activeWep.getweaponismelee()) {
+            dodgebuff += 30;
+        }
+
+        if (randhit < dodgebuff) {
+            std::cout << "\tYou dodged the Boss's attack!\n";
+            std::cout << "\tPress any key to start your next turn...";
+            (void)_getch();
+        }
+        else {
+            if (moverand == 0) { // poison vials
+                int enemydmg = 20;
+                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemydmg); // enemy attack hp deduct
+                std::cout << "\t The scientist threw a vial of toxins at you for " << enemydmg << " damage !\n";
+            }
+            else if (moverand == 1) { // tackle
+                int enemydmg = 30;
+                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemydmg);
+                std::cout << "\t The scientist threw him at you for " << enemydmg << " damage ! You felt pieces of bone fragements piercing you... \n";
+            }
+            else if (moverand == 2) { // weakness syringe
+                int enemydmg = 10;
+                weaknessturns = 2;
+                player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemydmg);
+                std::cout << "\t The scientist injected you with a weakness syringe for " << enemydmg << " damage ! (-30% Damage) \n";
+            }
+            else if (moverand == 3) {
+                shieldturns = 1;
+                std::cout << "\t The scientist drank a shield potion. \n For the next turn, Scientist only receives 20% of the damage \n";
+            }
+        }
+        if (weaknessturns > 0) {
+            weaknessturns--;
+        }
+        if (shieldturns > 0) {
+            shieldturns--;
+        }
+        std::cout << "\n\tPress any key to start your next turn...";
+        (void)_getch();
+        }
+        int expgained;
+        int gold;
+        if (thescientist->getHealthPoints() <= 0) {
+            expgained = 100000 + player.getPlayerIntelligenceFinal();
+            gold = 100000;
+        }
+        player.gainExp(expgained);
+        player.loot(gold, 0); //gain gold and 0 frags
+        std::cout << "\n\tBoss defeated! You gained " << expgained << " exp and " << gold << " gold. Press any key...";
+        delete thescientist;
+        thescientist = nullptr;
+    }
 
 void game::createWorldMap() {
     //initiates every single map, fill with '?'
@@ -713,6 +879,11 @@ void game::Run()
                 bossX = Lab.TheScientist->getPosX();
                 bossY = Lab.TheScientist->getPosY();
                 bossSymbol = Lab.TheScientist->getSymbol();
+
+                int distX = std::abs(player.getPosX() - bossX);
+                int distY = std::abs(player.getPosY() - bossY);
+                bossbattlesequence(Lab.TheScientist);
+
             }
 
 
