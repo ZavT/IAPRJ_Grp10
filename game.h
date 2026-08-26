@@ -34,6 +34,22 @@ private:
     int year = 2026;
     int minute = 0;
     int hour = 4;
+
+    //initial time & inventory for restart stage
+    int backupDay;
+    int backupMonth;
+    int backupYear;
+    int backupMinute;
+    int backupHour;
+
+    std::string backupName;
+    int backupHP;
+
+    int backupGold;
+    int backupStatPoints;
+    int backupKeyFragment;
+    inventory backupBag;
+   
     //map objects
     map worldMap;
     sewer Sewer1;
@@ -77,7 +93,13 @@ public:
     void destroyEntity(entity* e);
     
     void handleMovement(int dx, int dy);
+    void destroyEntity(entity* e); 
 
+    //menu
+    void initialinfo();
+    void restartstage();
+    void restartgame(); 
+    
     void handleEndings();
     
     map& activeMap();
