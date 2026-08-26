@@ -43,4 +43,5 @@ void npc::onOverlap()
 
     std::cout << "\nPress any key to continue..."; //to end dialogue
     (void)_getch();
+    system("CLS");
 }

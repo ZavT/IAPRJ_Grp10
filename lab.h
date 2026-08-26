@@ -7,8 +7,16 @@ class lab :
 {
 public:
     lab();
+    ~lab();
+    lab(const lab&) = delete;
+    lab& operator=(const lab&) = delete;
+
     map labMap;
     enemy** labEnemy;
+    enemy** TheScientist;
+    int labEnemyCount;
+
+    void summonBoss();
     void printlabMap();
 };
 
