@@ -27,8 +27,8 @@ class game
 {
 private:
     // Start date and time of our story
-    int day = 29;
-    int month = 12;
+    int day = 19;
+    int month = 3;
     int year = 2026;
     int minute = 0;
     int hour = 4;
@@ -69,6 +69,8 @@ private:
     enemy* mutRats[3];  // pointer to mutant rats
     enemy* mutHumans[3];  // pointer to mutant humans
 
+    enemy* worldEnemy = nullptr;
+
     Location currentMap = Location::MainWorld; //default is main world
 
     bool isLooted1 = false;
@@ -97,7 +99,8 @@ public:
     void restartgame(); 
     
     void handleEndings();
-    
+    void handleThirdEnding(int day, int month);
+
     map& activeMap();
     enemy** activeEnemy(int& totalCount);
 };
