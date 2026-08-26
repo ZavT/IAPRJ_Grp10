@@ -679,6 +679,7 @@ void game::Run()
                 enemyCount++;
             }
         }
+<<<<<<< HEAD
 
         if (player.checkAlive() == false)
         {
@@ -704,9 +705,9 @@ void game::Run()
             currentMap = Location::Town;
             player.respawn();
         }
-=======
->>>>>>> 15c43d7c3f3f9596484ad9c19b4b4b2d3491cf88
+
         else if (currentMap == Location::Lab) {
+            
             for (int e = 0; e < Lab.labEnemyCount; e++) {
 
                 if (Lab.labEnemy[e] == nullptr || !Lab.labEnemy[e]->isSpawned()) {
