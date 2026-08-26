@@ -326,7 +326,6 @@ void game::bossbattlesequence(boss*& thescientist)
             std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
             std::cout << "\t[3] Skip Turn\n";
-            std::cout << "\t[4] Run Away\n";
             int act = _getch(); //input
 
             if (act == '1') {
@@ -453,6 +452,22 @@ void game::bossbattlesequence(boss*& thescientist)
             delete thescientist;
             thescientist = nullptr; // Safely deleted!
         }
+        int expgained;
+        int gold;
+
+        if (thescientist->getHealthPoints() <= 0) {
+            expgained = 100000 + player.getPlayerIntelligenceFinal();
+            gold = 100000;
+            player.gainExp(expgained);
+            player.loot(gold, 0); //gain gold and 0 frags
+            std::cout << "\n\tBoss defeated! You gained " << expgained << " exp and " << gold << " gold. Press any key..." << std::endl;
+            std::cout << std::endl;
+            delete thescientist;
+            thescientist = nullptr;
+            (void)_getch();
+            handleEndings();
+        }
+        
     }
 
 void game::createWorldMap() {
@@ -729,7 +744,7 @@ void game::Run()
     player.setPosition(0, 4);
     currentMap = Location::Bunker; //starting map
 
-    while (gameRunning) {
+    while (gameRunning && !gameEnd) {
         map& current = activeMap();
 
         //define the number of enemies in total
@@ -929,6 +944,11 @@ void game::Run()
                 int distY = std::abs(player.getPosY() - bossY);
                 bossbattlesequence(Lab.TheScientist);
 
+                if (gameEnd) {
+                    gameRunning = false;
+                    system("CLS");
+                    continue;
+                }
             }
         }
 
@@ -997,7 +1017,6 @@ void game::Run()
                     restartgame(); // Trigger full restart
                 }
             }
-
             system("CLS");
             break;
         }
@@ -1332,51 +1351,57 @@ void game::handleEndings() {
     system("CLS");
 
     std::cout << "<EPILOGUE>" << std::endl;
-    std::cout << "The Scientist stumbles to the ground, on the verge of death. As you loom over his body, he says one final sentence." << std::endl;
+    std::cout << "The Scientist falls to the ground, on the verge of death. As you loom over his body, he says one final sentence." << std::endl;
     (void)_getch();
     std::cout <<"'" << player.getPlayerName() << "... it seems like I wasn't strong enough to take you down...";
     (void)_getch();
-    std::cout << "but are you strong enough to hold off against...";
+    std::cout << "but are you strong enough to hold off against..." << std::endl;
     (void)_getch();
     std::cout << "THEM?' says The Scientist, with his final breath." << std::endl;
     std::cout << std::endl;
     (void)_getch();
-    std::cout << "You turn around. Right outside you hear the sounds of the mutants.";
+    std::cout << "You turn around. Right outside you hear the sounds of the mutants." << std::endl;
     (void)_getch();
     std::cout << "You listen carefully. They're getting louder, they're getting closer." << std::endl;
     (void)_getch();
     std::cout << "Realising that you don't have much time, you quickly run towards Jake's workbench" << std::endl;
+    std::cout << std::endl;
     (void)_getch();
     std::cout << "You know there's only ONE way to get out of this situation alive." << std::endl;
     (void)_getch();
     system("CLS");
 
     if (player.getPlayerIntelligenceFinal() >= 10) { //GOOD ENDING DIALOGUE
-        std::cout << "You precisely grab some bottles of chemicals.";
+        std::cout << "You precisely grab some bottles of chemicals." << std::endl;
         (void)_getch();
-        std::cout << "Referring to Jake's unfinished research, you create a mixture of chemicals that replicate the exact cure Jake had left off with." << std::endl;
+        std::cout << "Referring to Jake's unfinished research, you create a mixture of chemicals that replicate Jake's cure." << std::endl;
         (void)_getch();
-        std::cout << "You think to yourself. Your brain is working overtime, trying to solve the problem behind the cure's incompleteness. Then, it hits you." << std::endl;
+        std::cout << "You start to overclock your brain, trying to solve the problem behind the cure's incompleteness.\nThen, it hits you." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
-        std::cout << "From the nearby cupboard, you grab a small vial will a green liquid inside.";
+        std::cout << "From the nearby cupboard, you grab a small vial will a green liquid inside." << std::endl;
         (void)_getch();
-        std::cout << "Pouring it inside your current concoction, the entire mixture changes to a bright green colour, emitting a blinding glow." << std::endl;
+        std::cout << "Pouring it inside your concoction, the entire mixture changes to a bright green colour, emitting a blinding glow." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
-        std::cout << "BAM! The mutants suddenly burst through the door and sprint straight towards you. You remember something that Jake said..." << std::endl;
+        std::cout << "BAM! The mutants suddenly burst through the door and sprint straight towards you. \nThen, you remember something that Jake said..." << std::endl;
         (void)_getch();
         std::cout << "'As long as the mutants are alive, he'll keep regenerating.' You realise something game changing." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
         std::cout << "In one swift motion, you turn around and throw the cure at the mutants with all your strength." << std::endl;
         (void)_getch();
         std::cout << "The vial shatters and spills everywhere on a Mutated Human's head. The liquid seeps in through an open wound." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
-        std::cout << "Suddenly, the Mutants come to a halt, and their distinctive mutant features start to fade away.";
+        std::cout << "Suddenly, the Mutants come to a halt, and their distinctive mutant features start to fade away." << std::endl;
         (void)_getch();
         std::cout << "You cautiously approach one of the hopefully cured humans." << std::endl;
         (void)_getch();
         std::cout << "'Are you good?' you ask the human. He looks up at you, and says 'What.. even happened here?'" << std::endl;
         (void)_getch();
         std::cout << "You run out of the lab. The other Mutants start to change back to their original selves as well." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
         std::cout << "You smile for the first time in years. A genuine one. 'It's finally over...'" << std::endl;
         std::cout << "[GOOD ENDING]" << std::endl;
@@ -1385,13 +1410,14 @@ void game::handleEndings() {
         gameEnd = true;
     }
     else if (player.getPlayerIntelligenceFinal() < 10) { //BAD ENDING DIALOGUE
-        std::cout << "You grab some bottles of chemicals in a panic.";
+        std::cout << "You grab some bottles of chemicals in a panic." << std::endl;
         (void)_getch();
-        std::cout << "Trying to refer to Jake's unfinished research, you attempt to replicate the 'cure' that Jake had originally come up with." << std::endl;
+        std::cout << "Referring to Jake's unfinished research, you attempt to replicate the 'cure' that Jake had originally come up with." << std::endl;
         (void)_getch();
-        std::cout << "You can't figure out the missing piece behind Jake's cure. You panic even more" << std::endl;
+        std::cout << "You can't figure out the missing piece behind Jake's cure. You panic even more." << std::endl;
         (void)_getch();
         std::cout << "From the nearby cupboard, you grab another handful of random chemicals, hoping you can make something out of it." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
         std::cout << "BAM! The mutants suddenly burst through the door and sprint straight towards you." << std::endl;
         (void)_getch();
@@ -1400,16 +1426,18 @@ void game::handleEndings() {
         std::cout << "To your horror, the Mutant seems unaffected by it. It enrages the Mutant, causing it to go in a state of fury." << std::endl;
         (void)_getch();
         std::cout << "You try to draw your weapon, but it is too late. The Mutant pounces on you, followed by other Mutants." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
-        std::cout << "As you struggle to free yourself from the pile of Mutants, you can feel your life slowly being drained away.";
+        std::cout << "As you struggle to free yourself from the pile of Mutants, you can feel your life slowly being drained away." << std::endl;
         (void)_getch();
         std::cout << "You shut your eyes, accepting your fate." << std::endl;
+        std::cout << std::endl;
         (void)_getch();
         std::cout << "The Scientist is dead. But so are you. The Mutants continue to roam, prolonging the Apocalypse." << std::endl;
         (void)_getch();
         std::cout << "Though the evil mastermind behind this is gone, the problem remains unresolved, leaving the innocent to wonder: " << std::endl;
         (void)_getch();
-        std::cout << "When will this all be over?" << std::endl;
+        std::cout << "'When will this all be over?'" << std::endl;
         std::cout << "[BAD ENDING]" << std::endl;
         std::cout << "Press any key to exit the game";
         (void)_getch();

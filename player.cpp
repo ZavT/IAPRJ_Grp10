@@ -12,11 +12,11 @@ player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 
 	setHealthPoints(9999);
 
-	playerStrength = 2;
+	playerStrength = 1000;
 	playerAgility = 2;
 	playerLuck = 2;
 	playerEndurance = 2;
-	playerIntelligence = 2;
+	playerIntelligence = 10;
 
 	playerActionPoints = playerAgility;
 
