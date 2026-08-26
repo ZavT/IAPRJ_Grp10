@@ -517,7 +517,7 @@ int game::randEncCalc() {
     if ((hour > 21) && (hour < 6)) { // night time
         return (40 - player.getPlayerLuck());
     }
-    else {
+    else { // day time
         return (15 - player.getPlayerLuck());
     }
 }
