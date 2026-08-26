@@ -679,7 +679,6 @@ void game::Run()
                 enemyCount++;
             }
         }
-<<<<<<< HEAD
 
         if (player.checkAlive() == false)
         {
