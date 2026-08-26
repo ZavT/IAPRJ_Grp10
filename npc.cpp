@@ -43,6 +43,9 @@ void npc::onOverlap()
     if (rv == 7) {
         std::cout << "\n'Good luck...'\n";
     }
+    if (rv == 9) {
+        std::cout << "\nYou take the items from the chest.\n";
+    }
 
     std::cout << "\nPress any key to continue..."; //to end dialogue
     (void)_getch();

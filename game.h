@@ -74,7 +74,9 @@ private:
 
     Location currentMap = Location::MainWorld; //default is main world
 
-    entity* sewerGrid[15][5];
+    bool isLooted1 = false;
+    bool isLooted2 = false;
+    bool isLooted3 = false;
 public:
     game();
 
@@ -90,12 +92,8 @@ public:
     void randomEncounterChance(int chance);
 
     void timePassMinutes(int m);
-
-    entity* getEntityAt(int x, int y) const;
-    void destroyEntity(entity* e);
     
     void handleMovement(int dx, int dy);
-    void destroyEntity(entity* e); 
 
     //menu
     void initialinfo();

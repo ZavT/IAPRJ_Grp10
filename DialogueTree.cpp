@@ -31,7 +31,7 @@ DialogueTree::DialogueTree() {
 	node1->dialogueOptions.push_back(DialogueOption("<2: 'Maybe later, I've got things to do.'>", 5, nullptr));
 	dialogueNodes.push_back(node1);
 
-	node2->dialogueOptions.push_back(DialogueOption("<1: 'But how did he get people to experiment on?'>", 0, node3));
+	node2->dialogueOptions.push_back(DialogueOption("<1: 'But how did he get people to experiment on?'>", 8, node3));
 	node2->dialogueOptions.push_back(DialogueOption("<2: 'Is there a cure?'>", 0, node4));
 	dialogueNodes.push_back(node2);
 
@@ -104,6 +104,14 @@ DialogueTree::DialogueTree() {
 	alc0->dialogueOptions.push_back(DialogueOption("<1: View potion shop>", 6, nullptr));
 	alc0->dialogueOptions.push_back(DialogueOption("<2: 'No thanks.'>", 7, nullptr));
 	dialogueNodes.push_back(alc0);
+
+	// Chest
+	chestStartIndex = dialogueNodes.size();
+
+	DialogueNode* chest0 = new DialogueNode("You found a chest! You open it and find 20 gold and 1 key fragment.");
+
+	chest0->dialogueOptions.push_back(DialogueOption("<1: Take items>", 9, nullptr));
+	dialogueNodes.push_back(chest0);
 }
 
 DialogueTree::~DialogueTree() {

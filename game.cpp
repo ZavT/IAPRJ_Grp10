@@ -10,8 +10,9 @@
 #include "sewer.h"
 #include "inspect.h"
 #include "weaponsmith.h"
-#include "npc.h"
+#include "alchemist.h"
 #include "DialogueTree.h"
+#include "npc.h"
 
 #define KEY_ARROW_UP 72
 #define KEY_ARROW_DOWN 80
@@ -1121,17 +1122,6 @@ enemy** game::activeEnemy(int& totalCount) {
     return nullptr;
 }
 
-entity* game::getEntityAt(int x, int y) const {
-    return sewerGrid[y][x];
-}
-void game::destroyEntity(entity* e) {
-    if (e != NULL) {
-        sewerGrid[e->getPosY()][e->getPosX()] = NULL; // clear the tile it was standing on
-
-        delete e; // free the memory
-    }
-}
-
 void game::initialinfo() //for restart stage to chang info to your info when you first entered the location
 {
     // Save the time
@@ -1244,8 +1234,10 @@ void game::handleMovement(int dx, int dy) {
     if (currentMap == Location::Town) {
         //Weaponsmith ('W')
         if (destX == 7 && destY == 10) {
-            weaponsmith smith;
-            smith.weaponsmithOpen(player, bag);
+            DialogueTree tree;
+            npc weaponsmith(npc::Type::Ryan, &tree);
+            system("CLS"); // Clean the screen before talking
+            weaponsmith.onOverlap();
             return; // dont overlap
         }
 
@@ -1257,13 +1249,57 @@ void game::handleMovement(int dx, int dy) {
             alchemist.onOverlap();
             return; // dont overlap
         }
+        //Motel ('M')
+        if (destX == 7 && destY == 12) {
+            player.heal(30);
+            return; // dont overlap
+        }
     }
-    
-    else if (currentMap == Location::Sewer1 || currentMap == Location::Sewer2 || currentMap == Location::Sewer3) {
-        entity* inCell = getEntityAt(destX, destY);
-        if (inCell != NULL) {
-            inCell->interact(playerPtr);
-            destroyEntity(inCell); // delete the chest
+    if (currentMap == Location::Sewer1) {
+        if (destX == 29 && destY == 0) {
+			if (!isLooted1) {
+				player.loot(10, 1);
+				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
+				isLooted1 = true;
+			}
+			else {
+				std::cout << "The chest is empty." << std::endl;
+				(void)_getch();
+			}
+        }
+    }
+    if (currentMap == Location::Sewer2) {
+        if (destX == 29 && destY == 0) {
+            if (!isLooted2) {
+                player.loot(10, 1);
+                std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
+                isLooted2 = true;
+            }
+			else {
+				std::cout << "The chest is empty." << std::endl;
+				(void)_getch();
+			}
+        }
+    }
+    if (currentMap == Location::Sewer3) {
+        if (destX == 29 && destY == 0) {
+            if (!isLooted3) {
+                player.loot(10, 1);
+                std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
+                isLooted3 = true;
+            }
+            else {
+				std::cout << "The chest is empty." << std::endl;
+				(void)_getch();
+            }
+        }
+        // Jake ('J')
+        if (destX == 15 && destY == 4) {
+            DialogueTree tree;
+            npc jake(npc::Type::Jake, &tree);
+            system("CLS"); // Clean the screen before talking
+            jake.onOverlap();
+            return; // dont overlap
         }
     }
 
