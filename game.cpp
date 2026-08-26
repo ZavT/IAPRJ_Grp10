@@ -517,7 +517,7 @@ void game::Intro()
     }
 }
 
-int game::randEncCalc() {
+int game::randEncChanceNum() {
     if ((hour > 21) && (hour < 6)) { // night time
         return (40 - player.getPlayerLuck());
     }
@@ -530,7 +530,7 @@ void game::randomEncounterChance(int chance) {
     int randomNum = (rand() % 100) + 1;
 
     if (randomNum <= chance) {
-        // random encounter code
+        // random encounter code (reuse entering POI code)
     }
 }
 
@@ -969,7 +969,16 @@ enemy** game::activeEnemy(int& totalCount) {
     totalCount = 0;
     return nullptr;
 }
+entity* game::getEntityAt(int x, int y) const {
+    return sewerGrid[y][x];
+}
+void game::destroyEntity(entity* e) {
+    if (e != NULL) {
+        sewerGrid[e->getPosY()][e->getPosX()] = NULL; // clear the tile it was standing on
 
+        delete e; // free the memory
+    }
+}
 void game::handleMovement(int dx, int dy) {
     int enemyCount = 0;
     enemy** enemies = activeEnemy(enemyCount);
@@ -994,6 +1003,15 @@ void game::handleMovement(int dx, int dy) {
             system("CLS"); // Clean the screen before talking
             alchemist.onOverlap();
             return; // dont overlap
+        }
+        if (currentMap == Location::Sewer1 || currentMap == Location::Sewer2 || currentMap == Location::Sewer3) {
+            entity* inCell = getEntityAt(destX, destY);
+            if (inCell != NULL) {
+                inCell->interact(playerPtr);
+
+                // delete the chest
+                destroyEntity(inCell);
+            }
         }
     }
 
