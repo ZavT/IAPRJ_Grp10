@@ -15,7 +15,12 @@ lab::lab() : labMap (9,20){
 	labEnemy[4] = new mutHuman(0, 0, 4);
 }
 lab::~lab() {
+	for (int i = 0; i < labEnemyCount; i++) delete labEnemy[i];
+	{
+		delete[] labEnemy;
+	}
 
+	delete TheScientist;
 }
 
 void lab::printlabMap() {
@@ -44,8 +49,15 @@ void lab::printlabMap() {
 	}
 }
 
-void lab::summonBoss() {
-	TheScientist = new enemy * [1];
+void lab::checkRoomClear() {
+	if (labEnemy[0] == nullptr && labEnemy[1] == nullptr && labEnemy[2] == nullptr && labEnemy[3] == nullptr && labEnemy[4] == nullptr) {
+		//if every enemy inside the lab is dead, then summon the boss
+		summonBoss();
+	}
+}
 
-	TheScientist[0] = new boss(0, 0, 1);
+void lab::summonBoss() {
+	TheScientist = new boss(0, 0, 1);
+
+	TheScientist->setPosition(10, 4);
 }

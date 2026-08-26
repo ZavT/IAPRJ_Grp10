@@ -4,6 +4,7 @@
 #include <limits> //dialogue
 #include "game.h"
 #include "enemy.h"
+#include "boss.h"
 #include "player.h"
 #include "inventory.h"
 #include "sewer.h"
@@ -171,7 +172,9 @@ void game::battlesequence(enemy*& currentEnemy)
         if (!inbattle || currentEnemy->getHealthPoints() <= 0)
         break;
 
+        //------------------------
         // enemy turn
+        //------------------------
         if (enemysymbol == 'R') { //if enemy is rat
             system("CLS");
             std::cout << ratASCII << "\n";
@@ -255,6 +258,7 @@ void game::battlesequence(enemy*& currentEnemy)
         player.gainExp(expgained);
         std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp. Press any key...";
 
+        //delete enemy after it dies
         delete currentEnemy;
         currentEnemy = nullptr;
         (void)_getch();
@@ -515,7 +519,7 @@ void game::randomEncounterChance(int chance) {
 void game::Run()
 {
     bool gameRunning = true;
-    //Intro(); //comment out to skip intro
+    Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
     player.setPosition(1, 1);
@@ -531,6 +535,10 @@ void game::Run()
         int enemyY[6];
         char enemySymbol[6];
 
+        int bossX = -1;
+        int bossY = -1;
+        char bossSymbol = 'B';
+
         int enemyCount = 0;
         //every start of the loop, change the time depending on current location
         if (currentMap == Location::MainWorld) {
@@ -541,7 +549,6 @@ void game::Run()
             int randomTimePOI = (rand() % 2) + 1;
             timePassMinutes(randomTimePOI);
         }
-         
         //controls enemy behaviour, render and battle for each room w enemies inside
         if (currentMap == Location::Sewer1) {
             for (int e = 0; e < Sewer1.enemyCount; e++) {
@@ -654,27 +661,8 @@ void game::Run()
                 enemyCount++;
             }
         }
-
-        if (player.checkAlive() == false)
-        {
-            system("CLS");
-            std::cout << "\t   _-----------_   \n";
-            std::cout << "\t  |             |  \n";
-            std::cout << "\t |   R   I   P   | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |               | \n";
-            std::cout << "\t |=&==&==&==&==&=| \n";
-
-            std::cout << "\tPress any key to end game...";
-            (void)_getch();
-
-            gameRunning = false;
-            continue; // Force the loop to restart and gracefully exit
-        }
         else if (currentMap == Location::Lab) {
+            
             for (int e = 0; e < Lab.labEnemyCount; e++) {
 
                 if (Lab.labEnemy[e] == nullptr || !Lab.labEnemy[e]->isSpawned()) {
@@ -701,6 +689,35 @@ void game::Run()
                 }
                 enemyCount++;
             }
+
+            Lab.checkRoomClear();//check if room has been cleared every code loop
+            if (Lab.TheScientist != nullptr && Lab.TheScientist->getBossActive()) {
+                bossX = Lab.TheScientist->getPosX();
+                bossY = Lab.TheScientist->getPosY();
+                bossSymbol = Lab.TheScientist->getSymbol();
+            }
+
+
+        }
+        
+        if (player.checkAlive() == false)
+        {
+            system("CLS");
+            std::cout << "\t   _-----------_   \n";
+            std::cout << "\t  |             |  \n";
+            std::cout << "\t |   R   I   P   | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |=&==&==&==&==&=| \n";
+
+            std::cout << "\tPress any key to end game...";
+            (void)_getch();
+
+            gameRunning = false;
+            continue; // Force the loop to restart and gracefully exit
         }
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
@@ -708,7 +725,7 @@ void game::Run()
         
         //print map when loop starts again
 
-        current.printmap(player.getPosX(), player.getPosY(), enemyX, enemyY, enemySymbol ,enemyCount);
+        current.printmap(player.getPosX(), player.getPosY(), enemyX, enemyY, enemySymbol ,enemyCount, bossX, bossY, bossSymbol);
         current.discovered(player.getPosX(), player.getPosY());
 
         int ch = _getch();
@@ -738,7 +755,6 @@ void game::Run()
             //check if player has discovered a poi after moving
             discoverpoi();
             checkMapChange();
-            
         }
         //check if quit game
         else if (ch == 'q' || ch == 'Q') {

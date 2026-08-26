@@ -5,6 +5,7 @@
 #define GREEN    ESC "[92m"
 #define CYAN    ESC "[96m"
 #define RED    ESC "[91m"
+#define BLACK   ESC "[30m"
 #define BRIGHT_MAGENTA ESC "[95m"
 #define BRIGHT_YELLOW  ESC "[93m"
 #define BG_RED     ESC "[41m"
@@ -47,7 +48,7 @@ void map::setpos(int setX, int setY, char symbol){
 	maps[setY][setX] = symbol;
 }
 
-void map::printmap(int playerX, int playerY, int* enemyX, int* enemyY, char* enemySymbol, int enemyCount) {
+void map::printmap(int playerX, int playerY, int* enemyX, int* enemyY, char* enemySymbol, int enemyCount, int bossX, int bossY, char bossSymbol) {
 	std::cout << "           ";
 	for (int x = 0; x < cols; x++) {
 		std::cout << "+ ";
@@ -71,6 +72,11 @@ void map::printmap(int playerX, int playerY, int* enemyX, int* enemyY, char* ene
 				}
 			}
 			if (isEnemy) continue;
+
+			if (bossX != -1 && bossY != -1 && x == bossX && i == bossY) {
+				std::cout << BOLD << BG_RED << bossSymbol << RESET << " ";
+				continue;
+			}
 
 			//give color to given symbols
 			if (maps[i][x] == 'B') {

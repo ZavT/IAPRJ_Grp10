@@ -16,7 +16,7 @@ public:
 	int getDimensionROW();
 	int getDimensionCOL();
 
-	void printmap(int playerX, int playerY, int* enemyX = nullptr, int* enemyY = nullptr, char* enemySymbol = nullptr, int enemyCount = 0);
+	void printmap(int playerX, int playerY, int* enemyX = nullptr, int* enemyY = nullptr, char* enemySymbol = nullptr, int enemyCount = 0, int bossX = 0, int bossY = 0, char bossSymbol = 'B');
 	void renderEnemies(int enemyX, int enemyY);
 	void setpos(int row, int col, char symbol);  //set pos only for map items
 	void discovered(int discX, int discY);
