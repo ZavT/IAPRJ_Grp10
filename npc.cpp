@@ -5,7 +5,7 @@
 #include <iostream>
 #include <conio.h>
 bool npc::talkedToRyan = false;
-void npc::onOverlap()
+void npc::onOverlap(player& p, inventory& bag)
 {
     int rv = 0;
     switch (type) {
@@ -41,18 +41,18 @@ void npc::onOverlap()
     }
     if (rv == 5) {
         weaponsmith smith;
-        smith.weaponsmithOpen(player, bag);
+        smith.weaponsmithOpen(p, bag);
     }
     if (rv == 6) {
         alchemist alchemist;
-        alchemist.alchemistOpen(player, bag);
+        alchemist.alchemistOpen(p, bag);
     }
     if (rv == 7) {
         std::cout << "\n'Good luck...'\n";
     }
     if (rv == 8) {
         // +1 Intelligence
-        player.setPlayerIntelligence(player.getPlayerIntelligence() + 1);
+        p.setPlayerIntelligence(p.getPlayerIntelligence() + 1);
     }
     if (rv == 9) {
         // +1 Health Potion

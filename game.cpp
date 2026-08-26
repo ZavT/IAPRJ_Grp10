@@ -1030,6 +1030,14 @@ void game::Run()
         case KEY_M:
             system("CLS");
             {
+                if (npc::talkedToRyan) {
+                    settings.setObjective(2);
+                }
+
+                if (player.getPlayerKeyFragment() >= 3) {
+                    settings.setObjective(3);
+                }
+
                 int menuAction = settings.menuOpen(day, month, year, hour, minute);
 
                 if (menuAction > 0) {
