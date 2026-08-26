@@ -82,11 +82,15 @@ void game::battlesequence(enemy*& currentEnemy)
     bool inbattle = true;
     char enemysymbol = currentEnemy->getSymbol();
 
-    std::string ratASCII =
-        "\n       _..----.._    _"
-        "\n     .'  .--.    '-.(0)_"
-        "\n'-.__.-''''-:  ,  _  ' '-."
-        "\n             ''''' '''''''\n";
+    std::string ratASCII = R"(
+                       ,     .
+                       (\,;,/)
+                        (o o)\//,
+                         \ /     \,
+                         `+'(  (   \    )
+                            //  \   |_./
+ ---------------------------'~' '~----'----------------          
+)";
 
     std::string muthumanASCII = R"( 
           _,-""-._
