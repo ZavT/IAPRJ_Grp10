@@ -91,7 +91,7 @@ DialogueTree::DialogueTree() {
 	ryan3->dialogueOptions.push_back(DialogueOption("<2: 'Where is he?'>", 0, ryan5));
 	dialogueNodes.push_back(ryan3);
 
-	ryan4->dialogueOptions.push_back(DialogueOption("<2: 'Where is he?'>", 0, ryan5));
+	ryan4->dialogueOptions.push_back(DialogueOption("<1: 'Where is he?'>", 0, ryan5));
 	dialogueNodes.push_back(ryan4);
 
 	ryan5->dialogueOptions.push_back(DialogueOption("<1: 'Thanks. I'll be going now.'>", 3, nullptr));
@@ -137,7 +137,7 @@ int DialogueTree::performDialogue(int startIndex) {
 
 		// Print the choices
 		for (size_t i = 0; i < current->dialogueOptions.size(); ++i) {
-			cout << i + 1 << ": " << current->dialogueOptions[i].text << "\n";
+			cout << current->dialogueOptions[i].text << "\n";
 		}
 
 		int choice = 0;

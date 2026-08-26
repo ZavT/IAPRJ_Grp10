@@ -6,12 +6,13 @@
 class npc
 {
 public:
-	enum class Type { fJake, Jake, Ryan, Alchemist, Chest };
+	enum class Type { Jake, Ryan, Alchemist, Chest };
 
 	npc(Type t, DialogueTree* tree) : type(t), dialogue(tree) {}
 
 	// when player overlaps npc
 	void onOverlap();
+	static bool talkedToRyan;
 
 private:
 	Type type;

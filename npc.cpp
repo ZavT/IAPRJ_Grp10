@@ -3,15 +3,16 @@
 #include "alchemist.h"
 #include <iostream>
 #include <conio.h>
+bool npc::talkedToRyan = false;
 void npc::onOverlap()
 {
     int rv = 0;
     switch (type) {
     case Type::Jake:
-        rv = dialogue->performDialogue(dialogue->getJakeStartIndex());
-        break;
-    case Type::fJake:
-        rv = dialogue->performDialogue(dialogue->getfJakeStartIndex());
+        if (talkedToRyan)
+            rv = dialogue->performDialogue(dialogue->getJakeStartIndex());
+        else
+            rv = dialogue->performDialogue(dialogue->getfJakeStartIndex());
         break;
     case Type::Ryan:
         rv = dialogue->performDialogue(dialogue->getRyanStartIndex());
@@ -31,6 +32,8 @@ void npc::onOverlap()
     }
     if (rv == 3) {
         std::cout << "\n'Hey, come back to me if you need any weapons. You should arm yourself up before you go out there.'\n";
+        if (type == Type::Ryan)
+            talkedToRyan = true;
     }
     if (rv == 4) {
         std::cout << "\nYou hesitate but back away cautiously, hoping you won't regret your decision later.\n";
