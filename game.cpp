@@ -686,11 +686,16 @@ void game::Run()
             std::cout << "\t |               | \n";
             std::cout << "\t |=&==&==&==&==&=| \n";
 
-            std::cout << "\tPress any key to end game...";
+            std::cout << "\tYou have been fatally wounded and fainted in combat. Luckily someone found you...\n";
+            std::cout << "\tPress any key to continue...\n";
             (void)_getch();
+            system("CLS");
 
-            gameRunning = false;
-            continue; // Force the loop to restart and gracefully exit
+            
+            Town.printtownMap();
+            player.setPosition(7, 7);
+            currentMap = Location::Town;
+            player.respawn();
         }
         else if (currentMap == Location::Lab) {
             for (int e = 0; e < Lab.labEnemyCount; e++) {
