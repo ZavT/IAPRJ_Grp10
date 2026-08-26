@@ -697,17 +697,16 @@ void game::Intro()
     }
 }
 
-int game::randEncChanceNum() {
+void game::randomEncounter() {
+    int randomNum = (rand() % 100) + 1;
+    int chance = 50;
+
     if ((hour > 21) || (hour < 6)) { // night time
-        return (40 - player.getPlayerLuck());
+        chance = (40 - player.getPlayerLuck());
     }
     else { // day time
-        return (15 - player.getPlayerLuck());
+        chance = (15 - player.getPlayerLuck());
     }
-}
-
-void game::randomEncounterChance(int chance) {
-    int randomNum = (rand() % 100) + 1;
 
     if (randomNum <= chance) {
         if (currentMap == Location::MainWorld) {

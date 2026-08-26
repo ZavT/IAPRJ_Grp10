@@ -85,8 +85,7 @@ public:
     void battlesequence(enemy*& currentEnemy);
     void bossbattlesequence(boss*& thescientist);
 
-    int randEncChanceNum();
-    void randomEncounterChance(int chance);
+    void randomEncounter();
 
     void timePassMinutes(int m);
     
