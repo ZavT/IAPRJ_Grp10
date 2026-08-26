@@ -16,6 +16,7 @@
 map::map() {
 
 }
+
 map::map(int r, int c){
 	rows = r; //y value
 	cols = c; //x value

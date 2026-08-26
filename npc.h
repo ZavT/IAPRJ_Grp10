@@ -6,7 +6,7 @@
 class npc
 {
 public:
-	enum class Type { Jake, Ryan, Alchemist };
+	enum class Type { Jake, Ryan, Alchemist, Chest };
 
 	npc(Type t, DialogueTree* tree) : type(t), dialogue(tree) {}
 

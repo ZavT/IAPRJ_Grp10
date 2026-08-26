@@ -53,6 +53,8 @@ void sewer::printSewerMap(int sewernum) {
 		if (sewerEnemy[4] != nullptr) { 
 			sewerEnemy[4]->setSpawnState(false);//dont spawn a second muthuman
 		}
+
+		sewerMap.setpos(29, 0, 'C'); //chest
 	}
 	if (sewernum == 2) {
 		//rat positions
@@ -77,6 +79,8 @@ void sewer::printSewerMap(int sewernum) {
 			sewerEnemy[4]->setPosition(17, 4);
 			sewerEnemy[4]->setSpawnState(true);
 		}
+
+		sewerMap.setpos(29, 0, 'C'); //chest
 	}
 	if (sewernum == 3) {
 		//rat positions
@@ -102,5 +106,8 @@ void sewer::printSewerMap(int sewernum) {
 			sewerEnemy[4]->setPosition(16, 1);
 			sewerEnemy[4]->setSpawnState(true);
 		}
+		
+		sewerMap.setpos(29, 0, 'C'); //chest
+		sewerMap.setpos(15, 4, 'J'); //Jake
 	}
 }
