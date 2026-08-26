@@ -49,6 +49,8 @@ private:
     int backupStatPoints;
     int backupKeyFragment;
     inventory backupBag;
+
+    bool gameEnd = false;
    
     //map objects
     map worldMap;
