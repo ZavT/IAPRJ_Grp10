@@ -95,5 +95,7 @@ public:
 	int getPlayerExp();
 	void gainExp(int amt);
 
+	//player fainted
 	bool checkAlive();
+	bool respawn();
 };

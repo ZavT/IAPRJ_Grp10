@@ -683,7 +683,7 @@ void game::Intro()
     }
 }
 
-int game::randEncCalc() {
+int game::randEncChanceNum() {
     if ((hour > 21) && (hour < 6)) { // night time
         return (40 - player.getPlayerLuck());
     }
@@ -696,7 +696,19 @@ void game::randomEncounterChance(int chance) {
     int randomNum = (rand() % 100) + 1;
 
     if (randomNum <= chance) {
-        // random encounter code
+        if (currentMap == Location::MainWorld) {
+            if ((player.getPosX() != 3 && player.getPosY() != 5) || (player.getPosX() != 7 && player.getPosY() != 10) ||
+                (player.getPosX() != 15 && player.getPosY() != 12) || (player.getPosX() != 0 && player.getPosY() != 7) ||
+                (player.getPosX() != 12 && player.getPosY() != 8) || (player.getPosX() != 19 && player.getPosY() != 7)) {
+
+                currentMap = Location::RandEnc;
+                randEnc.printRandEncMap(1);
+                player.setPosition(6, 7);
+                std::cout << "RANDOM ENCOUNTER" << std::endl;
+                std::cout << std::endl;
+
+            }
+        }
     }
 }
 
@@ -845,6 +857,32 @@ void game::Run()
                 enemyCount++;
             }
         }
+
+        if (player.checkAlive() == false)
+        {
+            system("CLS");
+            std::cout << "\t   _-----------_   \n";
+            std::cout << "\t  |             |  \n";
+            std::cout << "\t |   R   I   P   | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |               | \n";
+            std::cout << "\t |=&==&==&==&==&=| \n";
+
+            std::cout << "\tYou have been fatally wounded and fainted in combat. Luckily someone found you...\n";
+            std::cout << "\tPress any key to continue...\n";
+            (void)_getch();
+
+            system("CLS");
+            player.respawn();
+            Town.printtownMap();
+            player.setPosition(7, 7);
+            currentMap = Location::Town;
+            continue;
+        }
+
         else if (currentMap == Location::Lab) {
             
             for (int e = 0; e < Lab.labEnemyCount; e++) {
@@ -1114,7 +1152,16 @@ enemy** game::activeEnemy(int& totalCount) {
     totalCount = 0;
     return nullptr;
 }
+entity* game::getEntityAt(int x, int y) const {
+    return sewerGrid[y][x];
+}
+void game::destroyEntity(entity* e) {
+    if (e != NULL) {
+        sewerGrid[e->getPosY()][e->getPosX()] = NULL; // clear the tile it was standing on
 
+        delete e; // free the memory
+    }
+}
 void game::handleMovement(int dx, int dy) {
     int enemyCount = 0;
     enemy** enemies = activeEnemy(enemyCount);
@@ -1139,6 +1186,15 @@ void game::handleMovement(int dx, int dy) {
             system("CLS"); // Clean the screen before talking
             alchemist.onOverlap();
             return; // dont overlap
+        }
+        if (currentMap == Location::Sewer1 || currentMap == Location::Sewer2 || currentMap == Location::Sewer3) {
+            entity* inCell = getEntityAt(destX, destY);
+            if (inCell != NULL) {
+                inCell->interact(playerPtr);
+
+                // delete the chest
+                destroyEntity(inCell);
+            }
         }
     }
 

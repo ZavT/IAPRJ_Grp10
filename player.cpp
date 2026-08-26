@@ -25,7 +25,6 @@ player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 	statPoints = 0;
 
 	playerCombatMode = false;
-
 	isAlive = true;
 
 	this->playerGold = playerGold;
@@ -249,10 +248,28 @@ bool player::getBattleState() {
 
 	bool player::checkAlive()
 	{
-		if (getPlayerHealthPoints() <= 0)
-		{
+		if (getPlayerHealthPoints() <= 0) 
+		{	
 			isAlive = false;
 			return false;
+		}
+
+		return true;
+	}
+
+	bool player::respawn()
+	{
+		//set hp again
+		setPlayerHealthPoints(getPlayerMaxHealthPoints());
+		isAlive = true; 
+
+		//gold reduction
+		int currentGold = getPlayerGold();
+		if (currentGold >= 50) {
+			setPlayerGold(currentGold - 50); 
+		}
+		else {
+			setPlayerGold(0);
 		}
 
 		return true;

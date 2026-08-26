@@ -11,6 +11,7 @@
 #include "mutHuman.h"
 #include "mutRat.h"
 #include "level.h"
+#include "randEnc.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -20,6 +21,7 @@ enum class Location {
     Town,
     Lab, 
     Bunker,
+    RandEnc,
     MainWorld
 };
 
@@ -44,6 +46,7 @@ private:
     inventory bag; //inventory/bag object z
     menu settings;
     level level;
+    randEnc randEnc;
     //enemy enemy; // testing
 
     
@@ -56,6 +59,8 @@ private:
     map& activeMap();
     enemy** activeEnemy(int& totalCount);
     void handleMovement(int dx, int dy);
+
+    entity* sewerGrid[15][5];
 public:
     game();
 
@@ -67,9 +72,12 @@ public:
     void battlesequence(enemy*& currentEnemy);
     void bossbattlesequence(boss*& thescientist);
 
-    int randEncCalc();
+    int randEncChanceNum();
     void randomEncounterChance(int chance);
 
     void timePassMinutes(int m);
+
+    entity* getEntityAt(int x, int y) const;
+    void destroyEntity(entity* e);
 };
 

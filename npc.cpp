@@ -1,7 +1,8 @@
 #include "npc.h"
+#include "weaponsmith.h"
+#include "alchemist.h"
 #include <iostream>
 #include <conio.h>
-
 void npc::onOverlap()
 {
     int rv = 0;
@@ -32,10 +33,12 @@ void npc::onOverlap()
         std::cout << "\nYou hesitate but back away cautiously, hoping you won't regret your decision later.\n";
     }
     if (rv == 5) {
-        std::cout << "\nWeapon shop\n";
+        weaponsmith smith;
+        smith.weaponsmithOpen(player, bag);
     }
     if (rv == 6) {
-        std::cout << "\nPotion shop\n";
+        alchemist alchemist;
+        alchemist.alchemistOpen(player, bag);
     }
     if (rv == 7) {
         std::cout << "\n'Good luck...'\n";

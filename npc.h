@@ -1,5 +1,7 @@
 #pragma once
 #include "DialogueTree.h"
+#include "player.h"
+#include "inventory.h"
 
 class npc
 {
@@ -14,5 +16,8 @@ public:
 private:
 	Type type;
 	DialogueTree* dialogue;
+
+	player player;
+	inventory bag;
 };
 
