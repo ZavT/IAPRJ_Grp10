@@ -13,12 +13,11 @@ public:
 	// when player overlaps npc
 	void onOverlap();
 	static bool talkedToRyan;
+	void onOverlap(player& p, inventory& bag);
 
 private:
 	Type type;
 	DialogueTree* dialogue;
-
-	player player;
-	inventory bag;
+	;
 };
 

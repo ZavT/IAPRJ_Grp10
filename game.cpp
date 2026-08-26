@@ -149,7 +149,7 @@ void game::battlesequence(enemy*& currentEnemy)
                 int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
-                        int dmg = activeWep.getweapondmg(player);
+                        int dmg = activeWep.getweapondmg(player) + player.combatDamageBuff;
                         currentEnemy->setHealthPoints(currentEnemy->getHealthPoints() - dmg);
                         player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
                         std::cout << "\n\tYou dealt " << dmg << " damage with your "
@@ -279,6 +279,7 @@ void game::battlesequence(enemy*& currentEnemy)
         currentEnemy = nullptr;
         (void)_getch();
         inbattle = false;
+        player.combatDamageBuff = 0; //buff wear off
         system("CLS");
     }
 }
@@ -333,7 +334,7 @@ void game::bossbattlesequence(boss*& thescientist)
                 int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
-                        int dmg = activeWep.getweapondmg(player);
+                        int dmg = activeWep.getweapondmg(player) + player.combatDamageBuff;
                     if (shieldturns > 0 && weaknessturns > 0) { // if have both shield and weakness
                             int weakdmg = dmg * 0.7;
                             int dmgreduction = weakdmg * 0.2;
@@ -468,6 +469,13 @@ void game::bossbattlesequence(boss*& thescientist)
             handleEndings();
         }
         
+        player.gainExp(expgained);
+        player.loot(gold, 0); //gain gold and 0 frags
+        std::cout << "\n\tBoss defeated! You gained " << expgained << " exp and " << gold << " gold. Press any key...";
+        delete thescientist;
+        thescientist = nullptr;
+        
+        player.combatDamageBuff = 0; //buff wear off
     }
 
 void game::createWorldMap() {
@@ -1228,22 +1236,34 @@ void game::restartstage() //testing
 }
 
 
-void game::restartgame() //testing
+void game::restartgame()
 {
-    // Wipe time back to default
+    //reset time
     day = 29; month = 12; year = 2026;
     hour = 4; minute = 0;
 
-    // Wipe player stats
+    //reset stas
     player.setPlayerHealthPoints(100);
+    player.setPlayerStrength(2);
+    player.setPlayerAgility(2);
+    player.setPlayerLuck(2);
+    player.setPlayerEndurance(2);
+    player.setPlayerIntelligence(2);
     player.setPlayerGold(20);
     player.setPlayerKeyFragment(0);
-    player.setStatPoints(0);
+    player.combatDamageBuff = 0;
 
-    // Empty the bag
+    //empty bag and reset chests
     bag = inventory();
+    isLooted1 = false;
+    isLooted2 = false;
+    isLooted3 = false;
 
-    // Throw them back into the bunker
+    //character creation
+    Intro();
+    initialinfo();
+
+   //bunker
     currentMap = Location::Bunker;
     Bunker.printbunkerMap();
     player.setPosition(0, 4);
@@ -1263,7 +1283,7 @@ void game::handleMovement(int dx, int dy) {
             DialogueTree tree;
             npc weaponsmith(npc::Type::Ryan, &tree);
             system("CLS"); // Clean the screen before talking
-            weaponsmith.onOverlap();
+            weaponsmith.onOverlap(player, bag);
             return; // dont overlap
         }
 
@@ -1272,7 +1292,7 @@ void game::handleMovement(int dx, int dy) {
             DialogueTree tree;
             npc alchemist(npc::Type::Alchemist, &tree);
             system("CLS");
-            alchemist.onOverlap();
+            alchemist.onOverlap(player, bag);
             return; // dont overlap
         }
         //Motel ('M')
@@ -1285,8 +1305,13 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 29 && destY == 0) {
 			if (!isLooted1) {
 				player.loot(10, 1);
+<<<<<<< Updated upstream
 				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
+                DialogueTree tree;
+                npc chest(npc::Type::Chest, &tree);
+                system("CLS");
+                chest.onOverlap(player, bag);
 				isLooted1 = true;
 			}
 			else {
@@ -1301,6 +1326,10 @@ void game::handleMovement(int dx, int dy) {
                 player.loot(10, 1);
                 std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
+                DialogueTree tree;
+                npc chest(npc::Type::Chest, &tree);
+                system("CLS");
+                chest.onOverlap(player, bag);
                 isLooted2 = true;
             }
 			else {
@@ -1315,6 +1344,10 @@ void game::handleMovement(int dx, int dy) {
                 player.loot(10, 1);
                 std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
+                DialogueTree tree;
+                npc chest(npc::Type::Chest, &tree);
+                system("CLS");
+                chest.onOverlap(player, bag);
                 isLooted3 = true;
             }
             else {
@@ -1327,7 +1360,7 @@ void game::handleMovement(int dx, int dy) {
             DialogueTree tree;
             npc jake(npc::Type::Jake, &tree);
             system("CLS"); // Clean the screen before talking
-            jake.onOverlap();
+            jake.onOverlap(player, bag);
             return; // dont overlap
         }
     }

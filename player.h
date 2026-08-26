@@ -79,6 +79,7 @@ public:
 	void setBattleState(bool battlestate);
 	bool getBattleState();
 
+	int combatDamageBuff = 0;
 	void heal(int value);           // restores some health
 	void loot(int value1, int value2);           // give looted items to player
 
