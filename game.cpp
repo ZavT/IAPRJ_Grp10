@@ -27,7 +27,11 @@
 #define KEY_M 109
 
 #define ESC "\033"
+#define RESET   ESC "[0m"
 #define RED     ESC "[31m"
+#define GREEN   ESC "[32m"
+#define YELLOW  ESC  "[33m"
+#define BLUE     ESC "[94m"
 
 //MAP STUFF
 //when setting the world map dimensions, the numbers go by (number of rows/y spaces, number of cols/x spaces)
@@ -125,14 +129,14 @@ void game::battlesequence(enemy*& currentEnemy)
         while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
             if (enemysymbol == 'H') {
-                std::cout << muthumanASCII << std::endl;
+                std::cout <<RED << muthumanASCII << std::endl << RESET;
             }
             else if (enemysymbol == 'R') {
-                std::cout << ratASCII << std::endl;
+                std::cout << RED << ratASCII << std::endl << RESET;
             }
             std::cout << "\t=== BATTLE ===\n\n";
-            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() <<"\n";
-            std::cout << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << "\n\n";
+            std::cout << GREEN << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() <<RESET  << YELLOW << "  |  AP: " << player.getPlayerActionPoints() << RESET << BLUE << "  |  Active Weapon: " << activeWep.getItemName() <<"\n" << RESET;
+            std::cout << RED << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << RESET "\n\n";
 
             std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
@@ -185,7 +189,7 @@ void game::battlesequence(enemy*& currentEnemy)
         //------------------------
         if (enemysymbol == 'R') { //if enemy is rat
             system("CLS");
-            std::cout << ratASCII << "\n";
+            std::cout << RED << ratASCII << "\n" << RESET;
             std::cout << "\t Enemy Turn!\n\n";
 
             int dodge = player.getPlayerAgilityFinal();
@@ -220,7 +224,7 @@ void game::battlesequence(enemy*& currentEnemy)
 
         if (enemysymbol == 'H') { // if enemy is mutated human
             system("CLS");
-            std::cout << muthumanASCII << "\n";
+            std::cout << RED << muthumanASCII << "\n" << RESET;
             std::cout << "\t Enemy Turn!\n\n";
 
             int dodge = player.getPlayerAgilityFinal();
@@ -268,7 +272,7 @@ void game::battlesequence(enemy*& currentEnemy)
         }
         player.gainExp(expgained);
         player.loot(gold, 3); //gain gold and 0 frags
-        std::cout << "\n\tEnemy defeated! You gained "<< expgained <<" exp and "<< gold << " gold. Press any key...";
+        std::cout << YELLOW << "\n\tEnemy defeated! You gained "<< expgained <<" exp and "<< gold << " gold. Press any key..." << RESET;
 
         //delete enemy after it dies
         delete currentEnemy;
@@ -311,13 +315,13 @@ void game::bossbattlesequence(boss*& thescientist)
 
         while (playerturn && player.getPlayerActionPoints() > 0 && thescientist->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
-            std::cout << bossASCII << std::endl;
-            std::cout << "\t=== BOSS BATTLE ===\n\n";
-            std::cout << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << "  |  AP: " << player.getPlayerActionPoints() << "  |  Active Weapon: " << activeWep.getItemName() << "\n";
+            std::cout << RED << bossASCII << std::endl << RESET;
+            std::cout << RED << "\t=== BOSS BATTLE ===\n\n" << RESET;
+            std::cout << GREEN << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << RESET << YELLOW << "  |  AP: " << player.getPlayerActionPoints() << RESET << BLUE << "  |  Active Weapon: " << activeWep.getItemName() << "\n" << RESET;
             std::cout << "\t Boss HP:  " << thescientist->getHealthPoints() << "\n\n";
 
             if (weaknessturns > 0) {
-                std::cout << "\t[STATUS]: WEAKENED (-30% Attack Power, " << weaknessturns << " turns left)\n";
+                std::cout << RED  << "\t[STATUS]: WEAKENED (-30% Attack Power, " << weaknessturns << " turns left)\n" << RESET;
             }
             std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
@@ -382,7 +386,7 @@ void game::bossbattlesequence(boss*& thescientist)
 
         if (thescientist->getHealthPoints() <= 0) break; //if the scientist dies stop loop
         system("CLS");
-        std::cout << bossASCII << std::endl;
+        std::cout << RED << bossASCII << std::endl << RESET;
         std::cout << "\t Boss Turn \n\n";
 
         int dodge = player.getPlayerAgilityFinal();
@@ -402,22 +406,25 @@ void game::bossbattlesequence(boss*& thescientist)
             if (moverand == 0) { // poison vials
                 int enemydmg = 20;
                 player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemydmg); // enemy attack hp deduct
-                std::cout << "\t The scientist threw a vial of toxins at you for " << enemydmg << " damage !\n";
+                std::cout << "\tThe Scientist threw a vial of toxins at you for " << enemydmg << " damage!\n";
             }
             else if (moverand == 1) { // tackle
                 int enemydmg = 30;
                 player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemydmg);
-                std::cout << "\t The scientist threw him at you for " << enemydmg << " damage ! You felt pieces of bone fragements piercing you... \n";
+                std::cout << "\tThe Scientist threw himself at you for " << enemydmg << " damage!\n";
+                std::cout << "\tYou feel sharp bone fragments piercing your skin...\n";
             }
             else if (moverand == 2) { // weakness syringe
                 int enemydmg = 10;
                 weaknessturns = 2;
                 player.setPlayerHealthPoints(player.getPlayerHealthPoints() - enemydmg);
-                std::cout << "\t The scientist injected you with a weakness syringe for " << enemydmg << " damage ! (-30% Damage) \n";
+                std::cout << "\tThe Scientist injected you with a Weakness Syringe for " << enemydmg << " damage!\n";
+                std::cout << "\tYour attack power is reduced by 30% for 2 turns!\n";
             }
             else if (moverand == 3) {
                 shieldturns = 1;
-                std::cout << "\t The scientist drank a shield potion. \n For the next turn, Scientist only receives 20% of the damage \n";
+                std::cout << "\tThe Scientist drank a Shield Potion!\n";
+                std::cout << "\tFor the next turn, he will only take 20% of incoming damage.\n";
             }
         }
         if (weaknessturns > 0) {
@@ -429,17 +436,23 @@ void game::bossbattlesequence(boss*& thescientist)
         std::cout << "\n\tPress any key to start your next turn...";
         (void)_getch();
         }
-        int expgained;
-        int gold;
-        if (thescientist->getHealthPoints() <= 0) {
-            expgained = 100000 + player.getPlayerIntelligenceFinal();
-            gold = 100000;
+        if (thescientist != nullptr && thescientist->getHealthPoints() <= 0) {
+            int expgained = 100000 + player.getPlayerIntelligenceFinal();
+            int gold = 100000;
+
+            player.gainExp(expgained);
+            player.loot(gold, 0);
+
+            system("CLS");
+            std::cout << YELLOW << "\n\t======================================================\n" << RESET;
+            std::cout << YELLOW << "\t  BOSS DEFEATED! You gained " << expgained << " exp and " << gold << " gold!\n" << RESET;
+            std::cout << YELLOW << "\t======================================================\n\n" << RESET;
+            std::cout << YELLOW << "\tPress any key to continue..."<< RESET;
+            (void)_getch();
+
+            delete thescientist;
+            thescientist = nullptr; // Safely deleted!
         }
-        player.gainExp(expgained);
-        player.loot(gold, 0); //gain gold and 0 frags
-        std::cout << "\n\tBoss defeated! You gained " << expgained << " exp and " << gold << " gold. Press any key...";
-        delete thescientist;
-        thescientist = nullptr;
     }
 
 void game::createWorldMap() {
@@ -711,7 +724,7 @@ void game::randomEncounterChance(int chance) {
 void game::Run()
 {
     bool gameRunning = true;
-    Intro(); //comment out to skip intro
+   // Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
     player.setPosition(0, 4);
@@ -1047,6 +1060,10 @@ void game::checkMapChange() {
           //  player.setPosition(18, 7);
        // }
         else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() >= 0) {
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() < 3) {
+            player.setPosition(18, 7);
+        }
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() >= 3) {
             currentMap = Location::Lab;
             Lab.printlabMap();
             //set entity positions
