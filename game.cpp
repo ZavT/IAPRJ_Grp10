@@ -685,7 +685,7 @@ void game::Intro()
 }
 
 int game::randEncChanceNum() {
-    if ((hour > 21) && (hour < 6)) { // night time
+    if ((hour > 21) || (hour < 6)) { // night time
         return (40 - player.getPlayerLuck());
     }
     else { // day time
