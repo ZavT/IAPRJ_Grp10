@@ -10,6 +10,9 @@ void npc::onOverlap()
     case Type::Jake:
         rv = dialogue->performDialogue(dialogue->getJakeStartIndex());
         break;
+    case Type::fJake:
+        rv = dialogue->performDialogue(dialogue->getfJakeStartIndex());
+        break;
     case Type::Ryan:
         rv = dialogue->performDialogue(dialogue->getRyanStartIndex());
         break;

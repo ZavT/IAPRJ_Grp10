@@ -12,6 +12,7 @@ DialogueNode::DialogueNode(string Text) {
 }
 
 DialogueTree::DialogueTree() {
+	jakeStartIndex = dialogueNodes.size();
 	DialogueNode* node0 = new DialogueNode("It's a mutant. You tense, ready for another fight -- but something seems off. It recoils in fear, and you falter at the look in its eyes.\n'STOP! I'm not gonna hurt you, I swear. I'm not like the rest of them. Please, just lower your weapon.'");
 	DialogueNode* node1 = new DialogueNode("Surprise flashes over his face. You put away your weapon.\n'You must be Jake. Ryan said you could tell me about this 'scientist'.'\nJake relaxes at the mention of Ryan's name. 'Well, yes.What do you want to know?'");
 	DialogueNode* node2 = new DialogueNode("His twisted face sours.\n'That scientist... he liked experimenting on people. I'm one of his early prototypes. He mutated my body, but for some reason, my mind stayed intact. You don't have to be wary around me.'");
@@ -58,7 +59,7 @@ DialogueTree::DialogueTree() {
 	dialogueNodes.push_back(node9);
 
 	// Jake's second tree
-	fjakeStartIndex = dialogueNodes.size();
+	fJakeStartIndex = dialogueNodes.size();
 
 	DialogueNode* fjake0 = new DialogueNode("It's a mutant. You tense, ready for another fight -- but something seems off. It recoils in fear, and you falter at the look in its eyes.\n'STOP! I'm not gonna hurt you, I swear. I'm not like the rest of them. Please, just lower your weapon.'");
 
@@ -104,14 +105,6 @@ DialogueTree::DialogueTree() {
 	alc0->dialogueOptions.push_back(DialogueOption("<1: View potion shop>", 6, nullptr));
 	alc0->dialogueOptions.push_back(DialogueOption("<2: 'No thanks.'>", 7, nullptr));
 	dialogueNodes.push_back(alc0);
-
-	// Chest
-	chestStartIndex = dialogueNodes.size();
-
-	DialogueNode* chest0 = new DialogueNode("You found a chest! You open it and find 20 gold and 1 key fragment.");
-
-	chest0->dialogueOptions.push_back(DialogueOption("<1: Take items>", 9, nullptr));
-	dialogueNodes.push_back(chest0);
 }
 
 DialogueTree::~DialogueTree() {

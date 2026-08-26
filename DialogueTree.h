@@ -30,16 +30,16 @@ public:
 	int performDialogue();
 	int performDialogue(int startIndex);
 
-	int getJakeStartIndex() const { return fjakeStartIndex; }
+	int getfJakeStartIndex() const { return fJakeStartIndex; }
+	int getJakeStartIndex() const { return jakeStartIndex; }
 	int getRyanStartIndex() const { return ryanStartIndex; }
 	int getAlchemistStartIndex() const { return alcStartIndex; }
-	int getChestStartIndex() const { return chestStartIndex; }
-
+	
 private:
 	vector <DialogueNode*> dialogueNodes;
-	int fjakeStartIndex; // start index for Jake's second dialogue tree
-	int ryanStartIndex; // start index for Ryan's dialogue tree
-	int alcStartIndex; // start index for alchemist's dialogue tree
-	int chestStartIndex; // start index for chest's dialogue tree
+	int jakeStartIndex;
+	int fJakeStartIndex;
+	int ryanStartIndex;
+	int alcStartIndex;
 };
 

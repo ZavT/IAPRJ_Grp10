@@ -1260,6 +1260,7 @@ void game::handleMovement(int dx, int dy) {
 			if (!isLooted1) {
 				player.loot(10, 1);
 				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
+                (void)_getch();
 				isLooted1 = true;
 			}
 			else {
@@ -1273,6 +1274,7 @@ void game::handleMovement(int dx, int dy) {
             if (!isLooted2) {
                 player.loot(10, 1);
                 std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
+                (void)_getch();
                 isLooted2 = true;
             }
 			else {
@@ -1286,6 +1288,7 @@ void game::handleMovement(int dx, int dy) {
             if (!isLooted3) {
                 player.loot(10, 1);
                 std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
+                (void)_getch();
                 isLooted3 = true;
             }
             else {
