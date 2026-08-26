@@ -243,7 +243,7 @@ bool player::getBattleState() {
 	void player::gainExp(int amt) {
 		pLevel.gainexp(amt);
 		if (pLevel.checklevelup()) {
-			setStatPoints(getStatPoints() + 1);
+			setStatPoints(getStatPoints() + 3);
 		}
 	}
 
