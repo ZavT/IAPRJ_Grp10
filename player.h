@@ -84,7 +84,6 @@ public:
 	void loot(int value1, int value2);           // give looted items to player
 
 	// currency / misc
-
 	int getPlayerGold();
 	void setPlayerGold(int value);
 
@@ -95,6 +94,8 @@ public:
 	int getPlayerLevel();
 	int getPlayerExp();
 	void gainExp(int amt);
+	void setPlayerLevel(int l);
+	void setPlayerExp(int e);
 
 	//player fainted
 	bool checkAlive();

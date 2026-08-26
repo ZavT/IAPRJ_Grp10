@@ -12,5 +12,9 @@ public:
 	int getexp();
 	int getexpneeded();
 	bool checklevelup();
+
+	//for restart
+	void setlevel(int l);
+	void setexp(int e);
 };
 

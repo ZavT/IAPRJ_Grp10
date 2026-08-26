@@ -245,6 +245,10 @@ bool player::getBattleState() {
 			setStatPoints(getStatPoints() + 3);
 		}
 	}
+	void player::setPlayerLevel(int l) { pLevel.setlevel(l); }
+	void player::setPlayerExp(int e) { pLevel.setexp(e); }
+
+//respawning
 
 	bool player::checkAlive()
 	{

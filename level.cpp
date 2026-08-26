@@ -44,3 +44,6 @@ bool level::checklevelup()
 
 	return false;
 }
+
+void level::setlevel(int l) { Plevel = l; }
+void level::setexp(int e) { exp = e; }

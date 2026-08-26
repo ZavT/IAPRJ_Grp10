@@ -42,6 +42,8 @@ private:
 
     std::string backupName;
     int backupHP;
+    int backupLevel; 
+    int backupExp;
 
     int backupGold;
     int backupStatPoints;

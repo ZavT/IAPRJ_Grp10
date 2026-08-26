@@ -118,16 +118,16 @@ void game::battlesequence(enemy*& currentEnemy)
 )";
 
     while (inbattle && player.getPlayerHealthPoints() > 0 && currentEnemy->getHealthPoints() > 0) { // while player and enemy is not dead
-        //player turn
-        player.setPlayerActionPoints(player.getPlayerAgility());
-        bool playerturn = true;
-
         //active weapon
         weapon activeWep = bag.getEquippedWeapon();
         int requiredAP = activeWep.getItemAPcost();
+        //player turn
+        player.setPlayerActionPoints(player.getPlayerAgility());
+        bool playerturn = true;
         
         while (playerturn && player.getPlayerActionPoints() > 0 && currentEnemy->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
+
             if (enemysymbol == 'H') {
                 std::cout <<RED << muthumanASCII << std::endl << RESET;
             }
@@ -306,23 +306,24 @@ void game::bossbattlesequence(boss*& thescientist)
       //  \/  \\       //  \/  \\
      ''   ''   ''     ''   ''   '')";
     while (inbattle && player.getPlayerHealthPoints() > 0 && thescientist->getHealthPoints() > 0) { // while player and enemy is not dead
-        //player turn
-        player.setPlayerActionPoints(player.getPlayerAgility());
-        bool playerturn = true;
 
         //active weapon
         weapon activeWep = bag.getEquippedWeapon();
         int requiredAP = activeWep.getItemAPcost();
+        //player turn
+        player.setPlayerActionPoints(player.getPlayerAgility());
+        bool playerturn = true;
 
         while (playerturn && player.getPlayerActionPoints() > 0 && thescientist->getHealthPoints() > 0) {// while player ap is not 0 and enemy is not dead
             system("CLS");
+
             std::cout << RED << bossASCII << std::endl << RESET;
             std::cout << RED << "\t=== BOSS BATTLE ===\n\n" << RESET;
             std::cout << GREEN << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() << RESET << YELLOW << "  |  AP: " << player.getPlayerActionPoints() << RESET << BLUE << "  |  Active Weapon: " << activeWep.getItemName() << "\n" << RESET;
             std::cout << "\t Boss HP:  " << thescientist->getHealthPoints() << "\n\n";
 
             if (weaknessturns > 0) {
-                std::cout << RED  << "\t[STATUS]: WEAKENED (-30% Attack Power, " << weaknessturns << " turns left)\n" << RESET;
+                std::cout << RED << "\t[STATUS]: WEAKENED (-30% Attack Power, " << weaknessturns << " turns left)\n" << RESET;
             }
             std::cout << "\t[1] Attack (" << requiredAP << " AP)\n";
             std::cout << "\t[2] Item (Equip/Use) (1 AP)\n";
@@ -335,7 +336,7 @@ void game::bossbattlesequence(boss*& thescientist)
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
                         int dmg = activeWep.getweapondmg(player) + player.combatDamageBuff;
-                    if (shieldturns > 0 && weaknessturns > 0) { // if have both shield and weakness
+                        if (shieldturns > 0 && weaknessturns > 0) { // if have both shield and weakness
                             int weakdmg = dmg * 0.7;
                             int dmgreduction = weakdmg * 0.2;
                             thescientist->setHealthPoints(thescientist->getHealthPoints() - dmgreduction);
@@ -351,7 +352,7 @@ void game::bossbattlesequence(boss*& thescientist)
                             std::cout << "\n\tYou dealt " << weakdmg << " damage with your "
                                 << activeWep.getItemName() << "! (Weakened -30% Damage) Press any key...";
                             (void)_getch();
-                        } 
+                        }
                         else if (shieldturns > 0) { // shield only
                             int dmgreduction = dmg * 0.2;
                             thescientist->setHealthPoints(thescientist->getHealthPoints() - dmgreduction);
@@ -435,34 +436,27 @@ void game::bossbattlesequence(boss*& thescientist)
         }
         std::cout << "\n\tPress any key to start your next turn...";
         (void)_getch();
-        }
-        if (thescientist != nullptr && thescientist->getHealthPoints() <= 0) {
-            int expgained = 100000 + player.getPlayerIntelligenceFinal();
-            int gold = 100000;
-
-            player.gainExp(expgained);
-            player.loot(gold, 0);
-
-            system("CLS");
-            std::cout << YELLOW << "\n\t======================================================\n" << RESET;
-            std::cout << YELLOW << "\t  BOSS DEFEATED! You gained " << expgained << " exp and " << gold << " gold!\n" << RESET;
-            std::cout << YELLOW << "\t======================================================\n\n" << RESET;
-            std::cout << YELLOW << "\tPress any key to continue..."<< RESET;
-            (void)_getch();
-
-            delete thescientist;
-            thescientist = nullptr; // Safely deleted!
-            handleEndings();
-        }
-        
-        player.gainExp(expgained);
-        player.loot(gold, 0); //gain gold and 0 frags
-        std::cout << "\n\tBoss defeated! You gained " << expgained << " exp and " << gold << " gold. Press any key...";
-        delete thescientist;
-        thescientist = nullptr;
-        
-        player.combatDamageBuff = 0; //buff wear off
     }
+    if (thescientist != nullptr && thescientist->getHealthPoints() <= 0) {
+        int expgained = 100000 + player.getPlayerIntelligenceFinal();
+        int gold = 100000;
+
+        player.gainExp(expgained);
+        player.loot(gold, 0);
+
+        system("CLS");
+        std::cout << YELLOW << "\n\t======================================================\n" << RESET;
+        std::cout << YELLOW << "\t  BOSS DEFEATED! You gained " << expgained << " exp and " << gold << " gold!\n" << RESET;
+        std::cout << YELLOW << "\t======================================================\n\n" << RESET;
+        std::cout << YELLOW << "\tPress any key to continue..." << RESET;
+        (void)_getch();
+
+        delete thescientist;
+        thescientist = nullptr; //delete
+        handleEndings();
+    }
+        player.combatDamageBuff = 0; 
+}
 
 void game::createWorldMap() {
     //initiates every single map, fill with '?'
@@ -732,7 +726,9 @@ void game::randomEncounter() {
                     worldEnemy = new mutHuman(0, 0, 0); 
                 }
 
+                player.setBattleState(true);
                 battlesequence(worldEnemy);
+                player.setBattleState(false);
 
                 //double check the delete to make sure
                 if (worldEnemy != nullptr) {
@@ -747,7 +743,7 @@ void game::randomEncounter() {
 void game::Run()
 {
     bool gameRunning = true;
-   // Intro(); //comment out to skip intro
+    Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
     player.setPosition(0, 4);
@@ -952,7 +948,10 @@ void game::Run()
 
                 int distX = std::abs(player.getPosX() - bossX);
                 int distY = std::abs(player.getPosY() - bossY);
+
+                player.setBattleState(true);
                 bossbattlesequence(Lab.TheScientist);
+                player.setBattleState(false);
 
                 if (gameEnd) {
                     gameRunning = false;
@@ -977,19 +976,15 @@ void game::Run()
 
             switch (ch) {
             case KEY_ARROW_UP:
-                system("CLS");
                 handleMovement(0, -1);
                 break;
-            case KEY_ARROW_DOWN:
-                system("CLS");
+            case KEY_ARROW_DOWN:     
                 handleMovement(0, 1);
                 break;
             case KEY_ARROW_LEFT:
-                system("CLS");
                 handleMovement(-1, 0);
                 break;
             case KEY_ARROW_RIGHT:
-                system("CLS");
                 handleMovement(1, 0);
                 break;
             }
@@ -1190,6 +1185,8 @@ void game::initialinfo() //for restart stage to chang info to your info when you
     // Save the player's stats
     backupHP = player.getPlayerHealthPoints();
     backupName = player.getPlayerName();
+    backupLevel = player.getPlayerLevel();
+    backupExp = player.getPlayerExp();
     backupGold = player.getPlayerGold();
     backupKeyFragment = player.getPlayerKeyFragment();
     backupStatPoints = player.getStatPoints();
@@ -1205,6 +1202,8 @@ void game::restartstage() //testing
     //restore the player stats //missing exp, level, name, weapons and potions 
     player.setPlayerHealthPoints(backupHP);
     player.setPlayerName(backupName);
+    player.setPlayerLevel(backupLevel);
+    player.setPlayerExp(backupExp);
     player.setPlayerGold(backupGold);
     player.setPlayerKeyFragment(backupKeyFragment);
     player.setStatPoints(backupStatPoints);
@@ -1263,32 +1262,56 @@ void game::restartstage() //testing
 
 void game::restartgame()
 {
-    //reset time
     day = 29; month = 12; year = 2026;
     hour = 4; minute = 0;
 
-    //reset stas
     player.setPlayerHealthPoints(100);
+    player.setPlayerLevel(0);
+    player.setPlayerExp(0);
     player.setPlayerStrength(2);
     player.setPlayerAgility(2);
     player.setPlayerLuck(2);
     player.setPlayerEndurance(2);
-    player.setPlayerIntelligence(2);
+    player.setPlayerIntelligence(10);
     player.setPlayerGold(20);
     player.setPlayerKeyFragment(0);
     player.combatDamageBuff = 0;
 
-    //empty bag and reset chests
+    //empy bag and reset chests
     bag = inventory();
     isLooted1 = false;
     isLooted2 = false;
     isLooted3 = false;
 
-    //character creation
-    Intro();
-    initialinfo();
+    //respawn enemies back
+    for (int e = 0; e < Bunker.BunkerEnemyCount; e++) {
+        if (Bunker.bunkerEnemy[e] == nullptr) Bunker.bunkerEnemy[e] = new mutRat(0, 0, e);
+        Bunker.bunkerEnemy[e]->setHealthPoints(30);
+    }
+    for (int e = 0; e < Sewer1.enemyCount; e++) {
+        if (Sewer1.sewerEnemy[e] == nullptr) Sewer1.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
+        Sewer1.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
+    }
+    for (int e = 0; e < Sewer2.enemyCount; e++) {
+        if (Sewer2.sewerEnemy[e] == nullptr) Sewer2.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
+        Sewer2.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
+    }
+    for (int e = 0; e < Sewer3.enemyCount; e++) {
+        if (Sewer3.sewerEnemy[e] == nullptr) Sewer3.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
+        Sewer3.sewerEnemy[e]->setHealthPoints((e < 3) ? 30 : 70);
+    }
+    for (int e = 0; e < Lab.labEnemyCount; e++) {
+        if (Lab.labEnemy[e] == nullptr) Lab.labEnemy[e] = (e < 2) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
+        Lab.labEnemy[e]->setHealthPoints((e < 2) ? 30 : 70);
+    }
+    //reset boss
+    if (Lab.TheScientist != nullptr) {
+        delete Lab.TheScientist;
+        Lab.TheScientist = nullptr;
+    }
 
-   //bunker
+    Intro();
+    initialinfo(); //remove other backups
     currentMap = Location::Bunker;
     Bunker.printbunkerMap();
     player.setPosition(0, 4);

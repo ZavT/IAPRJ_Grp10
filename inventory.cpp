@@ -16,7 +16,7 @@ inventory::inventory()
 	tab = 0;
 	equippedWeaponIndex = 0;
 	ownedWeapons.push_back(itemDB::getCombatKnife());
-	ownedPotions.push_back(itemDB::getHealthPotion()); //change later
+	ownedPotions.push_back(itemDB::getHealthPotion()); 
 	others = 0;
 	statPoints = 0;
 }
@@ -45,9 +45,6 @@ bool inventory::hasWeapon(std::string weaponName)
 	}
 	return false;
 }
-
-//left with
-	//others items
  
 void inventory::inventoryMenu(player& p)
 {
@@ -57,7 +54,7 @@ void inventory::inventoryMenu(player& p)
 	while (bagOpen) {
 		system("CLS");
 
-		// --- COUNT POTIONS ---
+		// COUNT POTIONS
 		int hpCount = 0; int dmgCount = 0;
 		for (size_t i = 0; i < ownedPotions.size(); i++) {
 			if (ownedPotions[i].getpotType() == 1) hpCount++;
@@ -150,7 +147,7 @@ void inventory::inventoryMenu(player& p)
 					leftCol.push_back("Item: " + ownedWeapons[itemIndex].getItemName());
 					leftCol.push_back("AP Cost: " + std::to_string(ownedWeapons[itemIndex].getItemAPcost()));
 					leftCol.push_back("Acc:  " + std::to_string(ownedWeapons[itemIndex].getweaponacc()) + "%");
-					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p) - p.getPlayerStrength()));
+					leftCol.push_back("Dmg:  " + std::to_string(ownedWeapons[itemIndex].getweapondmg(p) - static_cast<int>(p.getPlayerStrengthFinal())));
 					leftCol.push_back("");
 					leftCol.push_back("[E] Equip | [U] Unequip | [ESC] Back");
 				}
@@ -197,10 +194,28 @@ void inventory::inventoryMenu(player& p)
 					std::string statInput;
 					std::cout << "\n\tEnter input: ";
 					std::cin >> statInput;
-					// ... Keep your existing stat inputs here ...
-					if (statInput == "Back" || statInput == "back") inDetails = false;
-				}
-				else {
+
+					if ((statInput == "S+" || statInput == "s+") && p.getStatPoints() > 0) { p.setPlayerStrength(p.getPlayerStrength() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "S-" || statInput == "s-") && p.getPlayerStrength() > 2) { p.setPlayerStrength(p.getPlayerStrength() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+
+					else if ((statInput == "A+" || statInput == "a+") && p.getStatPoints() > 0) { p.setPlayerAgility(p.getPlayerAgility() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "A-" || statInput == "a-") && p.getPlayerAgility() > 2) { p.setPlayerAgility(p.getPlayerAgility() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+
+					else if ((statInput == "L+" || statInput == "l+") && p.getStatPoints() > 0) { p.setPlayerLuck(p.getPlayerLuck() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "L-" || statInput == "l-") && p.getPlayerLuck() > 2) { p.setPlayerLuck(p.getPlayerLuck() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+
+					else if ((statInput == "E+" || statInput == "e+") && p.getStatPoints() > 0) { p.setPlayerEndurance(p.getPlayerEndurance() + 1); p.setStatPoints(p.getStatPoints() - 1); p.heal(1);}
+					else if ((statInput == "E-" || statInput == "e-") && p.getPlayerEndurance() > 2) { p.setPlayerEndurance(p.getPlayerEndurance() - 1); p.setStatPoints(p.getStatPoints() + 1); p.takeDamage(1);}
+
+					else if ((statInput == "I+" || statInput == "i+") && p.getStatPoints() > 0) { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "I-" || statInput == "i-") && p.getPlayerIntelligence() > 2) { p.setPlayerIntelligence(p.getPlayerIntelligence() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+
+					else if (statInput == "Back" || statInput == "back") {
+						inDetails = false;
+					}
+				} 
+
+				else { 
 					int act = _getch();
 
 					if (tab == 1) { // Weapons
@@ -228,6 +243,7 @@ void inventory::inventoryMenu(player& p)
 				}
 			}
 		}
+
 		else if (ch == 0 || ch == 224) {
 			ch = _getch();
 			if (ch == KEY_ARROW_LEFT) { tab--; if (tab < 0) tab = 3; }
