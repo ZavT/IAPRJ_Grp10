@@ -1074,10 +1074,6 @@ void game::checkMapChange() {
             player.setPosition(1, 7);
 
         }
-        //else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() != 3) {
-          //  player.setPosition(18, 7);
-       // }
-        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() >= 0) {
         else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() < 3) {
             player.setPosition(18, 7);
         }
