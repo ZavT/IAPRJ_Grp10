@@ -11,6 +11,7 @@
 #include "mutHuman.h"
 #include "mutRat.h"
 #include "level.h"
+#include "randEnc.h"
 
 //names for locations to track the current map that is active
 enum class Location {
@@ -20,6 +21,7 @@ enum class Location {
     Town,
     Lab, 
     Bunker,
+    RandEnc,
     MainWorld
 };
 
@@ -44,6 +46,7 @@ private:
     inventory bag; //inventory/bag object z
     menu settings;
     level level;
+    randEnc randEnc;
     //enemy enemy; // testing
 
     
