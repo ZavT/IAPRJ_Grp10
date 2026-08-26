@@ -696,13 +696,13 @@ void game::Run()
             std::cout << "\tYou have been fatally wounded and fainted in combat. Luckily someone found you...\n";
             std::cout << "\tPress any key to continue...\n";
             (void)_getch();
-            system("CLS");
 
-            
+            system("CLS");
+            player.respawn();
             Town.printtownMap();
             player.setPosition(7, 7);
             currentMap = Location::Town;
-            player.respawn();
+            continue;
         }
 
         else if (currentMap == Location::Lab) {
