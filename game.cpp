@@ -728,7 +728,6 @@ void game::Run()
             system("CLS");
             {
                 int skippedMins = settings.menuOpen(day, month, year, hour, minute);
-
                 if (skippedMins > 0) {
                     timePassMinutes(skippedMins);
                 }

@@ -73,13 +73,15 @@ void weaponsmith::weaponsmithOpen(player& p, inventory& bag)
             std::cout << "\n\tYou already own the " << toAdd.getItemName() << "! Try buying something else.\n";
         }
 
-        if (p.getPlayerGold() >= price) {
-            p.setPlayerGold(p.getPlayerGold() - price);
-            bag.addWeapon(toAdd);
-            std::cout << "\n\tPurchase successful! " << toAdd.getItemName() << " added to inventory.\n";
-        }
         else {
-            std::cout << "\n\tYou don't have enough gold for that item.\n";
+            if (p.getPlayerGold() >= price) {
+                p.setPlayerGold(p.getPlayerGold() - price);
+                bag.addWeapon(toAdd);
+                std::cout << "\n\tPurchase successful! " << toAdd.getItemName() << " added to inventory.\n";
+            }
+            else {
+                std::cout << "\n\tYou don't have enough gold for that item.\n";
+            }
         }
 
         std::cout << "\tPress any key to continue...";
