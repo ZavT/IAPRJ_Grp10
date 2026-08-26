@@ -526,7 +526,7 @@ void game::Run()
     //Intro(); //comment out to skip intro
 
     Bunker.printbunkerMap();
-    player.setPosition(1, 1);
+    player.setPosition(0, 4);
     currentMap = Location::Bunker;
 
     while (gameRunning) {
@@ -835,8 +835,10 @@ void game::checkMapChange() {
             std::cout << std::endl;
 
         }
-
-        else if (player.getPosX() == 19 && player.getPosY() == 7) {
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() != 3) {
+            player.setPosition(18, 7);
+        }
+        else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() == 3) {
             currentMap = Location::Lab;
             Lab.printlabMap();
             //set entity positions
