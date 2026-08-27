@@ -43,7 +43,6 @@ void sewer::printSewerMap(int sewernum) {
 		}
 		if (sewerEnemy[2] != nullptr) {
 			sewerEnemy[2]->setSpawnState(false);//dont spawn a third mutrat
-			sewerEnemy[2] = nullptr;
 		}
 
 		//human positions
@@ -53,7 +52,6 @@ void sewer::printSewerMap(int sewernum) {
 		}
 		if (sewerEnemy[4] != nullptr) { 
 			sewerEnemy[4]->setSpawnState(false);//dont spawn a second muthuman
-			sewerEnemy[4] = nullptr;
 		}
 
 		sewerMap.setpos(29, 0, 'C'); //chest
@@ -76,7 +74,6 @@ void sewer::printSewerMap(int sewernum) {
 		//human positions
 		if (sewerEnemy[3] != nullptr) {
 			sewerEnemy[3]->setSpawnState(false); //dont spawn this muthuman
-			sewerEnemy[3] = nullptr;
 		}
 		if (sewerEnemy[4] != nullptr) {
 			sewerEnemy[4]->setPosition(17, 4);
