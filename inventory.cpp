@@ -127,10 +127,10 @@ void inventory::inventoryMenu(player& p)
 		int ch = _getch();
 
 		if (ch == 'n' || ch == 'N') {
-			std::string newName;
+			std::string tempName;
 			std::cout << "\n\tEnter new name: ";
-			std::cin >> newName;
-			p.setPlayerName(newName);
+			std::getline(std::cin, tempName);
+			p.setPlayerName(tempName);
 		}
 		else if (ch >= '1' && ch <= '9') {
 			int itemIndex = ch - '1';

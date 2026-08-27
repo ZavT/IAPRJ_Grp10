@@ -51,6 +51,9 @@ private:
     inventory backupBag;
     int backupPosX;
     int backupPosY;
+    bool backupLooted1;
+    bool backupLooted2;
+    bool backupLooted3;
 
     bool gameEnd = false;
    
