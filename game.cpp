@@ -1038,7 +1038,6 @@ void game::Run()
             if (currentMap == Location::MainWorld) {
                 randomEncounter();
             }
-            handleThirdEnding(day, month);
         }
         //check if quit game
         else if (ch == 'q' || ch == 'Q') {
@@ -1101,6 +1100,7 @@ void game::Run()
             system("CLS");
             break;
         }
+        handleThirdEnding(day, month);
         system("CLS");
     }
 }
@@ -1499,6 +1499,7 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 15 && destY == 4) {
             DialogueTree tree;
             npc jake(npc::Type::Jake, &tree);
+            talkedToJake = true;
             system("CLS"); // Clean the screen before talking
             jake.onOverlap(player, bag);
             return; // dont overlap
@@ -1540,7 +1541,8 @@ void game::handleEndings() {
     (void)_getch();
     system("CLS");
 
-    if (player.getPlayerIntelligenceFinal() >= 10) { //GOOD ENDING DIALOGUE
+    if (player.getPlayerIntelligenceFinal() >= 10 && talkedToJake) { //GOOD ENDING DIALOGUE
+        //conditions for if intelligence is 10 or greater, and has talked to jake beforehand
         std::cout << "You precisely grab some bottles of chemicals." << std::endl;
         (void)_getch();
         std::cout << "Referring to Jake's unfinished research, you create a mixture of chemicals that replicate Jake's cure." << std::endl;
@@ -1578,12 +1580,13 @@ void game::handleEndings() {
         (void)_getch();
         gameEnd = true;
     }
-    else if (player.getPlayerIntelligenceFinal() < 10) { //BAD ENDING DIALOGUE
+    else if (player.getPlayerIntelligenceFinal() < 10 && talkedToJake || !talkedToJake) { //BAD ENDING DIALOGUE
+        //check if intelligence is under 10, and conditions for whether player has talked to jake or not
         std::cout << "You grab some bottles of chemicals in a panic." << std::endl;
         (void)_getch();
-        std::cout << "Referring to Jake's unfinished research, you attempt to replicate the 'cure' that Jake had originally come up with." << std::endl;
+        std::cout << "Referring to Jake's unfinished research, you attempt to create a 'cure' with your existing knowledge." << std::endl;
         (void)_getch();
-        std::cout << "You can't figure out the missing piece behind Jake's cure. You panic even more." << std::endl;
+        std::cout << "You can't figure out the missing piece behind the cure. You panic even more." << std::endl;
         (void)_getch();
         std::cout << "From the nearby cupboard, you grab another handful of random chemicals, hoping you can make something out of it." << std::endl;
         std::cout << std::endl;
@@ -1616,7 +1619,7 @@ void game::handleEndings() {
 
 void game::handleThirdEnding(int day, int month){
 
-    if (day == dayDeadline && month == 3) { //when it is the deadline day on march, ending 3 plays out
+    if (day >= dayDeadline && month == 3) { //when it is the deadline day on march, ending 3 plays out
         //write out the third ending 
         system("CLS");
         std::cout << "<EPILOGUE>" << std::endl;

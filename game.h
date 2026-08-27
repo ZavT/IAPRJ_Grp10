@@ -84,6 +84,8 @@ private:
     bool isLooted2 = false;
     bool isLooted3 = false;
 
+    bool talkedToJake = false;
+
     int dayDeadline = (rand() % 11) + 21;
 public:
     game();
