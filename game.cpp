@@ -1449,7 +1449,7 @@ void game::handleMovement(int dx, int dy) {
         //Motel ('M')
         if (destX == 3 && destY == 12) {
             player.heal(30);
-            std::cout << "You rested at the motel for a night. <+30 HP>" << std::endl;
+            std::cout << "You rested at the motel. 8 hours have passed by. <+30 HP>" << std::endl;
             (void)_getch();
 			timePassMinutes(480); // 8 hours
             return; // dont overlap
