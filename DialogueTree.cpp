@@ -14,10 +14,10 @@ DialogueNode::DialogueNode(string Text) {
 DialogueTree::DialogueTree() {
 	jakeStartIndex = dialogueNodes.size();
 	DialogueNode* node0 = new DialogueNode("It's a mutant. You tense, ready for another fight -- but something seems off. It recoils in fear, and you falter at the look in its eyes.\n'STOP! I'm not gonna hurt you, I swear. I'm not like the rest of them. Please, just lower your weapon.'");
-	DialogueNode* node1 = new DialogueNode("Surprise flashes over his face. You put away your weapon.\n'You must be Jake. Ryan said you could tell me about this 'scientist'.'\nJake relaxes at the mention of Ryan's name. 'Well, yes.What do you want to know?'");
+	DialogueNode* node1 = new DialogueNode("Surprise flashes over his face. You put away your weapon.\n'You must be Jake. Ryan said you could tell me about this 'scientist'.'\nJake relaxes at the mention of Ryan's name. 'Well, yes. What do you want to know?'");
 	DialogueNode* node2 = new DialogueNode("His twisted face sours.\n'That scientist... he liked experimenting on people. I'm one of his early prototypes. He mutated my body, but for some reason, my mind stayed intact. You don't have to be wary around me.'");
-	DialogueNode* node3 = new DialogueNode("Well, it's always about money, isn't it? He pays people to be his experiments. Buys his way out of trouble. Next thing you know, everyone's dead or mutated and we're in the midst of a damn apocalypse.'\n<You gained 1 Intelligence!>");
-	DialogueNode* node4 = new DialogueNode("When I first escaped, I thought I could make one. I gathered whatever equipment I could scavenge and tried to synthesize a cure. But... something's missing. And I'd bet whatever I need is in that lab...");
+	DialogueNode* node3 = new DialogueNode("'Well, it's always about money, isn't it? He pays people to be his experiments. Buys his way out of trouble. Next thing you know, everyone's dead or mutated and we're in the midst of a damn apocalypse.'\n<You gained 1 Intelligence!>");
+	DialogueNode* node4 = new DialogueNode("'When I first escaped, I thought I could make one. I gathered whatever equipment I could scavenge and tried to synthesize a cure. But... something's missing. And I'd bet whatever I need is in that lab...'");
 	DialogueNode* node5 = new DialogueNode("His eyes are on you, and there's a small glimmer of hope in them that wasn't there before.\n'My research is still over there on the workbench. If you can find the right materials, maybe you can finish the cure. Free everyone from this torture.'");
 	DialogueNode* node6 = new DialogueNode("'It's a tall order, I know. But really... what kind of life would we all be living otherwise? I know you're capable. You've come this far, haven't you?'");
 	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating.'");
@@ -105,7 +105,7 @@ DialogueTree::DialogueTree() {
 	// Alchemist's tree
 	alcStartIndex = dialogueNodes.size();
 
-	DialogueNode* alc0 = new DialogueNode("'My potions will greatly aid you on your journey.");
+	DialogueNode* alc0 = new DialogueNode("'My potions will greatly aid you on your journey.'");
 
 	alc0->dialogueOptions.push_back(DialogueOption("<1: View potion shop>", 6, nullptr));
 	alc0->dialogueOptions.push_back(DialogueOption("<2: 'No thanks.'>", 7, nullptr));
