@@ -23,9 +23,9 @@ DialogueTree::DialogueTree() {
 	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating.'");
 	DialogueNode* node8 = new DialogueNode("'If you want to end him, you need to hunt down every last mutant guarding that facility. Only when they're dead will he be vulnerable. Do that, and you might actually stand a chance.'");
 	DialogueNode* node9 = new DialogueNode("'Y'know, I've heard that he could be planning something for the end of March. Like, a world-ending type of something. Not to rush you or anything...'");
-	DialogueNode* node10 = new DialogueNode("''If it makes you feel better, have this. It's a failed version of the cure. It should ease your pain.'\n<You gained 1 Health Potion!> ");
+	DialogueNode* node10 = new DialogueNode("'If it makes you feel better, have this. It's a failed version of the cure. It should ease your pain.'\n<You gained 1 Health Potion!> ");
 
-	node0->dialogueOptions.push_back(DialogueOption("<1: You lower your weapon.>", 0, node1));
+	node0->dialogueOptions.push_back(DialogueOption("<1: ...Jake?>", 0, node1));
 	node0->dialogueOptions.push_back(DialogueOption("<2: 'Bye.'>", 1, nullptr));
 	dialogueNodes.push_back(node0);
 
