@@ -53,16 +53,13 @@ void npc::onOverlap(player& p, inventory& bag)
         std::cout << "\n'Good luck...'\n";
     }
     if (rv == 8) {
-        // +1 Intelligence
-        p.setPlayerIntelligence(p.getPlayerIntelligence() + 1);
+        std::cout << "\n'I'll be around if you want to chat.'\n";
     }
     if (rv == 9) {
         // +1 Health Potion
+        std::cout << "'If it makes you feel better, have this. It's a failed version of the cure. It should ease your pain. Good luck...!'\n<You gained 1 Health Potion!>";   
         consumable toAdd = itemDB::getHealthPotion();
         bag.addPotion(toAdd);
-    }
-    if (rv == 10) {
-        std::cout << "\n'I'll be around if you want to chat.'\n";
     }
 
     std::cout << "\nPress any key to continue..."; //to end dialogue

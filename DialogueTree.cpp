@@ -23,17 +23,16 @@ DialogueTree::DialogueTree() {
 	DialogueNode* node7 = new DialogueNode("'Even if there was one, you can't just kill him like that. He’s altered himself, too. As long as the mutants are alive, he'll keep regenerating.'");
 	DialogueNode* node8 = new DialogueNode("'If you want to end him, you need to hunt down every last mutant guarding that facility. Only when they're dead will he be vulnerable. Do that, and you might actually stand a chance.'");
 	DialogueNode* node9 = new DialogueNode("'Y'know, I've heard that he could be planning something for the end of March. Like, a world-ending type of something. Not to rush you or anything...'");
-	DialogueNode* node10 = new DialogueNode("'If it makes you feel better, have this. It's a failed version of the cure. It should ease your pain.'\n<You gained 1 Health Potion!> ");
 
 	node0->dialogueOptions.push_back(DialogueOption("<1: ...Jake?>", 0, node1));
 	node0->dialogueOptions.push_back(DialogueOption("<2: 'Bye.'>", 1, nullptr));
 	dialogueNodes.push_back(node0);
 
 	node1->dialogueOptions.push_back(DialogueOption("<1: 'What happened to you - and them?'>", 0, node2));
-	node1->dialogueOptions.push_back(DialogueOption("<2: 'Maybe later, I've got things to do.'>", 10, nullptr));
+	node1->dialogueOptions.push_back(DialogueOption("<2: 'Maybe later, I've got things to do.'>", 8, nullptr));
 	dialogueNodes.push_back(node1);
 
-	node2->dialogueOptions.push_back(DialogueOption("<1: 'But how did he get people to experiment on?'>", 8, node3));
+	node2->dialogueOptions.push_back(DialogueOption("<1: 'But how did he get people to experiment on?'>", 0, node3));
 	node2->dialogueOptions.push_back(DialogueOption("<2: 'Is there a cure?'>", 0, node4));
 	dialogueNodes.push_back(node2);
 
@@ -54,14 +53,11 @@ DialogueTree::DialogueTree() {
 	dialogueNodes.push_back(node7);
 
 	node8->dialogueOptions.push_back(DialogueOption("<1: 'Piece of cake.'>", 0, node9));
-	node8->dialogueOptions.push_back(DialogueOption("<2: 'Every last mutant...'>", 0, node10));
 	dialogueNodes.push_back(node8);
 
-	node9->dialogueOptions.push_back(DialogueOption("<1: 'Oh.'>", 2, nullptr));
+	node9->dialogueOptions.push_back(DialogueOption("<1: 'That won't be a problem.'>", 7, nullptr));
+	node9->dialogueOptions.push_back(DialogueOption("<2: 'I don't think I can do this...'>", 9, nullptr));
 	dialogueNodes.push_back(node9);
-
-	node10->dialogueOptions.push_back(DialogueOption("<1: 'Sweet! Thanks.'> ", 9, node9));
-	dialogueNodes.push_back(node10);
 
 	// Jake's second tree
 	fJakeStartIndex = dialogueNodes.size();
