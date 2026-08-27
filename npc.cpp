@@ -2,6 +2,7 @@
 #include "weaponsmith.h"
 #include "alchemist.h"
 #include "player.h"
+#include "itemDB.h"
 #include <iostream>
 #include <conio.h>
 bool npc::talkedToRyan = false;
@@ -57,6 +58,8 @@ void npc::onOverlap(player& p, inventory& bag)
     }
     if (rv == 9) {
         // +1 Health Potion
+        consumable toAdd = itemDB::getHealthPotion();
+        bag.addPotion(toAdd);
     }
     if (rv == 10) {
         std::cout << "\n'I'll be around if you want to chat.'\n";
