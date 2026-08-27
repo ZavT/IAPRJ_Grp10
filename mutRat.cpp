@@ -8,5 +8,5 @@ mutRat::mutRat(int posX, int posY, int id)
 
 void mutRat::displayStats() const
 {
-	cout << "Mutant Rat" << " Health:" << getHealthPoints() << " Attack:" << getAttack();
+	cout << "Mutant Rat" << " Health:" << getHealthPoints();
 }
