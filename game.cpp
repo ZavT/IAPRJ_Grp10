@@ -1081,7 +1081,7 @@ void game::Run()
                 }
 
                 if (player.getPlayerKeyFragment() >= 3) {
-                    settings.setObjective(3);
+                    settings.setObjective(2);
                 }
 
                 int menuAction = settings.menuOpen(day, month, year, hour, minute);
@@ -1106,6 +1106,8 @@ void game::Run()
 void game::checkMapChange() {
     //worldmap entry to POIs checking
     if (currentMap == Location::MainWorld) {
+        settings.setObjective(1); //find 3 key frags
+
         if (player.getPosX() == 3 && player.getPosY() == 5) {
             currentMap = Location::Sewer1;
             Sewer1.printSewerMap(1);
@@ -1144,7 +1146,7 @@ void game::checkMapChange() {
             currentMap = Location::Lab;
             Lab.printlabMap();
             player.setPosition(1, 4);
-            initialinfo(); // Added to Lab!
+            initialinfo(); 
         }
     }
 
@@ -1153,7 +1155,7 @@ void game::checkMapChange() {
         if (player.getPosX() == 0 && player.getPosY() == 2) {
             currentMap = Location::MainWorld;
             player.setPosition(2, 5);
-            initialinfo(); // Added to Overworld!
+            initialinfo(); 
         }
     }
     else if (currentMap == Location::Sewer2) {
