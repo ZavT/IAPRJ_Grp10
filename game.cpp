@@ -134,7 +134,13 @@ void game::battlesequence(enemy*& currentEnemy)
             else if (enemysymbol == 'R') {
                 std::cout << RED << ratASCII << std::endl << RESET;
             }
-            std::cout << "\t=== BATTLE ===\n\n";
+
+            if (currentMap != Location::MainWorld) {
+                std::cout << "\t=== BATTLE ===\n\n";
+            }
+            else {
+                std::cout << "\t=== RANDOM ENCOUNTER ===\n\n";
+            }
             std::cout << GREEN << "\tPlayer HP: " << player.getPlayerHealthPoints() << " / " << player.getPlayerMaxHealthPoints() <<RESET  << YELLOW << "  |  AP: " << player.getPlayerActionPoints() << RESET << BLUE << "  |  Active Weapon: " << activeWep.getItemName() <<"\n" << RESET;
             std::cout << RED << "\tEnemy HP:  " << currentEnemy->getHealthPoints() << RESET "\n\n";
 
@@ -963,6 +969,7 @@ void game::Run()
 
         std::cout << "player position(x,y): " << player.getPosX() << ", " << player.getPosY() << std::endl;
         std::cout << "press arrow keys to move character" << std::endl;
+
         
         //print map when loop starts again
 
@@ -1512,7 +1519,6 @@ void game::handleEndings() {
 }
 
 void game::handleThirdEnding(int day, int month){
-    int dayDeadline = (rand() % 11) + 21;
 
     if (day == dayDeadline && month == 3) { //when it is the deadline day on march, ending 3 plays out
         //write out the third ending 
