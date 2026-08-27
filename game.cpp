@@ -1099,7 +1099,38 @@ void game::Run()
             }
             system("CLS");
             break;
+       
+        //cheat codes
+        case KEY_J:
+            //good ending test
+            player.setPlayerIntelligence(10);
+            talkedToJake = true;
+            std::cout << "triggered good ending cheat" << std::endl;
+            handleEndings();
+            break;
+        case KEY_K:
+            //bad ending test
+            player.setPlayerIntelligence(2);
+            talkedToJake = false;
+            std::cout << "triggered bad ending cheat" << std::endl;
+            handleEndings();
+            break;
+        case KEY_L:
+            //worst ending test
+            day = dayDeadline;
+            month = 3;
+            std::cout << "triggered worst ending cheat" << std::endl;
+            break;
+        case KEY_I:
+            player.setPlayerStrength(100);
+            player.setPlayerAgility(100);
+            player.setPlayerLuck(100);
+            player.setPlayerEndurance(100);
+            player.setPlayerIntelligence(100);
+            std::cout << "triggered overpowered cheat" << std::endl;
+            break;
         }
+
         handleThirdEnding(day, month);
         system("CLS");
     }
@@ -1499,7 +1530,9 @@ void game::handleMovement(int dx, int dy) {
         if (destX == 15 && destY == 4) {
             DialogueTree tree;
             npc jake(npc::Type::Jake, &tree);
-            talkedToJake = true;
+            if (npc::talkedToRyan == true) {
+                talkedToJake = true;
+            }
             system("CLS"); // Clean the screen before talking
             jake.onOverlap(player, bag);
             return; // dont overlap
