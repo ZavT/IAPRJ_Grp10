@@ -1142,7 +1142,6 @@ void game::checkMapChange() {
         }
         else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() < 3) {
             player.setPosition(18, 7);
-            std::cout << "You can't enter without the 3 key fragments" << std::endl;
         }
         else if (player.getPosX() == 19 && player.getPosY() == 7 && player.getPlayerKeyFragment() >= 3) {
             currentMap = Location::Lab;
