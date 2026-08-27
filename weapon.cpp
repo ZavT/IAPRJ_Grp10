@@ -24,8 +24,15 @@ int weapon::getweapondmg(player& p){
 	}
 }
 
-int weapon::getweaponacc(){
-	return accuracy;
+int weapon::getweaponacc(player& p){
+	if (isMelee)
+	{
+		return accuracy;
+	}
+	else
+	{
+		return accuracy + static_cast<int>(p.getPlayerStrengthFinal());
+	}
 }
 
 void weapon::setMeleeWeapon(bool m)

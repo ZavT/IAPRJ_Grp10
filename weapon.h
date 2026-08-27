@@ -13,7 +13,7 @@ public:
     weapon();
     weapon(std::string weaponname, int weaponprice, int weaponAP, int weapondmg, int weaponacc);
     int getweapondmg(player& p);
-    int getweaponacc();
+    int getweaponacc(player& p);
     void setMeleeWeapon(bool m);
     bool getweaponismelee();
 };

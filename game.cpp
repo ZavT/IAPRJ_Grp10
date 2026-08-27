@@ -153,7 +153,7 @@ void game::battlesequence(enemy*& currentEnemy)
             int act = _getch(); //input
 
             if (act == '1') {
-                int chance = activeWep.getweaponacc();
+                int chance = activeWep.getweaponacc(player);
                 int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
@@ -370,7 +370,7 @@ void game::bossbattlesequence(boss*& thescientist)
             int act = _getch(); //input
 
             if (act == '1') {
-                int chance = activeWep.getweaponacc();
+                int chance = activeWep.getweaponacc(player);
                 int randchance = (rand() % 100) + 1;
                 if (player.getPlayerActionPoints() >= requiredAP) {
                     if (randchance < chance) { // if the randomise chance is inside the weapon accuracy chance like for example 60 < 70 it hits
