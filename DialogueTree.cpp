@@ -30,7 +30,7 @@ DialogueTree::DialogueTree() {
 	dialogueNodes.push_back(node0);
 
 	node1->dialogueOptions.push_back(DialogueOption("<1: 'What happened to you - and them?'>", 0, node2));
-	node1->dialogueOptions.push_back(DialogueOption("<2: 'Maybe later, I've got things to do.'>", 5, nullptr));
+	node1->dialogueOptions.push_back(DialogueOption("<2: 'Maybe later, I've got things to do.'>", 10, nullptr));
 	dialogueNodes.push_back(node1);
 
 	node2->dialogueOptions.push_back(DialogueOption("<1: 'But how did he get people to experiment on?'>", 8, node3));
