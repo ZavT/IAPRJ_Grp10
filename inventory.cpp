@@ -54,7 +54,7 @@ void inventory::inventoryMenu(player& p)
 	while (bagOpen) {
 		system("CLS");
 
-		// COUNT POTIONS
+		//count potions
 		int hpCount = 0; int dmgCount = 0;
 		for (size_t i = 0; i < ownedPotions.size(); i++) {
 			if (ownedPotions[i].getpotType() == 1) hpCount++;
@@ -195,20 +195,44 @@ void inventory::inventoryMenu(player& p)
 					std::cout << "\n\tEnter input: ";
 					std::cin >> statInput;
 
-					if ((statInput == "S+" || statInput == "s+") && p.getStatPoints() > 0) { p.setPlayerStrength(p.getPlayerStrength() + 1); p.setStatPoints(p.getStatPoints() - 1); }
-					else if ((statInput == "S-" || statInput == "s-") && p.getPlayerStrength() > 2) { p.setPlayerStrength(p.getPlayerStrength() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+					if ((statInput == "S+" || statInput == "s+") && p.getStatPoints() > 0) { 
+						p.setPlayerStrength(p.getPlayerStrength() + 1);
+						p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "S-" || statInput == "s-") && p.getPlayerStrength() > 2) {
+						p.setPlayerStrength(p.getPlayerStrength() - 1); 
+						p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if ((statInput == "A+" || statInput == "a+") && p.getStatPoints() > 0) { p.setPlayerAgility(p.getPlayerAgility() + 1); p.setStatPoints(p.getStatPoints() - 1); }
-					else if ((statInput == "A-" || statInput == "a-") && p.getPlayerAgility() > 2) { p.setPlayerAgility(p.getPlayerAgility() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+					else if ((statInput == "A+" || statInput == "a+") && p.getStatPoints() > 0) { 
+						p.setPlayerAgility(p.getPlayerAgility() + 1);
+						p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "A-" || statInput == "a-") && p.getPlayerAgility() > 2) { 
+						p.setPlayerAgility(p.getPlayerAgility() - 1);
+						p.setStatPoints(p.getStatPoints() + 1); }
 
-					else if ((statInput == "L+" || statInput == "l+") && p.getStatPoints() > 0) { p.setPlayerLuck(p.getPlayerLuck() + 1); p.setStatPoints(p.getStatPoints() - 1); }
-					else if ((statInput == "L-" || statInput == "l-") && p.getPlayerLuck() > 2) { p.setPlayerLuck(p.getPlayerLuck() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+					else if ((statInput == "L+" || statInput == "l+") && p.getStatPoints() > 0) {
+						p.setPlayerLuck(p.getPlayerLuck() + 1);
+						p.setStatPoints(p.getStatPoints() - 1);
+						if (p.getPlayerLuck() % 4 == 0) p.heal(1);}
+					else if ((statInput == "L-" || statInput == "l-") && p.getPlayerLuck() > 2) {
+						if (p.getPlayerLuck() % 4 == 0) p.takeDamage(1); 
+						p.setPlayerLuck(p.getPlayerLuck() - 1);
+						p.setStatPoints(p.getStatPoints() + 1);}
 
-					else if ((statInput == "E+" || statInput == "e+") && p.getStatPoints() > 0) { p.setPlayerEndurance(p.getPlayerEndurance() + 1); p.setStatPoints(p.getStatPoints() - 1); p.heal(1);}
-					else if ((statInput == "E-" || statInput == "e-") && p.getPlayerEndurance() > 2) { p.setPlayerEndurance(p.getPlayerEndurance() - 1); p.setStatPoints(p.getStatPoints() + 1); p.takeDamage(1);}
+					else if ((statInput == "E+" || statInput == "e+") && p.getStatPoints() > 0) {
+						p.setPlayerEndurance(p.getPlayerEndurance() + 1); 
+						p.setStatPoints(p.getStatPoints() - 1);
+						p.heal(1);}
+					else if ((statInput == "E-" || statInput == "e-") && p.getPlayerEndurance() > 2) {
+						p.setPlayerEndurance(p.getPlayerEndurance() - 1);
+						p.setStatPoints(p.getStatPoints() + 1);
+						p.takeDamage(1);}
 
-					else if ((statInput == "I+" || statInput == "i+") && p.getStatPoints() > 0) { p.setPlayerIntelligence(p.getPlayerIntelligence() + 1); p.setStatPoints(p.getStatPoints() - 1); }
-					else if ((statInput == "I-" || statInput == "i-") && p.getPlayerIntelligence() > 2) { p.setPlayerIntelligence(p.getPlayerIntelligence() - 1); p.setStatPoints(p.getStatPoints() + 1); }
+					else if ((statInput == "I+" || statInput == "i+") && p.getStatPoints() > 0) {
+						p.setPlayerIntelligence(p.getPlayerIntelligence() + 1);
+						p.setStatPoints(p.getStatPoints() - 1); }
+					else if ((statInput == "I-" || statInput == "i-") && p.getPlayerIntelligence() > 2) {
+						p.setPlayerIntelligence(p.getPlayerIntelligence() - 1);
+						p.setStatPoints(p.getStatPoints() + 1); }
 
 					else if (statInput == "Back" || statInput == "back") {
 						inDetails = false;
@@ -218,10 +242,10 @@ void inventory::inventoryMenu(player& p)
 				else { 
 					int act = _getch();
 
-					if (tab == 1) { // Weapons
+					if (tab == 1) { // equip
 						if (act == 'e' || act == 'E') { equippedWeaponIndex = itemIndex; inDetails = false; }
 					}
-					else if (tab == 2) { // Potions
+					else if (tab == 2) { // consume
 						if (act == 'c' || act == 'C') {
 							if (itemIndex == 0 && hpCount > 0) {
 								p.heal(20);
