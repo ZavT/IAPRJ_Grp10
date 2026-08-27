@@ -165,6 +165,7 @@ void game::battlesequence(enemy*& currentEnemy)
                         (void)_getch();
                     }
                     else {
+                        player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
                         std::cout << "\n\tYou missed. Press any key...";
                         (void)_getch();
                     }
@@ -408,6 +409,7 @@ void game::bossbattlesequence(boss*& thescientist)
                         }
                     }
                     else {
+                        player.setPlayerActionPoints(player.getPlayerActionPoints() - requiredAP);
                         std::cout << "\n\tYou missed. Press any key...";
                         (void)_getch();
                     }
