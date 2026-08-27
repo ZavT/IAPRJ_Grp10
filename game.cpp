@@ -25,6 +25,7 @@
 #define KEY_L 108
 #define KEY_B 98
 #define KEY_M 109
+#define KEY_E 101
 
 #define ESC "\033"
 #define RESET   ESC "[0m"
@@ -1029,6 +1030,10 @@ void game::Run()
             system("CLS");       //clear text to see map again
             break;
 
+        case KEY_E: // inspect
+
+            break;
+
         case KEY_M:
             system("CLS");
             {
@@ -1341,8 +1346,11 @@ void game::handleMovement(int dx, int dy) {
             return; // dont overlap
         }
         //Motel ('M')
-        if (destX == 7 && destY == 12) {
+        if (destX == 3 && destY == 12) {
             player.heal(30);
+            std::cout << "You rested at the motel for a night. <+30 HP>" << std::endl;
+            (void)_getch();
+			timePassMinutes(480); // 8 hours
             return; // dont overlap
         }
     }
