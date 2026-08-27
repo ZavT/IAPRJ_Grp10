@@ -6,7 +6,7 @@ class boss :
 private: 
     bool bossActive = true;
 public:
-    boss(int posX, int posY, int id) : enemy(posX, posY, id, 200) { } //to just fix errors //change later
+    boss(int posX, int posY, int id) : enemy(posX, posY, id, 320) { } //to just fix errors //change later
    ~boss();
 
     char getSymbol() override { return 'B'; }
