@@ -27,8 +27,8 @@ class game
 {
 private:
     // Start date and time of our story
-    int day = 19;
-    int month = 3;
+    int day = 29;
+    int month = 12;
     int year = 2026;
     int minute = 0;
     int hour = 4;
@@ -80,6 +80,8 @@ private:
     bool isLooted1 = false;
     bool isLooted2 = false;
     bool isLooted3 = false;
+
+    int dayDeadline = (rand() % 11) + 21;
 public:
     game();
 
