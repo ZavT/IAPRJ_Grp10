@@ -13,10 +13,9 @@ inspect::inspect()
 void inspect::inspectOpen(enemy** enemies, int enemyCount)
 {
     isOpen = true;
-    system("CLS");
-
+    
     while (isOpen) {
-        int ch = _getch();
+        system("CLS");
 
         std::cout << "\t=============Inspect=============\n\n";
 
@@ -35,6 +34,8 @@ void inspect::inspectOpen(enemy** enemies, int enemyCount)
         }
 
         std::cout << "[ESC] Exit to game\n" << std::endl;
+
+        int ch = _getch();
 
         if (ch == ESCAPE_KEY) {
             isOpen = false;
