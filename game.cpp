@@ -743,10 +743,10 @@ void game::randomEncounter() {
     int chance = 50;
 
     if ((hour > 21) || (hour < 6)) { // night time
-        chance = (40 - player.getPlayerLuck());
+        chance = (29 - player.getPlayerLuck());
     }
     else { // day time
-        chance = (15 - player.getPlayerLuck());
+        chance = (7 - player.getPlayerLuck());
     }
 
     if (randomNum <= chance) {
@@ -1056,6 +1056,10 @@ void game::Run()
             }
         }
 
+        int enemiesCount = 0;
+        inspect inspector;
+        enemy** enemies = activeEnemy(enemiesCount);
+
         switch (ch) {
         case KEY_B:
             system("CLS");       //hides the world map
@@ -1064,7 +1068,9 @@ void game::Run()
             break;
 
         case KEY_E: // inspect
-
+            system("CLS");
+            inspector.inspectOpen(enemies, enemiesCount);
+            system("CLS");
             break;
 
         case KEY_M:
@@ -1247,8 +1253,11 @@ enemy** game::activeEnemy(int& totalCount) {
         totalCount = Sewer3.enemyCount;
         return Sewer3.sewerEnemy;
     }
+	if (currentMap == Location::Bunker) {
+		totalCount = Bunker.BunkerEnemyCount;
+		return Bunker.bunkerEnemy;
+	}
 
-    totalCount = 0;
     return nullptr;
 }
 
@@ -1448,10 +1457,6 @@ void game::handleMovement(int dx, int dy) {
 				player.loot(20, 1);
 				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
-                DialogueTree tree;
-                npc chest(npc::Type::Chest, &tree);
-                system("CLS");
-                chest.onOverlap(player, bag);
 				isLooted1 = true;
 			}
 			else {
@@ -1466,10 +1471,6 @@ void game::handleMovement(int dx, int dy) {
                 player.loot(10, 1);
                 std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
-                DialogueTree tree;
-                npc chest(npc::Type::Chest, &tree);
-                system("CLS");
-                chest.onOverlap(player, bag);
                 isLooted2 = true;
             }
 			else {
@@ -1484,10 +1485,6 @@ void game::handleMovement(int dx, int dy) {
                 player.loot(10, 1);
                 std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
-                DialogueTree tree;
-                npc chest(npc::Type::Chest, &tree);
-                system("CLS");
-                chest.onOverlap(player, bag);
                 isLooted3 = true;
             }
             else {
