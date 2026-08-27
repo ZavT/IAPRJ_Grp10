@@ -1079,7 +1079,7 @@ void game::Run()
             system("CLS");
             {
                 if (npc::talkedToRyan) {
-                    settings.setObjective(2);
+                    settings.setObjective(1);
                 }
 
                 if (player.getPlayerKeyFragment() >= 3) {

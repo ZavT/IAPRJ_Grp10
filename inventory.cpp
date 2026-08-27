@@ -177,11 +177,11 @@ void inventory::inventoryMenu(player& p)
 				rightCol.clear();
 				rightCol.push_back("Name: " + p.getPlayerName());
 				rightCol.push_back("HP:   " + std::to_string(p.getPlayerHealthPoints()) + " / " + std::to_string(p.getPlayerMaxHealthPoints()));
-				rightCol.push_back("STR:  " + std::to_string(p.getPlayerStrength()));
-				rightCol.push_back("AGI:  " + std::to_string(p.getPlayerAgility()));
-				rightCol.push_back("LUC:  " + std::to_string(p.getPlayerLuck()));
-				rightCol.push_back("END:  " + std::to_string(p.getPlayerEndurance()));
-				rightCol.push_back("INT:  " + std::to_string(p.getPlayerIntelligence()));
+				rightCol.push_back("STR:  " + std::to_string(static_cast<int>(p.getPlayerStrengthFinal())));
+				rightCol.push_back("AGI:  " + std::to_string(static_cast<int>(p.getPlayerAgilityFinal())));
+				rightCol.push_back("LUC:  " + std::to_string(static_cast<int>(p.getPlayerLuck())));
+				rightCol.push_back("END:  " + std::to_string(static_cast<int>(p.getPlayerEnduranceFinal())));
+				rightCol.push_back("INT:  " + std::to_string(static_cast<int>(p.getPlayerIntelligenceFinal())));
 
 				size_t maxRows = std::max(leftCol.size(), rightCol.size());
 				for (size_t i = 0; i < maxRows; i++) {

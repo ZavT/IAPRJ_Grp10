@@ -40,6 +40,7 @@ int menu::menuOpen(int day, int month, int year, int hour, int minute)
         if (currentObjective == 1) objStr = "Find three map fragments";
         else if (currentObjective == 2) objStr = "Kill THE scientist";
 
+
         std::string opt0 = (selectedOption == 0) ? "< Objective : " + objStr + " >" : "  Objective : " + objStr + "  ";
         std::string opt1 = (selectedOption == 1) ? "< Time : " + timeStr + " >" : "  Time : " + timeStr + "  ";
         std::string opt2 = (selectedOption == 2) ? "< Skip 12 Hours >" : "  Skip 12 Hours  ";
