@@ -13,7 +13,7 @@ menu::menu()
 {
     isOpen = false;
     selectedOption = 0;
-    currentObjective = 1; // Default starting objective
+    currentObjective = 1; //starting objective
 }
 
 void menu::setObjective(int obj) {
@@ -34,15 +34,14 @@ int menu::menuOpen(int day, int month, int year, int hour, int minute)
         timeStr += (hour < 10 ? "0" : "") + std::to_string(hour) + ":";
         timeStr += (minute < 10 ? "0" : "") + std::to_string(minute);
 
-        //objectives //edit later
-        //settings.setObjective(1); //use this to change objectives
+        
+        //settings.setObjective(1); //use this to change objectives in game.cpp
         std::string objStr = "";
         if (currentObjective == 1) objStr = "Find three map fragments";
-        else if (currentObjective == 2) objStr = "Kill all mutants";
-        else if (currentObjective == 3) objStr = "Kill THE scientist";
+        else if (currentObjective == 2) objStr = "Kill THE scientist";
 
-        std::string opt0 = (selectedOption == 0) ? "< Time : " + timeStr + " >" : "  Time : " + timeStr + "  ";
-        std::string opt1 = (selectedOption == 1) ? "< Objective : " + objStr + " >" : "  Objective : " + objStr + "  ";
+        std::string opt0 = (selectedOption == 0) ? "< Objective : " + objStr + " >" : "  Objective : " + objStr + "  ";
+        std::string opt1 = (selectedOption == 1) ? "< Time : " + timeStr + " >" : "  Time : " + timeStr + "  ";
         std::string opt2 = (selectedOption == 2) ? "< Skip 12 Hours >" : "  Skip 12 Hours  ";
         std::string opt3 = (selectedOption == 3) ? "< Restart stage >" : "  Restart stage  ";
         std::string opt4 = (selectedOption == 4) ? "< Restart game >" : "  Restart game  ";
@@ -65,11 +64,11 @@ int menu::menuOpen(int day, int month, int year, int hour, int minute)
             ch = _getch();
             if (ch == KEY_UP) {
                 selectedOption--;
-                if (selectedOption < 0) selectedOption = 4; // Wrap to bottom
+                if (selectedOption < 0) selectedOption = 4; // loop back to bottom
             }
             else if (ch == KEY_DOWN) {
                 selectedOption++;
-                if (selectedOption > 4) selectedOption = 0; // Wrap to top
+                if (selectedOption > 4) selectedOption = 0; // loop back to top
             }
         }
         else if (ch == ENTER_KEY) {
@@ -79,11 +78,11 @@ int menu::menuOpen(int day, int month, int year, int hour, int minute)
             }
             else if (selectedOption == 3) {
                 isOpen = false;
-                return -1; // -1 is our secret code for "Restart Stage"
+                return -1; // for "Restart Stage"
             }
             else if (selectedOption == 4) {
                 isOpen = false;
-                return -2; // -2 is our secret code for "Restart Game"
+                return -2; // for "Restart Game"
             }
         }
         else if (ch == ESCAPE_KEY) {
