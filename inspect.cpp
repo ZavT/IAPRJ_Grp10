@@ -13,14 +13,14 @@ inspect::inspect()
 void inspect::inspectOpen(enemy** enemies, int enemyCount)
 {
     isOpen = true;
+    system("CLS");
 
     while (isOpen) {
-        system("CLS");
         int ch = _getch();
 
         std::cout << "\t=============Inspect=============\n\n";
 
-        std::cout << "Inspecting entities in current location\n" << std::endl;
+        std::cout << "Inspecting enemies in current location\n" << std::endl;
 
         if (enemies == nullptr || enemyCount == 0) {
             std::cout << "There are no enemies here." << std::endl;
@@ -33,6 +33,8 @@ void inspect::inspectOpen(enemy** enemies, int enemyCount)
                 }
             }
         }
+
+        std::cout << "[ESC] Exit to game\n" << std::endl;
 
         if (ch == ESCAPE_KEY) {
             isOpen = false;
