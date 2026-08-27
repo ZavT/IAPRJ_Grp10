@@ -729,6 +729,7 @@ void game::Intro()
         }
         else if ((ccInput == "Ready" || ccInput == "ready") && player.getStatPoints() == 0) {
             characterCreation = false;
+            player.setPlayerHealthPoints(player.getPlayerMaxHealthPoints());
             system("CLS");
         }
 
