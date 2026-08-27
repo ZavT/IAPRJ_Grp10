@@ -1291,7 +1291,12 @@ enemy** game::activeEnemy(int& totalCount) {
 		totalCount = Bunker.BunkerEnemyCount;
 		return Bunker.bunkerEnemy;
 	}
+    if (currentMap == Location::Lab) {        
+        totalCount = Lab.labEnemyCount;
+        return Lab.labEnemy;
+    }
 
+    totalCount = 0;
     return nullptr;
 }
 
@@ -1613,7 +1618,7 @@ void game::handleEndings() {
         (void)_getch();
         gameEnd = true;
     }
-    else if (player.getPlayerIntelligenceFinal() < 10 && talkedToJake || !talkedToJake) { //BAD ENDING DIALOGUE
+    else if ((player.getPlayerIntelligenceFinal() < 10 && talkedToJake) || !talkedToJake) { //BAD ENDING DIALOGUE
         //check if intelligence is under 10, and conditions for whether player has talked to jake or not
         std::cout << "You grab some bottles of chemicals in a panic." << std::endl;
         (void)_getch();

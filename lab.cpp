@@ -53,8 +53,10 @@ void lab::printlabMap() {
 
 void lab::checkRoomClear() {
 	if (labEnemy[0] == nullptr && labEnemy[1] == nullptr && labEnemy[2] == nullptr && labEnemy[3] == nullptr && labEnemy[4] == nullptr) {
-		//if every enemy inside the lab is dead, then summon the boss
-		summonBoss();
+		//if every enemy inside the lab is dead, then summon the boss (if not already summoned)
+		if (TheScientist == nullptr) {
+			summonBoss();
+		}
 	}
 }
 
