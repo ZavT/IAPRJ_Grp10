@@ -58,6 +58,9 @@ void npc::onOverlap(player& p, inventory& bag)
     if (rv == 9) {
         // +1 Health Potion
     }
+    if (rv == 10) {
+        std::cout << "\n'I'll be around if you want to chat.'\n";
+    }
 
     std::cout << "\nPress any key to continue..."; //to end dialogue
     (void)_getch();
