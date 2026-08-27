@@ -743,10 +743,10 @@ void game::randomEncounter() {
     int chance = 50;
 
     if ((hour > 21) || (hour < 6)) { // night time
-        chance = (40 - player.getPlayerLuck());
+        chance = (29 - player.getPlayerLuck());
     }
     else { // day time
-        chance = (15 - player.getPlayerLuck());
+        chance = (7 - player.getPlayerLuck());
     }
 
     if (randomNum <= chance) {
