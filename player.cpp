@@ -10,9 +10,9 @@ player::player(int playerGold, int playerKeyFragment) : entity(0, 0, 100, 2)
 {
 	playerName = "Survivor";
 
-	setHealthPoints(9999);
+	setHealthPoints(100);
 
-	playerStrength = 1000;
+	playerStrength = 2;
 	playerAgility = 2;
 	playerLuck = 2;
 	playerEndurance = 2;

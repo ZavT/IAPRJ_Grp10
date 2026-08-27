@@ -278,7 +278,7 @@ void game::battlesequence(enemy*& currentEnemy)
             gold = 15;
         }
         player.gainExp(expgained);
-        player.loot(gold, 3); //gain gold and 0 frags
+        player.loot(gold, 0); //gain gold and 0 frags
         std::cout << YELLOW << "\n\tEnemy defeated! You gained "<< expgained <<" exp and "<< gold << " gold. Press any key..." << RESET;
 
         //delete enemy after it dies
@@ -296,22 +296,52 @@ void game::bossbattlesequence(boss*& thescientist)
     bool inbattle = true;
     int weaknessturns = 0;
     int shieldturns = 0;
-    std::string bossASCII = R"(
-                 .---.
-                /     \
-               | () () |
-                \  ^  /
-                (_____)
-             .-'       '-.
-            /   .-----.   \
-           /  . |      | .  \
-          /  /| |      | |\  \
-         /  / | |     | | \  \
-        |  |  | '-----'  |  |  |
-        |  |  |  [===]   |  |  |
-       //\\//\\         //\\//\\
-      //  \/  \\       //  \/  \\
-     ''   ''   ''     ''   ''   '')";
+    std::string bossASCII = R"(                                                                       
+                       @@@@@@                                
+                  @@#*+=======**#@@                          
+               @%+===========+===+=#@                        
+             @*=+=*+============-+===*@                      
+           @%===-++==============--====%@                    
+          @#====+====================+-+@@                   
+         @@====--+=========-=--======-==*@                   
+         @*===+===++=============+--+=+=+%                   
+         @========+===================+=+%                   
+         @+=======+=================--==+%                   
+         @+=-+=====+=====+*=============*@                   
+         @%+*+=+=======+#=====**========#@                   
+          @*+=+=======+#====++=+*=-=+*++@                    
+           @+=========#+===+=.::-*=====%                     
+            @*=======**====*:.:::#+#=-=%                     
+            @#=====+*==+==*:....=*=%==#@@@@                  
+            @*+**=++*+==##*#++*#*=*%==%=-::=%@               
+             @%#-..:#=#==+----==*%%#=#*=::::::=#@@@          
+               @*:...:%=+-=*%%%+#%@*=#*=-::::::::::=*%@      
+    @**#@@       @%#**=+*%++#%%%#**=*++==+=--::::::::::*@    
+   @%=---=+#%%#==#@@#*##::*@*%%#+=*=#=*-:=++%%*++++++-#@     
+     @@@@#**+#*===+@        ##*#*%=**++:::::=# #%*+==*@      
+       @+--+*#=+*+=%@      @#===*##*+-:::::::=%+#-::+@       
+        @+==+**#*+%%%      @+==++#--::::::::::=*=-=+##       
+         #***#++*+++-=*@  @+::::+-**=:::::::::-*+-:=@        
+         %+#%%++#@#*=::+=#=+-::*@@=+:::-=-:::::=%==%         
+               @ #=+-::=+:--:-#@ @***#:::--::::-%#@          
+                 %*+====+-:-=@   %-+--:::::::::-#@           
+                    @%*@ @##@   @==-*=:::::::::-*@           
+                                #-+::::::::::::-+@           
+                                *++#*::::::::::=+@           
+                                 @+-:::::::-=+#@             
+                                     @@@@@@%%@               
+                                      @@%@%%%@               
+                                      @%%@%%%@               
+                                      @%%@%%@@               
+                                      @%%@%%%@               
+                                    @%%%%@%%%@               
+                              @%%%%%@%@%@@%%%@@              
+                             @@%%%%%%@@@@%%@@@@@             
+                             @%%@@@%@@@ @@%%@%%%%@           
+                                @@@      @@@%%%%%%@          
+                                          @@@@%%%@@          
+                                             @@@@   
+)";
     while (inbattle && player.getPlayerHealthPoints() > 0 && thescientist->getHealthPoints() > 0) { // while player and enemy is not dead
 
         //active weapon
@@ -756,6 +786,8 @@ void game::Run()
     player.setPosition(0, 4);
     currentMap = Location::Bunker; //starting map
 
+    initialinfo(); //save pos at bunker
+
     while (gameRunning && !gameEnd) {
         map& current = activeMap();
 
@@ -1189,16 +1221,22 @@ void game::initialinfo() //for restart stage to chang info to your info when you
     backupGold = player.getPlayerGold();
     backupKeyFragment = player.getPlayerKeyFragment();
     backupStatPoints = player.getStatPoints();
+    backupPosX = player.getPosX();
+    backupPosY = player.getPosY();
     backupBag = bag;
+
+    backupLooted1 = isLooted1;
+    backupLooted2 = isLooted2; 
+    backupLooted3 = isLooted3;
 }
 
 void game::restartstage() //testing
 {
-    // 1. Restore the time
+    //restore time
     day = backupDay; month = backupMonth; year = backupYear;
     hour = backupHour; minute = backupMinute;
 
-    // 2. Restore the player stats
+    //restore the player stats
     player.setPlayerHealthPoints(backupHP);
     player.setPlayerName(backupName);
     player.setPlayerGold(backupGold);
@@ -1208,10 +1246,15 @@ void game::restartstage() //testing
     player.setPlayerExp(backupExp);
     bag = backupBag;
 
-    // 3. SET POSITION AUTOMATICALLY FOR ANY MAP!
+    //restore looted chests
+    isLooted1 = backupLooted1;
+    isLooted2 = backupLooted2;
+    isLooted3 = backupLooted3;
+
+    //set pos to back up 
     player.setPosition(backupPosX, backupPosY);
 
-    // 4. Revive the map's enemies
+    //spawn back enemies
     if (currentMap == Location::Sewer1) {
         for (int e = 0; e < Sewer1.enemyCount; e++) {
             if (Sewer1.sewerEnemy[e] == nullptr) Sewer1.sewerEnemy[e] = (e < 3) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
@@ -1245,7 +1288,7 @@ void game::restartstage() //testing
             if (Lab.labEnemy[e] == nullptr) Lab.labEnemy[e] = (e < 2) ? (enemy*)new mutRat(0, 0, e) : (enemy*)new mutHuman(0, 0, e);
             Lab.labEnemy[e]->setHealthPoints((e < 2) ? 30 : 70);
         }
-        // Force the Scientist to reset!
+        //reset booss
         if (Lab.TheScientist != nullptr) {
             delete Lab.TheScientist;
             Lab.TheScientist = nullptr;
@@ -1256,7 +1299,7 @@ void game::restartstage() //testing
         Town.printtownMap();
     }
     else if (currentMap == Location::MainWorld) {
-        // The overworld doesn't have permanent map enemies to revive, so just do nothing here!
+       
     }
 
 }
@@ -1357,7 +1400,7 @@ void game::handleMovement(int dx, int dy) {
     if (currentMap == Location::Sewer1) {
         if (destX == 29 && destY == 0) {
 			if (!isLooted1) {
-				player.loot(10, 1);
+				player.loot(20, 1);
 				std::cout << "You found 20 gold and 1 key fragment in the chest." << std::endl;
                 (void)_getch();
                 DialogueTree tree;
